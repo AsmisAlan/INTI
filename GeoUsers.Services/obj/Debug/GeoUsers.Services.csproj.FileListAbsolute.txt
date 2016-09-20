@@ -1,0 +1,5 @@
+C:\Users\Juan\Documents\VS2015\Projects\Inti\GeoUsers.Services\bin\Debug\GeoUsers.Services.dll
+C:\Users\Juan\Documents\VS2015\Projects\Inti\GeoUsers.Services\bin\Debug\GeoUsers.Services.pdb
+C:\Users\Juan\Documents\VS2015\Projects\Inti\GeoUsers.Services\obj\Debug\GeoUsers.Services.dll
+C:\Users\Juan\Documents\VS2015\Projects\Inti\GeoUsers.Services\obj\Debug\GeoUsers.Services.pdb
+C:\Users\Juan\Documents\VS2015\Projects\Inti\GeoUsers.Services\obj\Debug\GeoUsers.Services.csprojResolveAssemblyReference.cache

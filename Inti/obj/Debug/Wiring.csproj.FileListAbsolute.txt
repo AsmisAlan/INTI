@@ -1,0 +1,3 @@
+C:\Users\Juan\Documents\VS2015\Projects\Inti\Inti\bin\Debug\Inti.exe.config
+C:\Users\Juan\Documents\VS2015\Projects\Inti\Inti\obj\Debug\Inti.exe
+C:\Users\Juan\Documents\VS2015\Projects\Inti\Inti\obj\Debug\Inti.pdb
