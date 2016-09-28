@@ -18,7 +18,7 @@
 
         public virtual long? Cuit { get; set; }
 
-        public virtual bool UsuarioGeoUsersServices { get; set; }
+        public virtual bool UsuarioInti { get; set; }
 
         public virtual Localidad Localidad { get; set; }
 

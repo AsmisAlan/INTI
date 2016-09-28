@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GeoUsers.Services.Model.DataTransfer;
+using GeoUsersUI.Models.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +14,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Practices.Unity;
+using GeoUsersUI.GoogleMaps;
+using GeoUsers.Services.Logics;
+using GeoUsers.Services;
+using System.Collections.ObjectModel;
+using GeoUsersUI.Windows.Usuario;
 
 namespace GeoUsersUI
 {
@@ -23,6 +31,55 @@ namespace GeoUsersUI
         public MainWindow()
         {
             InitializeComponent();
+
+            DataContext = App.Container.Resolve<MainViewModel>();
+
+            DataGrid.ItemsSource = new ObservableCollection<UsuarioHeader>();
+
+            var loadingFinished = Initialize();
+        }
+
+        public async Task<bool> Initialize()
+        {
+            var usuarios = await ((MainViewModel)DataContext).InitializationTask;
+
+            DataGrid.ItemsSource = ((MainViewModel)DataContext).Usuarios;
+
+            var url = await GetMapUrl(usuarios);
+
+            Browser.NavigateToString(url);
+
+            return true;
+        }
+
+        public async Task<string> GetMapUrl(IEnumerable<UsuarioHeader> usuarios)
+        {
+            return await Task.Run(() =>
+            {
+                var mapManager = new MapManager();
+
+                foreach (var usuario in (usuarios))
+                {
+                    mapManager.addDireccion(usuario.Direccion, usuario.Nombre);
+                }
+
+                return mapManager.getHtmlString();
+            });
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void ButtonAddUsuario_Click(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            var form = new UsuarioCreationEditionForm();
+
+            form.Show();
         }
     }
 }

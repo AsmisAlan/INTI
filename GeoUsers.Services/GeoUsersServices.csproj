@@ -72,13 +72,16 @@
     <Compile Include="Configuration\Automapper\Profiles\EntitiesProfile.cs" />
     <Compile Include="Configuration\InjectionConfig.cs" />
     <Compile Include="IDisposable.cs" />
+    <Compile Include="Model\DataTransfer\BaseNotifierEntity.cs" />
+    <Compile Include="Model\DataTransfer\UsuarioCreationData.cs" />
+    <Compile Include="Model\DataTransfer\UsuarioHeader.cs" />
     <Compile Include="Model\Entities\BaseEntity.cs" />
     <Compile Include="Model\Entities\Localidad.cs" />
     <Compile Include="Model\Entities\Organizacion.cs" />
     <Compile Include="Model\Entities\Rubro.cs" />
     <Compile Include="Model\Entities\Sector.cs" />
     <Compile Include="Model\Entities\Usuario.cs" />
-    <Compile Include="Model\IdAndValue.cs" />
+    <Compile Include="Model\DataTransfer\IdAndValue.cs" />
     <Compile Include="Model\Mappings\BaseClassMapping.cs" />
     <Compile Include="Model\Mappings\LocalidadMap.cs" />
     <Compile Include="Model\Mappings\OrganizacionMap.cs" />
@@ -97,6 +100,7 @@
     <Compile Include="SessionProvider.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

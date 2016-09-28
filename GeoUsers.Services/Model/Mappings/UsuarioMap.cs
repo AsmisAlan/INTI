@@ -20,7 +20,7 @@ namespace GeoUsers.Services.Model.Mappings
             Property(x => x.Personal, "PERSONAL");
             Property(x => x.Telefono, "TELEFONO");
             Property(x => x.Web, "WEB");
-            Property(x => x.UsuarioGeoUsersServices, "USUARIOGeoUsersServices");
+            Property(x => x.UsuarioInti, "USUARIOINTI");
             Property(x => x.ContactoCargo, "CONTACTOCARGO");
             Property(x => x.Cuit, "CUIT");
             Property(x => x.Direccion, "DIRECCION");

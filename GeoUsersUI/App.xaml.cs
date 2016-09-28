@@ -15,7 +15,7 @@ namespace GeoUsersUI
     /// </summary>
     public partial class App : Application
     {
-        static IUnityContainer Container { get; set; }
+        public static IUnityContainer Container { get; set; }
 
         public App()
         {

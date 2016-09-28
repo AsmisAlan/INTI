@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using GeoUsers.Services.Model;
+using GeoUsers.Services.Model.DataTransfer;
 using GeoUsers.Services.Model.Entities;
 using NHibernate;
 using System;
@@ -48,42 +48,42 @@ namespace GeoUsers.Services.Logics
             return Mapper.Map<IEnumerable<IdAndValue>>(usuarios);
         }
 
-        public bool Create(string nombre,
-                           string direccion,
-                           string telefono,
-                           string email,
-                           string web,
-                           string contactoCargo,
-                           bool usuarioGeoUsersServices,
-                           int personal,
-                           long? cuit,
-                           int rubroId,
-                           int organizacionId,
-                           int localidadId)
+        public IEnumerable<UsuarioHeader> GetUsuarioHeaders(/*ICollection<int> usuarioIds*/)
         {
-            var rubro = rubroLogic.GetRubro(rubroId);
+            var usuarios = Session.QueryOver<Usuario>()
+                          //.WhereRestrictionOn(x => x.Id)
+                          //.IsIn(usuarioIds.ToArray())
+                          .List()
+                          .OrderBy(x => x.Nombre);
+
+            return Mapper.Map<IEnumerable<UsuarioHeader>>(usuarios);
+        }
+
+        public bool Create(UsuarioCreationData creationData)
+        {
+            var rubro = rubroLogic.GetRubro(creationData.RubroId);
 
             if (rubro == null) throw new Exception("Rubro Invalido");
 
-            var organizacion = organizacionLogic.GetOrganizacion(organizacionId);
+            var organizacion = organizacionLogic.GetOrganizacion(creationData.OrganizacionId);
 
             if (organizacion == null) throw new Exception("Organizacion Invalida");
 
-            var localidad = localidadLogic.GetLocalidad(localidadId);
+            var localidad = localidadLogic.GetLocalidad(creationData.LocalidadId);
 
             if (localidad == null) throw new Exception("Localidad Invalida");
 
             var usuario = new Usuario()
             {
-                Nombre = nombre,
-                ContactoCargo = contactoCargo,
-                Cuit = cuit,
-                Direccion = direccion,
-                Email = email,
-                Personal = personal,
-                Telefono = telefono,
-                Web = web,
-                UsuarioGeoUsersServices = usuarioGeoUsersServices,
+                Nombre = creationData.Nombre,
+                ContactoCargo = creationData.ContactoCargo,
+                Cuit = creationData.Cuit,
+                Direccion = creationData.Direccion,
+                Email = creationData.Email,
+                Personal = creationData.Personal,
+                Telefono = creationData.Telefono,
+                Web = creationData.Web,
+                UsuarioInti = creationData.UsuarioInti,
                 Localidad = localidad,
                 Organizacion = organizacion,
                 Rubro = rubro
@@ -136,7 +136,7 @@ namespace GeoUsers.Services.Logics
             usuario.Personal = personal;
             usuario.Rubro = rubro;
             usuario.Telefono = telefono;
-            usuario.UsuarioGeoUsersServices = usuarioGeoUsersServices;
+            usuario.UsuarioInti = usuarioGeoUsersServices;
             usuario.Web = web;
 
             Session.Save(usuario);

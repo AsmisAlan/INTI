@@ -79,18 +79,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SmartSelectForm\SmartSelectForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SmartSelectForm\SmartSelectForm.Designer.cs">
-      <DependentUpon>SmartSelectForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\SmartSelect.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UserControls\SmartSelect.Designer.cs">
-      <DependentUpon>SmartSelect.cs</DependentUpon>
-    </Compile>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>
@@ -103,12 +91,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="SmartSelectForm\SmartSelectForm.resx">
-      <DependentUpon>SmartSelectForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\SmartSelect.resx">
-      <DependentUpon>SmartSelect.cs</DependentUpon>
-    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

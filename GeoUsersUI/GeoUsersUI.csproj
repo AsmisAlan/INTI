@@ -51,6 +51,10 @@
       <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -71,8 +75,21 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="GoogleMaps\GoogleCodeResponse.cs" />
+    <Compile Include="GoogleMaps\MapManager.cs" />
+    <Compile Include="Models\ViewModels\AppViewModel.cs" />
+    <Compile Include="Models\ViewModels\Forms\UsuarioCreationEditionViewModel.cs" />
+    <Compile Include="Models\ViewModels\SmartSelect\SmartSelectViewModel.cs" />
     <Compile Include="UserControls\SmartSelect.xaml.cs">
       <DependentUpon>SmartSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ValidationRules\EmailInputValidationRule.cs" />
+    <Compile Include="ValidationRules\NumericInputValidationRule.cs" />
+    <Compile Include="Windows\SmartSelectWindow.xaml.cs">
+      <DependentUpon>SmartSelectWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Usuario\UsuarioCreationEditionForm.xaml.cs">
+      <DependentUpon>UsuarioCreationEditionForm.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -87,6 +104,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="UserControls\SmartSelect.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\SmartSelectWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\Usuario\UsuarioCreationEditionForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

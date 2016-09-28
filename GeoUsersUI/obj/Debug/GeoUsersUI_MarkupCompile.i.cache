@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\Juan\Documents\VS2015\Projects\Inti\GeoUsersUI\obj\Debug\
+C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\obj\Debug\
 GeoUsersUI
 none
 false
 DEBUG;TRACE
-C:\Users\Juan\Documents\VS2015\Projects\Inti\GeoUsersUI\App.xaml
-2-827585277
+C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\App.xaml
+4-1012777990
 
-10-73345285
-71-1658905904
-MainWindow.xaml;UserControls\SmartSelect.xaml;
+191322844627
+72919977783
+MainWindow.xaml;UserControls\SmartSelect.xaml;Windows\SmartSelectWindow.xaml;Windows\Usuario\UsuarioCreationEditionForm.xaml;
 
 False
 

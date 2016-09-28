@@ -1,0 +1,45 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GeoUsersUI.Windows"
+        xmlns:UserControls="clr-namespace:GeoUsersUI.UserControls" x:Class="GeoUsersUI.Windows.SmartSelectWindow"
+        mc:Ignorable="d"
+        Title="SmartSelectWindow" Height="300" Width="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="7*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <UserControls:SmartSelect Grid.Row="0" 
+                                  Grid.Column="0" 
+                                  Grid.ColumnSpan="2" 
+                                  HorizontalAlignment="Stretch" 
+                                  VerticalAlignment="Stretch"/>
+        <Button Name="ButtonAccept"
+                Grid.Row="1" 
+                Grid.Column="0"
+                Content="Aceptar"
+                Height="25"
+                Width="100"
+                HorizontalAlignment="Left"
+                Margin="10,0,0,0"
+                Click="ButtonAccept_Click">
+        </Button>
+        <Button Name="ButtonDismiss"
+                Grid.Row="1" 
+                Grid.Column="1"
+                Content="Cancelar"
+                Height="25"
+                Width="100"
+                HorizontalAlignment="Right"
+                Margin="0,0,10,0" 
+                Click="ButtonDismiss_Click">
+        </Button>
+    </Grid>
+</Window>

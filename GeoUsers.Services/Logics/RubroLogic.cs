@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using GeoUsers.Services.Model;
+using GeoUsers.Services.Model.DataTransfer;
 using GeoUsers.Services.Model.Entities;
 using NHibernate;
 using System;
@@ -26,11 +27,11 @@ namespace GeoUsers.Services.Logics
                           .OrderBy(x => x.Nombre);
         }
 
-        public IEnumerable<IdAndValue> GetForSelection(ICollection<int> currentIds)
+        public IEnumerable<IdAndValue> GetForSelection(/*ICollection<int> currentIds*/)
         {
             var rubros = Session.QueryOver<Rubro>()
-                          .WhereRestrictionOn(x => x.Id)
-                          .Not.IsIn(currentIds.ToArray())
+                          //.WhereRestrictionOn(x => x.Id)
+                          //.Not.IsIn(currentIds.ToArray())
                           .List()
                           .OrderBy(x => x.Nombre);
 

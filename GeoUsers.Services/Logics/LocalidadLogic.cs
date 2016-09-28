@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using GeoUsers.Services.Model;
+using GeoUsers.Services.Model.DataTransfer;
 using GeoUsers.Services.Model.Entities;
 using NHibernate;
 using System;
