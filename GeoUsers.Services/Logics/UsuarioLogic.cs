@@ -61,15 +61,15 @@ namespace GeoUsers.Services.Logics
 
         public bool Create(UsuarioCreationData creationData)
         {
-            var rubro = rubroLogic.GetRubro(creationData.RubroId);
+            var rubro = rubroLogic.GetRubro(creationData.RubroId.Value);
 
             if (rubro == null) throw new Exception("Rubro Invalido");
 
-            var organizacion = organizacionLogic.GetOrganizacion(creationData.OrganizacionId);
+            var organizacion = organizacionLogic.GetOrganizacion(creationData.OrganizacionId.Value);
 
             if (organizacion == null) throw new Exception("Organizacion Invalida");
 
-            var localidad = localidadLogic.GetLocalidad(creationData.LocalidadId);
+            var localidad = localidadLogic.GetLocalidad(creationData.LocalidadId.Value);
 
             if (localidad == null) throw new Exception("Localidad Invalida");
 
@@ -80,7 +80,7 @@ namespace GeoUsers.Services.Logics
                 Cuit = creationData.Cuit,
                 Direccion = creationData.Direccion,
                 Email = creationData.Email,
-                Personal = creationData.Personal,
+                Personal = creationData.Personal.Value,
                 Telefono = creationData.Telefono,
                 Web = creationData.Web,
                 UsuarioInti = creationData.UsuarioInti,

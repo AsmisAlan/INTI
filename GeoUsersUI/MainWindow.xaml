@@ -10,33 +10,31 @@
     <Grid Margin="10,10,10,10">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="4*"/>
         </Grid.ColumnDefinitions>
-        <WrapPanel Grid.Row="0"
-                   Grid.Column="0">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"></RowDefinition>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <Expander Grid.Row="0"
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Expander Grid.Row="0"
                           Grid.Column="0"
-                          Header="Expander">
-                    <Grid>
-                        <Button Content="Test"
-                                Width="75" Click="Button_Click_1">
-                        </Button>
-                    </Grid>
-                </Expander>
-            </Grid>
-
-        </WrapPanel>
+                          Header="Usuarios">
+                <Grid>
+                    <Button Content="Nuevo"
+                            Height="25"
+                            VerticalAlignment="Top"
+                            Click="ButtonAddUsuario_Click">
+                    </Button>
+                </Grid>
+            </Expander>
+        </Grid>
         <DataGrid ItemsSource="{Binding Path=Usuarios, Mode=TwoWay}"
                       Grid.Row="0"
                       Grid.Column="1"

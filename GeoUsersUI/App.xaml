@@ -42,13 +42,15 @@
                     <Setter Property="ToolTip"
                         Value="{Binding RelativeSource={x:Static RelativeSource.Self},
                         Path=(Validation.Errors)[0].ErrorContent}"/>
+                    <Setter Property="BorderBrush"
+                            Value="Red"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
         <ControlTemplate x:Key="ValidationTemplate">
             <DockPanel>
-                <TextBlock Foreground="Red" FontSize="20">!</TextBlock>
                 <AdornedElementPlaceholder/>
+                <TextBlock Foreground="Red" FontSize="20">!</TextBlock>
             </DockPanel>
         </ControlTemplate>
     </Application.Resources>

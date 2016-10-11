@@ -1,10 +1,7 @@
 ﻿using GeoUsers.Services;
 using GeoUsers.Services.Logics;
 using GeoUsers.Services.Model.DataTransfer;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace GeoUsersUI.Models.ViewModels.Forms
@@ -20,6 +17,22 @@ namespace GeoUsersUI.Models.ViewModels.Forms
         public IEnumerable<IdAndValue> Localidades { get; set; }
         public IEnumerable<IdAndValue> Organizaciones { get; set; }
         public IEnumerable<IdAndValue> Rubros { get; set; }
+        public bool IsUsuarioValid
+        {
+            get
+            {
+                return Usuario != null &&
+                       !string.IsNullOrEmpty(Usuario.Nombre) &&
+                       !string.IsNullOrEmpty(Usuario.Telefono) &&
+                       !string.IsNullOrEmpty(Usuario.ContactoCargo) &&
+                       !string.IsNullOrEmpty(Usuario.Direccion) &&
+                       !string.IsNullOrEmpty(Usuario.Email) &&
+                       Usuario.LocalidadId.HasValue &&
+                       Usuario.OrganizacionId.HasValue &&
+                       Usuario.RubroId.HasValue &&
+                       Usuario.Personal.HasValue;
+            }
+        }
 
         public UsuarioCreationEditionViewModel()
         {

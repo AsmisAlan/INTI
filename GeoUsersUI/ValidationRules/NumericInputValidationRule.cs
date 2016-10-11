@@ -14,7 +14,7 @@ namespace GeoUsersUI.ValidationRules
         {
             try
             {
-                Int32.Parse((string)value);
+                int.Parse((string)value);
             }
             catch (Exception)
             {

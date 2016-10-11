@@ -2,6 +2,7 @@
 using System.Windows;
 using Microsoft.Practices.Unity;
 using System.Threading.Tasks;
+using GeoUsers.Services.Model.DataTransfer;
 
 namespace GeoUsersUI.Windows.Usuario
 {
@@ -10,6 +11,8 @@ namespace GeoUsersUI.Windows.Usuario
     /// </summary>
     public partial class UsuarioCreationEditionForm : Window
     {
+        public UsuarioHeader Result { get; set; }
+
         public UsuarioCreationEditionForm()
         {
             InitializeComponent();
@@ -32,13 +35,30 @@ namespace GeoUsersUI.Windows.Usuario
 
         private void Submit(object sender, RoutedEventArgs e)
         {
-            ((UsuarioCreationEditionViewModel)DataContext).Create();
+            if (((UsuarioCreationEditionViewModel)DataContext).IsUsuarioValid)
+            {
+                ((UsuarioCreationEditionViewModel)DataContext).Create();
 
-            Close();
+                Result = new UsuarioHeader()
+                {
+                    Id = ((UsuarioCreationEditionViewModel)DataContext).Usuario.Id,
+                    Email = ((UsuarioCreationEditionViewModel)DataContext).Usuario.Email,
+                    Nombre = ((UsuarioCreationEditionViewModel)DataContext).Usuario.Nombre,
+                    Direccion = ((UsuarioCreationEditionViewModel)DataContext).Usuario.Direccion
+                };
+
+                DialogResult = true;
+                Close();
+            }
+            else
+            {
+                var message = MessageBox.Show("Hay campos obligatorios incompletos.", "Error", MessageBoxButton.OK);
+            }
         }
 
         private void Dismiss(object sender, RoutedEventArgs e)
         {
+            DialogResult = false;
             Close();
         }
     }

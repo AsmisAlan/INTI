@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GeoUsers.Services.Model.DataTransfer
+﻿namespace GeoUsers.Services.Model.DataTransfer
 {
     public class UsuarioCreationData : UsuarioHeader
     {
@@ -12,7 +6,7 @@ namespace GeoUsers.Services.Model.DataTransfer
 
         protected string contactoCargo { get; set; }
 
-        protected virtual int personal { get; set; }
+        protected virtual int? personal { get; set; }
 
         protected virtual string web { get; set; }
 
@@ -20,11 +14,11 @@ namespace GeoUsers.Services.Model.DataTransfer
 
         protected virtual bool usuarioInti { get; set; }
 
-        protected int localidadId { get; set; }
+        protected int? localidadId { get; set; }
 
-        protected int organizacionId { get; set; }
+        protected int? organizacionId { get; set; }
 
-        protected int rubroId { get; set; }
+        protected int? rubroId { get; set; }
 
         public string Telefono
         {
@@ -46,7 +40,7 @@ namespace GeoUsers.Services.Model.DataTransfer
             }
         }
 
-        public virtual int Personal
+        public virtual int? Personal
         {
             get { return personal; }
             set
@@ -86,7 +80,7 @@ namespace GeoUsers.Services.Model.DataTransfer
             }
         }
 
-        public int LocalidadId
+        public int? LocalidadId
         {
             get { return localidadId; }
             set
@@ -96,7 +90,7 @@ namespace GeoUsers.Services.Model.DataTransfer
             }
         }
 
-        public int OrganizacionId
+        public int? OrganizacionId
         {
             get { return organizacionId; }
             set
@@ -106,7 +100,7 @@ namespace GeoUsers.Services.Model.DataTransfer
             }
         }
 
-        public int RubroId
+        public int? RubroId
         {
             get { return rubroId; }
             set

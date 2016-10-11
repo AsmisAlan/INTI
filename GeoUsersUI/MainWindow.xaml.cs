@@ -20,6 +20,7 @@ using GeoUsers.Services.Logics;
 using GeoUsers.Services;
 using System.Collections.ObjectModel;
 using GeoUsersUI.Windows.Usuario;
+using GeoUsersUI.Models.ViewModels.Forms;
 
 namespace GeoUsersUI
 {
@@ -69,17 +70,21 @@ namespace GeoUsersUI
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+
         }
 
-        private void ButtonAddUsuario_Click(object sender, RoutedEventArgs e)
-        {
-        }
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private async void ButtonAddUsuario_Click(object sender, RoutedEventArgs e)
         {
             var form = new UsuarioCreationEditionForm();
 
-            form.Show();
+            if (form.ShowDialog().Value)
+            {
+                ((MainViewModel)DataContext).Usuarios.Add(form.Result);
+
+                var url = await GetMapUrl(((MainViewModel)DataContext).Usuarios);
+
+                Browser.NavigateToString(url);
+            }
         }
     }
 }

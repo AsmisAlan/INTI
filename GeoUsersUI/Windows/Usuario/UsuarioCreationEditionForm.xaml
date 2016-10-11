@@ -8,10 +8,8 @@
         xmlns:ValidationRules="clr-namespace:GeoUsersUI.ValidationRules"
         mc:Ignorable="d"
         Title="MainWindow" Height="582.893" Width="423.684">
-    <Window.DataContext>
-        <Forms:UsuarioCreationEditionViewModel/>
-    </Window.DataContext>
-    <Grid Style="{StaticResource ResourceKey=FormGrid}">
+    <Grid 
+          Style="{StaticResource ResourceKey=FormGrid}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
@@ -56,16 +54,8 @@
         <TextBox Grid.Row="2"
                  Grid.Column="1"
                  x:Name="TextBoxTelefono"
-                 Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
-                 Style="{StaticResource NumericTextBox}">
-            <TextBox.Text>
-                <Binding Path="Telefono"
-                         Source="Usuario">
-                    <Binding.ValidationRules>
-                        <ValidationRules:NumericInputValidationRule/>
-                    </Binding.ValidationRules>
-                </Binding>
-            </TextBox.Text>
+                 Style="{StaticResource FormTextBox}"
+                 Text="{Binding Usuario.Telefono}">
         </TextBox>
         <Label Content="Contacto/Cargo :"
                Grid.Row="3"
@@ -85,10 +75,9 @@
                  Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
                  Style="{StaticResource FormTextBox}">
             <TextBox.Text>
-                <Binding Path="Email"
-                         Source="Usuario">
+                <Binding Path="Usuario.Email">
                     <Binding.ValidationRules>
-                        <ValidationRules:NumericInputValidationRule/>
+                        <ValidationRules:EmailInputValidationRule/>
                     </Binding.ValidationRules>
                 </Binding>
             </TextBox.Text>
@@ -108,11 +97,9 @@
         <TextBox Grid.Row="6"
                  Grid.Column="1"
                  x:Name="TextBoxCuit"
-                 Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
                  Style="{StaticResource NumericTextBox}">
             <TextBox.Text>
-                <Binding Path="Cuit"
-                         Source="Usuario">
+                <Binding Path="Usuario.Cuit">
                     <Binding.ValidationRules>
                         <ValidationRules:NumericInputValidationRule/>
                     </Binding.ValidationRules>
@@ -145,7 +132,7 @@
                   x:Name="ComboLocalidad"
                   SelectedValuePath="Id"
                   DisplayMemberPath="Value"
-                  SelectedItem="{Binding Usuario.LocalidadId}"
+                  SelectedValue="{Binding Usuario.LocalidadId}"
                   IsSynchronizedWithCurrentItem="True"
                   Style="{StaticResource FormComboBox}"/>
         <Label Content="Organizacion :"
@@ -155,7 +142,7 @@
                   Grid.Column="1"
                   SelectedValuePath="Id"
                   DisplayMemberPath="Value"
-                  SelectedItem="{Binding Usuario.OrganizacionId}"
+                  SelectedValue="{Binding Usuario.OrganizacionId}"
                   IsSynchronizedWithCurrentItem="True"
                   x:Name="ComboOrganizacion"
                   Style="{StaticResource FormComboBox}"/>
@@ -167,7 +154,7 @@
                   x:Name="ComboRubro"
                   SelectedValuePath="Id"
                   DisplayMemberPath="Value"
-                  SelectedItem="{Binding Usuario.RubroId}"
+                  SelectedValue="{Binding Usuario.RubroId}"
                   IsSynchronizedWithCurrentItem="True"
                   Style="{StaticResource FormComboBox}"/>
         <Button Grid.Row="12"
