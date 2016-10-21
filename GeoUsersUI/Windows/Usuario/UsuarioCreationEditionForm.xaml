@@ -8,8 +8,7 @@
         xmlns:ValidationRules="clr-namespace:GeoUsersUI.ValidationRules"
         mc:Ignorable="d"
         Title="MainWindow" Height="582.893" Width="423.684">
-    <Grid 
-          Style="{StaticResource ResourceKey=FormGrid}">
+    <Grid Style="{StaticResource ResourceKey=FormGrid}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
@@ -40,7 +39,6 @@
         </TextBox>
         <Label Content="Direccion :"
                Grid.Row="1"
-               
                Style="{StaticResource FormLabel}"/>
         <TextBox Grid.Row="1"
                  Grid.Column="1"
@@ -72,7 +70,6 @@
         <TextBox Grid.Row="4"
                  Grid.Column="1"
                  x:Name="TextBoxEmail"
-                 Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
                  Style="{StaticResource FormTextBox}">
             <TextBox.Text>
                 <Binding Path="Usuario.Email">

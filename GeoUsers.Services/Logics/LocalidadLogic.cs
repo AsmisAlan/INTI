@@ -36,11 +36,12 @@ namespace GeoUsers.Services.Logics
             return Mapper.Map<IEnumerable<IdAndValue>>(localidades);
         }
 
-        public bool Create(string nombre)
+        public bool Create(LocalidadCreationData localidadData)
         {
             var localidad = new Localidad()
             {
-                Nombre = nombre
+                Nombre = localidadData.Nombre,
+                CodigoPostal = localidadData.CodigoPostal.Value
             };
 
             Session.Save(localidad);

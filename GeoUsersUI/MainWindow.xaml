@@ -19,6 +19,7 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
@@ -31,6 +32,18 @@
                             Height="25"
                             VerticalAlignment="Top"
                             Click="ButtonAddUsuario_Click">
+                    </Button>
+                </Grid>
+            </Expander>
+            <Expander Grid.Row="1"
+                          Grid.Column="0"
+                          Header="Localidades">
+                <Grid>
+                    <Button Content="Nuevo"
+                            Name="ButtonNewLocalidad"
+                            Height="25"
+                            VerticalAlignment="Top"
+                            Click="ButtonNewLocalidad_Click">
                     </Button>
                 </Grid>
             </Expander>

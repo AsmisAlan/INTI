@@ -11,49 +11,38 @@ namespace GeoUsersUI.Windows.Usuario
     /// </summary>
     public partial class UsuarioCreationEditionForm : Window
     {
-        public UsuarioHeader Result { get; set; }
+        private BaseUsuarioViewModel CastedDataContext { get; set; }
 
         public UsuarioCreationEditionForm()
         {
             InitializeComponent();
 
-            DataContext = App.Container.Resolve<UsuarioCreationEditionViewModel>();
+            DataContext = CastedDataContext = App.Container.Resolve<UsuarioCreationEditionViewModel>();
 
             var initialized = Initialize();
         }
 
         public async Task<bool> Initialize()
         {
-            await ((UsuarioCreationEditionViewModel)DataContext).LoadData();
+            await ((BaseUsuarioViewModel)DataContext).LoadData();
 
-            ComboLocalidad.ItemsSource = ((UsuarioCreationEditionViewModel)DataContext).Localidades;
-            ComboOrganizacion.ItemsSource = ((UsuarioCreationEditionViewModel)DataContext).Organizaciones;
-            ComboRubro.ItemsSource = ((UsuarioCreationEditionViewModel)DataContext).Rubros;
+            ComboLocalidad.ItemsSource = CastedDataContext.Localidades;
+            ComboOrganizacion.ItemsSource = CastedDataContext.Organizaciones;
+            ComboRubro.ItemsSource = CastedDataContext.Rubros;
 
             return true;
         }
 
-        private void Submit(object sender, RoutedEventArgs e)
+        public UsuarioHeader GetResult()
         {
-            if (((UsuarioCreationEditionViewModel)DataContext).IsUsuarioValid)
-            {
-                ((UsuarioCreationEditionViewModel)DataContext).Create();
+            return CastedDataContext.Result;
+        }
 
-                Result = new UsuarioHeader()
-                {
-                    Id = ((UsuarioCreationEditionViewModel)DataContext).Usuario.Id,
-                    Email = ((UsuarioCreationEditionViewModel)DataContext).Usuario.Email,
-                    Nombre = ((UsuarioCreationEditionViewModel)DataContext).Usuario.Nombre,
-                    Direccion = ((UsuarioCreationEditionViewModel)DataContext).Usuario.Direccion
-                };
+        private async void Submit(object sender, RoutedEventArgs e)
+        {
+            DialogResult = await CastedDataContext.Submit();
 
-                DialogResult = true;
-                Close();
-            }
-            else
-            {
-                var message = MessageBox.Show("Hay campos obligatorios incompletos.", "Error", MessageBoxButton.OK);
-            }
+            Close();
         }
 
         private void Dismiss(object sender, RoutedEventArgs e)

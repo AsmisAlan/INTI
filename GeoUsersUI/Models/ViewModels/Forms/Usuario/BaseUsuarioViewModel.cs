@@ -6,20 +6,35 @@ using System.Threading.Tasks;
 
 namespace GeoUsersUI.Models.ViewModels.Forms
 {
-    public class UsuarioCreationEditionViewModel
+    public class BaseUsuarioViewModel : BaseSubmitViewModel<UsuarioHeader>
     {
-        readonly UsuarioLogic usuarioLogic;
-        readonly LocalidadLogic localidadLogic;
-        readonly RubroLogic rubroLogic;
-        readonly OrganizacionLogic organizacionLogic;
+        protected readonly UsuarioLogic usuarioLogic;
+        protected readonly LocalidadLogic localidadLogic;
+        protected readonly RubroLogic rubroLogic;
+        protected readonly OrganizacionLogic organizacionLogic;
 
         public UsuarioCreationData Usuario { get; set; }
         public IEnumerable<IdAndValue> Localidades { get; set; }
         public IEnumerable<IdAndValue> Organizaciones { get; set; }
         public IEnumerable<IdAndValue> Rubros { get; set; }
-        public bool IsUsuarioValid
+
+        public BaseUsuarioViewModel()
         {
-            get
+        }
+
+        public BaseUsuarioViewModel(UsuarioLogic usuarioLogic,
+                                    LocalidadLogic localidadLogic,
+                                    RubroLogic rubroLogic,
+                                    OrganizacionLogic organizacionLogic)
+        {
+            this.usuarioLogic = usuarioLogic;
+            this.localidadLogic = localidadLogic;
+            this.rubroLogic = rubroLogic;
+            this.organizacionLogic = organizacionLogic;
+
+            Usuario = new UsuarioCreationData();
+
+            SubmitValidation = () =>
             {
                 return Usuario != null &&
                        !string.IsNullOrEmpty(Usuario.Nombre) &&
@@ -31,24 +46,7 @@ namespace GeoUsersUI.Models.ViewModels.Forms
                        Usuario.OrganizacionId.HasValue &&
                        Usuario.RubroId.HasValue &&
                        Usuario.Personal.HasValue;
-            }
-        }
-
-        public UsuarioCreationEditionViewModel()
-        {
-        }
-
-        public UsuarioCreationEditionViewModel(UsuarioLogic usuarioLogic,
-                                               LocalidadLogic localidadLogic,
-                                               RubroLogic rubroLogic,
-                                               OrganizacionLogic organizacionLogic)
-        {
-            this.usuarioLogic = usuarioLogic;
-            this.localidadLogic = localidadLogic;
-            this.rubroLogic = rubroLogic;
-            this.organizacionLogic = organizacionLogic;
-
-            Usuario = new UsuarioCreationData();
+            };
         }
 
         public async Task<bool> LoadData()
@@ -64,17 +62,6 @@ namespace GeoUsersUI.Models.ViewModels.Forms
             });
 
             return true;
-        }
-
-        public async void Create()
-        {
-            await Task.Run(() =>
-            {
-                using (var sessionContext = GeoUsersServices.SessionProvider.GetSessionContextBlock())
-                {
-                    usuarioLogic.Create(Usuario);
-                }
-            });
         }
     }
 }

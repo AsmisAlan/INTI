@@ -75,16 +75,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Extensions\MessageBoxExtensions.cs" />
     <Compile Include="GoogleMaps\GoogleCodeResponse.cs" />
     <Compile Include="GoogleMaps\MapManager.cs" />
     <Compile Include="Models\ViewModels\AppViewModel.cs" />
-    <Compile Include="Models\ViewModels\Forms\UsuarioCreationEditionViewModel.cs" />
+    <Compile Include="Models\ViewModels\Forms\LocalidadCreationViewModel.cs" />
+    <Compile Include="Models\ViewModels\Forms\Usuario\UsuarioCreationEditionViewModel.cs" />
+    <Compile Include="Models\ViewModels\Forms\Usuario\BaseUsuarioViewModel.cs" />
     <Compile Include="Models\ViewModels\SmartSelect\SmartSelectViewModel.cs" />
     <Compile Include="UserControls\SmartSelect.xaml.cs">
       <DependentUpon>SmartSelect.xaml</DependentUpon>
     </Compile>
     <Compile Include="ValidationRules\EmailInputValidationRule.cs" />
     <Compile Include="ValidationRules\NumericInputValidationRule.cs" />
+    <Compile Include="Models\ViewModels\BaseSubmitViewModel.cs" />
+    <Compile Include="Windows\Localidad\LocalidadCreationEditionForm.xaml.cs">
+      <DependentUpon>LocalidadCreationEditionForm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\SmartSelectWindow.xaml.cs">
       <DependentUpon>SmartSelectWindow.xaml</DependentUpon>
     </Compile>
@@ -104,6 +111,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="UserControls\SmartSelect.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\Localidad\LocalidadCreationEditionForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

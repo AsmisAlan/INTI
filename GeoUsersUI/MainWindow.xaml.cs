@@ -1,26 +1,14 @@
 ﻿using GeoUsers.Services.Model.DataTransfer;
 using GeoUsersUI.Models.ViewModels;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Microsoft.Practices.Unity;
 using GeoUsersUI.GoogleMaps;
-using GeoUsers.Services.Logics;
-using GeoUsers.Services;
 using System.Collections.ObjectModel;
 using GeoUsersUI.Windows.Usuario;
-using GeoUsersUI.Models.ViewModels.Forms;
+using GeoUsersUI.Windows.Localidad;
 
 namespace GeoUsersUI
 {
@@ -79,12 +67,24 @@ namespace GeoUsersUI
 
             if (form.ShowDialog().Value)
             {
-                ((MainViewModel)DataContext).Usuarios.Add(form.Result);
+                ((MainViewModel)DataContext).Usuarios.Add(form.GetResult());
 
                 var url = await GetMapUrl(((MainViewModel)DataContext).Usuarios);
 
                 Browser.NavigateToString(url);
             }
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ButtonNewLocalidad_Click(object sender, RoutedEventArgs e)
+        {
+            var form = new LocalidadCreationEditionForm();
+
+            form.ShowDialog();
         }
     }
 }

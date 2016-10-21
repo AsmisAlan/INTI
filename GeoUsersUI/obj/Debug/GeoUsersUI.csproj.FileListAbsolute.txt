@@ -40,3 +40,5 @@ C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\bin\Debug\Newtonsoft.Json.
 C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\obj\Debug\Windows\Usuario\UsuarioCreationEditionForm.g.cs
 C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\obj\Debug\App.baml
 C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\obj\Debug\Windows\Usuario\UsuarioCreationEditionForm.baml
+C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\obj\Debug\Windows\Localidad\LocalidadCreationEditionForm.g.cs
+C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\obj\Debug\Windows\Localidad\LocalidadCreationEditionForm.baml

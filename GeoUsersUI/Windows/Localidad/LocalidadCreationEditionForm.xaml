@@ -1,0 +1,62 @@
+﻿<Window x:Class="GeoUsersUI.Windows.Localidad.LocalidadCreationEditionForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GeoUsersUI.Windows.Localidad"
+        mc:Ignorable="d"
+        Title="LocalidadCreationEditionForm" Height="266.187" Width="350">
+    <Grid Name="MainGrid"
+          Style="{StaticResource ResourceKey=FormGrid}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Nombre :"
+                   Grid.Row="0"
+                   Style="{StaticResource FormLabel}"/>
+            <TextBox Grid.Row="0"
+                     Grid.Column="1"
+                     x:Name="TextBoxNombre"
+                     Text="{Binding Localidad.Nombre}"
+                     Style="{StaticResource FormTextBox}">
+            </TextBox>
+            <Label Content="Código Postal :"
+                   Grid.Row="1"
+                   Style="{StaticResource FormLabel}"/>
+            <TextBox Grid.Row="1"
+                     Grid.Column="1"
+                     x:Name="TextBoxCodigoPostal"
+                     Text="{Binding Localidad.CodigoPostal}"
+                     Style="{StaticResource NumericTextBox}">
+            </TextBox>
+        </Grid>
+        <Grid Grid.Row="1"
+              Margin="0,5,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Name="ButtonSubmit"
+                    Content="Aceptar"
+                    Height="30"
+                    Width="90"
+                    Click="ButtonSubmit_Click"/>
+            <Button Name="ButtonDismiss"
+                    Content="Cancelar"
+                    Grid.Column="1"
+                    Height="30"
+                    Width="90"
+                    Click="ButtonDismiss_Click"/>
+        </Grid>
+    </Grid>
+</Window>
