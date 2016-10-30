@@ -38,11 +38,11 @@ namespace GeoUsers.Services.Logics
             return Mapper.Map<IEnumerable<IdAndValue>>(organizaciones);
         }
 
-        public bool Create(string nombre)
+        public bool Create(OrganizacionCreationData organizacionData)
         {
             var organizacion = new Organizacion()
             {
-                Tipo = nombre
+                Tipo = organizacionData.Tipo
             };
 
             Session.Save(organizacion);

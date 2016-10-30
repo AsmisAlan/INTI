@@ -80,17 +80,35 @@
     <Compile Include="GoogleMaps\MapManager.cs" />
     <Compile Include="Models\ViewModels\AppViewModel.cs" />
     <Compile Include="Models\ViewModels\Forms\LocalidadCreationViewModel.cs" />
+    <Compile Include="Models\ViewModels\Forms\Organizacion\BaseOrganizacionViewModel.cs" />
+    <Compile Include="Models\ViewModels\Forms\Organizacion\OrganizacionCreationViewModel.cs" />
+    <Compile Include="Models\ViewModels\Forms\Rubro\BaseRubroViewModel.cs" />
+    <Compile Include="Models\ViewModels\Forms\Rubro\RubroCreationViewModel.cs" />
+    <Compile Include="Models\ViewModels\Forms\Sector\BaseSectorViewModel.cs" />
+    <Compile Include="Models\ViewModels\Forms\Sector\SectorCreationViewModel.cs" />
     <Compile Include="Models\ViewModels\Forms\Usuario\UsuarioCreationEditionViewModel.cs" />
     <Compile Include="Models\ViewModels\Forms\Usuario\BaseUsuarioViewModel.cs" />
     <Compile Include="Models\ViewModels\SmartSelect\SmartSelectViewModel.cs" />
     <Compile Include="UserControls\SmartSelect.xaml.cs">
       <DependentUpon>SmartSelect.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\TreeMenu.xaml.cs">
+      <DependentUpon>TreeMenu.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ValidationRules\EmailInputValidationRule.cs" />
     <Compile Include="ValidationRules\NumericInputValidationRule.cs" />
     <Compile Include="Models\ViewModels\BaseSubmitViewModel.cs" />
     <Compile Include="Windows\Localidad\LocalidadCreationEditionForm.xaml.cs">
       <DependentUpon>LocalidadCreationEditionForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Organizacion\OrganizacionCreationEditionForm.xaml.cs">
+      <DependentUpon>OrganizacionCreationEditionForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Rubro\RubroCreationEditionForm.xaml.cs">
+      <DependentUpon>RubroCreationEditionForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Sector\SectorCreationEditionForm.xaml.cs">
+      <DependentUpon>SectorCreationEditionForm.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\SmartSelectWindow.xaml.cs">
       <DependentUpon>SmartSelectWindow.xaml</DependentUpon>
@@ -114,7 +132,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserControls\TreeMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\Localidad\LocalidadCreationEditionForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\Organizacion\OrganizacionCreationEditionForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\Rubro\RubroCreationEditionForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\Sector\SectorCreationEditionForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -161,6 +195,7 @@
       <Name>GeoUsersServices</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

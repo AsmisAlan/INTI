@@ -4,7 +4,7 @@ using Microsoft.Practices.Unity;
 using System.Threading.Tasks;
 using GeoUsers.Services.Model.DataTransfer;
 
-namespace GeoUsersUI.Windows.Usuario
+namespace GeoUsersUI.Windows
 {
     /// <summary>
     /// Interaction logic for UsuarioCreationEditionForm.xaml
@@ -42,7 +42,10 @@ namespace GeoUsersUI.Windows.Usuario
         {
             DialogResult = await CastedDataContext.Submit();
 
-            Close();
+            if (DialogResult.HasValue && DialogResult.Value)
+            {
+                Close();
+            }
         }
 
         private void Dismiss(object sender, RoutedEventArgs e)

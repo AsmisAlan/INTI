@@ -49,11 +49,16 @@ namespace GeoUsers.Services.Logics
             return Mapper.Map<IEnumerable<IdAndValue>>(rubros);
         }
 
-        public bool Create(string nombre)
+        public bool Create(RubroCreationData rubroData)
         {
+            var sector = Session.Get<Sector>(rubroData.SectorId);
+
+            if (sector == null) throw new Exception("Sector invalido");
+
             var rubro = new Rubro()
             {
-                Nombre = nombre
+                Nombre = rubroData.Nombre,
+                Sector = sector
             };
 
             Session.Save(rubro);

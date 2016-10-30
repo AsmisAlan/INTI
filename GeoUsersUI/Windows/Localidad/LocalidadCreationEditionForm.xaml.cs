@@ -3,7 +3,7 @@ using System.Windows;
 using Microsoft.Practices.Unity;
 using GeoUsersUI.Models.ViewModels;
 
-namespace GeoUsersUI.Windows.Localidad
+namespace GeoUsersUI.Windows
 {
     /// <summary>
     /// Interaction logic for LocalidadCreationEditionForm.xaml
@@ -28,13 +28,15 @@ namespace GeoUsersUI.Windows.Localidad
 
         private async void ButtonSubmit_Click(object sender, RoutedEventArgs e)
         {
-            await CastViewModel.Submit();
+            DialogResult = await CastViewModel.Submit();
 
             Close();
         }
 
         private void ButtonDismiss_Click(object sender, RoutedEventArgs e)
         {
+            DialogResult = false;
+
             Close();
         }
     }

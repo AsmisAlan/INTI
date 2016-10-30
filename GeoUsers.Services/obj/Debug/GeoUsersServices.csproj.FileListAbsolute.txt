@@ -38,4 +38,3 @@ C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsers.Services\bin\Debug\Microsoft
 C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsers.Services\bin\Debug\NHibernate.xml
 C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsers.Services\obj\Debug\GeoUsers.Services.dll
 C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsers.Services\obj\Debug\GeoUsers.Services.pdb
-C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsers.Services\obj\Debug\GeoUsersServices.csprojResolveAssemblyReference.cache

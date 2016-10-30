@@ -1,12 +1,13 @@
-﻿<Window x:Class="GeoUsersUI.Windows.LocalidadCreationEditionForm"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GeoUsersUI.Windows"
+        xmlns:ViewModels="clr-namespace:GeoUsersUI.Models.ViewModels" x:Class="GeoUsersUI.Windows.RubroCreationEditionForm"
         mc:Ignorable="d"
-        Title="LocalidadCreationEditionForm" Height="266.187" Width="400">
-    <Grid Name="MainGrid"
+        Title="RubroCreationEditionForm" Height="300" Width="400">
+    <Grid x:Name="MainGrid"
           Style="{StaticResource ResourceKey=FormGrid}">
         <Grid.RowDefinitions>
             <RowDefinition Height="5*"/>
@@ -27,18 +28,19 @@
             <TextBox Grid.Row="0"
                      Grid.Column="1"
                      x:Name="TextBoxNombre"
-                     Text="{Binding Localidad.Nombre}"
-                     Style="{StaticResource FormTextBox}">
-            </TextBox>
-            <Label Content="Código Postal :"
+                     Text="{Binding Rubro.Nombre}"
+                     Style="{StaticResource FormTextBox}"/>
+            <Label Content="Sector :"
                    Grid.Row="1"
                    Style="{StaticResource FormLabel}"/>
-            <TextBox Grid.Row="1"
-                     Grid.Column="1"
-                     x:Name="TextBoxCodigoPostal"
-                     Text="{Binding Localidad.CodigoPostal}"
-                     Style="{StaticResource NumericTextBox}">
-            </TextBox>
+            <ComboBox Grid.Row="1"
+                  Grid.Column="1"
+                  x:Name="ComboSector"
+                  SelectedValuePath="Id"
+                  DisplayMemberPath="Value"
+                  SelectedValue="{Binding Rubro.SectorId}"
+                  IsSynchronizedWithCurrentItem="True"
+                  Style="{StaticResource FormComboBox}"/>
         </Grid>
         <Grid Grid.Row="1"
               Margin="0,5,0,0">
@@ -46,12 +48,12 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Name="ButtonSubmit"
+            <Button x:Name="ButtonSubmit"
                     Content="Aceptar"
                     Height="30"
                     Width="90"
                     Click="ButtonSubmit_Click"/>
-            <Button Name="ButtonDismiss"
+            <Button x:Name="ButtonDismiss"
                     Content="Cancelar"
                     Grid.Column="1"
                     Height="30"

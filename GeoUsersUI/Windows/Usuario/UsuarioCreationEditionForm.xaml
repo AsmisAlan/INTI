@@ -3,8 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:GeoUsersUI.Windows.Usuario" 
-        xmlns:Forms="clr-namespace:GeoUsersUI.Models.ViewModels.Forms" x:Class="GeoUsersUI.Windows.Usuario.UsuarioCreationEditionForm" 
+        xmlns:local="clr-namespace:GeoUsersUI.Windows" 
+        xmlns:Forms="clr-namespace:GeoUsersUI.Models.ViewModels.Forms" 
+    x:Class="GeoUsersUI.Windows.UsuarioCreationEditionForm" 
         xmlns:ValidationRules="clr-namespace:GeoUsersUI.ValidationRules"
         mc:Ignorable="d"
         Title="MainWindow" Height="582.893" Width="423.684">

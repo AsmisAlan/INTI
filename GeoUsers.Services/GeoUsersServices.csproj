@@ -73,7 +73,13 @@
     <Compile Include="Configuration\InjectionConfig.cs" />
     <Compile Include="IDisposable.cs" />
     <Compile Include="Model\DataTransfer\BaseNotifierEntity.cs" />
+    <Compile Include="Model\DataTransfer\Organizacion\OrganizacionEditionData.cs" />
+    <Compile Include="Model\DataTransfer\Organizacion\OrganizacionCreationData.cs" />
     <Compile Include="Model\DataTransfer\LocalidadCreationData.cs" />
+    <Compile Include="Model\DataTransfer\Rubro\RubroCreationData.cs" />
+    <Compile Include="Model\DataTransfer\Rubro\RubroEditionData.cs" />
+    <Compile Include="Model\DataTransfer\Sector\SectorCreationData.cs" />
+    <Compile Include="Model\DataTransfer\Sector\SectorEditionData.cs" />
     <Compile Include="Model\DataTransfer\UsuarioCreationData.cs" />
     <Compile Include="Model\DataTransfer\UsuarioHeader.cs" />
     <Compile Include="Model\Entities\BaseEntity.cs" />
@@ -111,6 +117,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

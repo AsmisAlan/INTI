@@ -18,7 +18,7 @@ namespace GeoUsersUI.Models.ViewModels
         protected Func<bool> SubmitValidation { get; set; }
 
         /// <summary>
-        /// Executes when the form is submitted..
+        /// Executes when the form is submitted.
         /// </summary>
         /// <param name="submitFunction"></param>
         /// <returns></returns>

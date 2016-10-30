@@ -7,8 +7,7 @@ using System.Windows.Controls;
 using Microsoft.Practices.Unity;
 using GeoUsersUI.GoogleMaps;
 using System.Collections.ObjectModel;
-using GeoUsersUI.Windows.Usuario;
-using GeoUsersUI.Windows.Localidad;
+using GeoUsersUI.Windows;
 
 namespace GeoUsersUI
 {
@@ -82,7 +81,22 @@ namespace GeoUsersUI
 
         private void ButtonNewLocalidad_Click(object sender, RoutedEventArgs e)
         {
-            var form = new LocalidadCreationEditionForm();
+            var form = new RubroCreationEditionForm();
+
+            form.ShowDialog();
+
+            //var form = new SectorCreationEditionForm();
+
+            //form.ShowDialog();
+
+            //var form = new LocalidadCreationEditionForm();
+
+            //form.ShowDialog();
+        }
+
+        private void ButtonNewOrganizacion_Click(object sender, RoutedEventArgs e)
+        {
+            var form = new OrganizacionCreationEditionForm();
 
             form.ShowDialog();
         }

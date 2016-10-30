@@ -42,3 +42,13 @@ C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\obj\Debug\App.baml
 C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\obj\Debug\Windows\Usuario\UsuarioCreationEditionForm.baml
 C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\obj\Debug\Windows\Localidad\LocalidadCreationEditionForm.g.cs
 C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\obj\Debug\Windows\Localidad\LocalidadCreationEditionForm.baml
+C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\obj\Debug\UserControls\TreeMenu.g.cs
+C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\obj\Debug\Windows\Organizacion\OrganizacionCreationEditionForm.g.cs
+C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\obj\Debug\UserControls\TreeMenu.baml
+C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\obj\Debug\Windows\Organizacion\OrganizacionCreationEditionForm.baml
+C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\obj\Debug\Windows\Sector\SectorCreationEditionForm.g.cs
+C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\obj\Debug\Windows\Sector\SectorCreationEditionForm.baml
+C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\obj\Debug\Windows\Rubro\RubroCreationEditionForm.g.cs
+C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\obj\Debug\Windows\Rubro\RubroCreationEditionForm.baml
+C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\obj\Debug\Windows\Rubro\RubroTestForm.g.cs
+C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\obj\Debug\Windows\Rubro\RubroTestForm.baml
