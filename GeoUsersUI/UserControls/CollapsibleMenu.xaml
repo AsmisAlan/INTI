@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="GeoUsersUI.UserControls.CollapsibleMenu"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GeoUsersUI.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Button Name="ButtonHeader" 
+                Content="{Binding Path=HeaderName}"
+                Height="40"
+                Background="DodgerBlue"
+                Opacity="0.9"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Stretch"
+                Click="ButtonHeader_Click">
+        </Button>
+        <ItemsControl ItemsSource="{Binding Path=Buttons}"
+                      VerticalAlignment="Top"
+                      HorizontalAlignment="Stretch"
+                      Grid.Row="1">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <Button Content="{Binding Name}"
+                                Background="DeepSkyBlue"
+                                Opacity="0.9"
+                                Height="30"
+                                FontWeight="Bold"
+                                FontFamily="Arial"
+                                Visibility="{Binding ButtonVisibility}"
+                                Click="Button_Click">
+                        </Button>
+                    </StackPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Grid>
+</UserControl>

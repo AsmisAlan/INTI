@@ -6,6 +6,7 @@
         protected string nombre { get; set; }
         protected string direccion { get; set; }
         protected string email { get; set; }
+        protected string localidad { get; set; }
 
         public long Id
         {
@@ -44,6 +45,16 @@
             {
                 email = value;
                 OnPropertyChanged(nameof(Email));
+            }
+        }
+
+        public string Localidad
+        {
+            get { return localidad; }
+            set
+            {
+                localidad = value;
+                OnPropertyChanged(nameof(Localidad));
             }
         }
     }

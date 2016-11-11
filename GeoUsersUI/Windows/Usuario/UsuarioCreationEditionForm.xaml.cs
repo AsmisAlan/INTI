@@ -35,6 +35,7 @@ namespace GeoUsersUI.Windows
 
         public UsuarioHeader GetResult()
         {
+            CastedDataContext.Result.Localidad = ((IdAndValue)ComboLocalidad.SelectedItem).Value;
             return CastedDataContext.Result;
         }
 

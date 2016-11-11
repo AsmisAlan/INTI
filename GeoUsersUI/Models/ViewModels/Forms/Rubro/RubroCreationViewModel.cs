@@ -7,8 +7,6 @@ namespace GeoUsersUI.Models.ViewModels
     {
         public RubroCreationViewModel() { }
 
-        public long id { get; set; }
-
         public RubroCreationViewModel(RubroLogic rubroLogic,
                                       SectorLogic sectorLogic) : base(rubroLogic, sectorLogic)
         {
