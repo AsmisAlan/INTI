@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using GeoUsers.Services.Model;
 using GeoUsers.Services.Model.DataTransfer;
 using GeoUsers.Services.Model.Entities;
 using NHibernate;
@@ -11,9 +10,20 @@ namespace GeoUsers.Services.Logics
 {
     public class OrganizacionLogic : BaseLogic
     {
-        public OrganizacionLogic(IMapper autoMapper,
-                                 ISessionFactory sessionFactory) : base(autoMapper, sessionFactory)
-        { }
+        readonly RubroLogic rubroLogic;
+        readonly TipoOrganizacionLogic tipoOrganizacionLogic;
+        readonly LocalidadLogic localidadLogic;
+
+        public OrganizacionLogic(RubroLogic rubroLogic,
+                                 LocalidadLogic localidadLogic,
+                                 TipoOrganizacionLogic organizacionLogic,
+                                 IMapper mapper,
+                                 ISessionFactory sessionFactory) : base(mapper, sessionFactory)
+        {
+            this.rubroLogic = rubroLogic;
+            this.localidadLogic = localidadLogic;
+            this.tipoOrganizacionLogic = organizacionLogic;
+        }
 
         public Organizacion GetOrganizacion(int organizacionId)
         {
@@ -24,41 +34,110 @@ namespace GeoUsers.Services.Logics
         {
             return Session.QueryOver<Organizacion>()
                           .List()
-                          .OrderBy(x => x.Tipo);
+                          .OrderBy(x => x.Nombre);
         }
 
         public IEnumerable<IdAndValue> GetForSelection(/*ICollection<int> currentIds*/)
         {
             var organizaciones = Session.QueryOver<Organizacion>()
-                          //.WhereRestrictionOn(x => x.Id)
-                          //.Not.IsIn(currentIds.ToArray())
-                          .List()
-                          .OrderBy(x => x.Tipo);
+                                        //.WhereRestrictionOn(x => x.Id)
+                                        //.Not.IsIn(currentIds.ToArray())
+                                        .List()
+                                        .OrderBy(x => x.Nombre);
 
             return Mapper.Map<IEnumerable<IdAndValue>>(organizaciones);
         }
 
-        public bool Create(OrganizacionCreationData organizacionData)
+        public IEnumerable<OrganizacionHeader> GetOrganizacionHeaders(/*ICollection<int> organizacionIds*/)
         {
+            var organizaciones = Session.QueryOver<Organizacion>()
+                                        //.WhereRestrictionOn(x => x.Id)
+                                        //.IsIn(organizacionIds.ToArray())
+                                        .List()
+                                        .OrderBy(x => x.Nombre);
+
+            return Mapper.Map<IEnumerable<OrganizacionHeader>>(organizaciones);
+        }
+
+        public bool Create(OrganizacionCreationData creationData)
+        {
+            var rubro = rubroLogic.GetRubro(creationData.RubroId.Value);
+
+            if (rubro == null) throw new Exception("Rubro Invalido");
+
+            var tipoOrganizacion = tipoOrganizacionLogic.GetOrganizacion(creationData.OrganizacionId.Value);
+
+            if (tipoOrganizacion == null) throw new Exception("Organizacion Invalida");
+
+            var localidad = localidadLogic.GetLocalidad(creationData.LocalidadId.Value);
+
+            if (localidad == null) throw new Exception("Localidad Invalida");
+
             var organizacion = new Organizacion()
             {
-                Tipo = organizacionData.Tipo
+                Nombre = creationData.Nombre,
+                ContactoCargo = creationData.ContactoCargo,
+                Cuit = creationData.Cuit,
+                Direccion = creationData.Direccion,
+                Email = creationData.Email,
+                Personal = creationData.Personal.Value,
+                Telefono = creationData.Telefono,
+                Web = creationData.Web,
+                UsuarioInti = creationData.UsuarioInti,
+                Localidad = localidad,
+                TipoOrganizacion = tipoOrganizacion,
+                Rubro = rubro
             };
 
-            Session.Save(organizacion);
+            Session.Save(tipoOrganizacion);
 
             Session.Transaction.Commit();
 
             return true;
         }
 
-        public bool Edit(int organizacionId, string tipo)
+        public bool Edit(int organizacionId,
+                         string nombre,
+                         string direccion,
+                         string telefono,
+                         string email,
+                         string web,
+                         string contactoCargo,
+                         bool organizacionGeoUsersServices,
+                         int personal,
+                         long? cuit,
+                         int rubroId,
+                         int tipoOrganizacionId,
+                         int localidadId)
         {
             var organizacion = Session.Get<Organizacion>(organizacionId);
 
-            organizacion.Tipo = tipo;
+            if (organizacion == null) throw new Exception("Organizacion Invalido");
 
-            if (organizacion == null) throw new Exception("Organizacion Invalida");
+            var rubro = rubroLogic.GetRubro(rubroId);
+
+            if (rubro == null) throw new Exception("Rubro Invalido");
+
+            var tipoOrganizacion = tipoOrganizacionLogic.GetOrganizacion(tipoOrganizacionId);
+
+            if (tipoOrganizacion == null) throw new Exception("Tipo de Organizacion Invalida");
+
+            var localidad = localidadLogic.GetLocalidad(localidadId);
+
+            if (localidad == null) throw new Exception("Localidad Invalida");
+
+            organizacion.ContactoCargo = contactoCargo;
+            organizacion.Cuit = cuit;
+            organizacion.Direccion = direccion;
+            organizacion.Email = email;
+            organizacion.Localidad = localidad;
+            organizacion.Nombre = nombre;
+            organizacion.TipoOrganizacion = tipoOrganizacion;
+            organizacion.Personal = personal;
+            organizacion.Rubro = rubro;
+            organizacion.Telefono = telefono;
+            organizacion.UsuarioInti = organizacionGeoUsersServices;
+            organizacion.Web = web;
 
             Session.Save(organizacion);
 
@@ -69,9 +148,9 @@ namespace GeoUsers.Services.Logics
 
         public bool Delete(int organizacionId)
         {
-            var organizacion = Session.Get<Sector>(organizacionId);
+            var organizacion = Session.Get<TipoOrganizacion>(organizacionId);
 
-            if (organizacion == null) throw new Exception("Organizacion Invalida");
+            if (organizacion == null) throw new Exception("Organizacion Invalido");
 
             Session.Delete(organizacion);
 

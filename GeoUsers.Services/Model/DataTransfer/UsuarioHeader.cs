@@ -1,6 +1,6 @@
 ﻿namespace GeoUsers.Services.Model.DataTransfer
 {
-    public class UsuarioHeader : BaseNotifierEntity
+    public class OrganizacionHeader : BaseNotifierEntity
     {
         protected long id { get; set; }
         protected string nombre { get; set; }

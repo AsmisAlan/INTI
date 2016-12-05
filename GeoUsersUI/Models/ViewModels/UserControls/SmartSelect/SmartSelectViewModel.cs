@@ -1,11 +1,9 @@
 ﻿using GeoUsers.Services;
-using GeoUsers.Services.Model;
 using GeoUsers.Services.Model.DataTransfer;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace GeoUsersUI.Models.ViewModels.SmartSelect

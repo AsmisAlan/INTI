@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:GeoUsersUI"
         xmlns:UserControls="clr-namespace:GeoUsersUI.UserControls" xmlns:ViewModels="clr-namespace:GeoUsersUI.Models.ViewModels" x:Class="GeoUsersUI.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="900" Width="800">
+        Title="MainWindow" Height="600" MinWidth="900">
     <Grid Margin="10,10,10,10"
           Name="Container">
         <Grid.RowDefinitions>
@@ -19,44 +19,84 @@
         <Grid Name="MenuGrid"
               Margin="0 0 5 0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="2*"/>
+                <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="220"/>
             </Grid.ColumnDefinitions>
-            <WrapPanel Orientation="Vertical">
-                <UserControls:CollapsibleMenu 
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <WrapPanel Orientation="Vertical"
+                       HorizontalAlignment="Stretch"
+                       Grid.Column="0">
+                    <UserControls:CollapsibleMenu 
                 Grid.Row="0"
-                x:Name="UsuarioMenu"
-                Buttons="{Binding MainMenu.UsuarioMenu.Buttons}"
-                HeaderName="{Binding MainMenu.UsuarioMenu.HeaderName}">
-                </UserControls:CollapsibleMenu>
-                <UserControls:CollapsibleMenu 
-                Grid.Row="1"
                 x:Name="OrganizacionMenu"
                 Buttons="{Binding MainMenu.OrganizacionMenu.Buttons}"
-                HeaderName="{Binding MainMenu.OrganizacionMenu.HeaderName}">
-                </UserControls:CollapsibleMenu>
-                <UserControls:CollapsibleMenu 
+                HeaderName="{Binding MainMenu.OrganizacionMenu.HeaderName}"
+                HorizontalAlignment="Stretch">
+                    </UserControls:CollapsibleMenu>
+                    <UserControls:CollapsibleMenu 
+                Grid.Row="1"
+                x:Name="TipoOrganizacionMenu"
+                Buttons="{Binding MainMenu.TipoOrganizacionMenu.Buttons}"
+                HeaderName="{Binding MainMenu.TipoOrganizacionMenu.HeaderName}">
+                    </UserControls:CollapsibleMenu>
+                    <UserControls:CollapsibleMenu 
                 Grid.Row="2"
                 x:Name="SectorMenu"
                 Buttons="{Binding MainMenu.SectorMenu.Buttons}"
                 HeaderName="{Binding MainMenu.SectorMenu.HeaderName}">
-                </UserControls:CollapsibleMenu>
-                <UserControls:CollapsibleMenu 
+                    </UserControls:CollapsibleMenu>
+                    <UserControls:CollapsibleMenu 
                 Grid.Row="3"
                 x:Name="RubroMenu"
                 Buttons="{Binding MainMenu.RubroMenu.Buttons}"
                 HeaderName="{Binding MainMenu.RubroMenu.HeaderName}">
-                </UserControls:CollapsibleMenu>
-                <UserControls:CollapsibleMenu 
+                    </UserControls:CollapsibleMenu>
+                    <UserControls:CollapsibleMenu 
                 Grid.Row="4"
                 x:Name="LocalidadMenu"
                 Buttons="{Binding MainMenu.LocalidadMenu.Buttons}"
                 HeaderName="{Binding MainMenu.LocalidadMenu.HeaderName}">
-                </UserControls:CollapsibleMenu>
-            </WrapPanel>
+                    </UserControls:CollapsibleMenu>
+                </WrapPanel>
+            </ScrollViewer>
+            <ScrollViewer VerticalScrollBarVisibility="Auto"
+                          Grid.Row="1">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Label Content="Filtrar"></Label>
+                    <Button Content="{Binding Path=OrganizacionesFilter.SectorStatus}"
+                            Style="{StaticResource MenuButton}"
+                            Grid.Row="1">
+                    </Button>
+                    <Button Content="{Binding Path=OrganizacionesFilter.RubroStatus}"
+                            Style="{StaticResource MenuButton}"
+                            Grid.Row="2">
+                    </Button>
+                    <Button Content="{Binding Path=OrganizacionesFilter.TipoOrganizacionStatus}"
+                            Style="{StaticResource MenuButton}"
+                            Grid.Row="3">
+                    </Button>
+                    <Button Content="{Binding Path=OrganizacionesFilter.LocalidadStatus}"
+                            Style="{StaticResource MenuButton}"
+                            Grid.Row="4">
+                    </Button>
+                    <CheckBox Content="Organizacion Inti"
+                              IsChecked="{Binding Path=OrganizacionesFilter.UsuarioInti}"
+                              Grid.Row="5"
+                              VerticalAlignment="Center">
+                    </CheckBox>
+                </Grid>
+            </ScrollViewer>
         </Grid>
         <Grid Name="MainGrid"
               Grid.Column="1">

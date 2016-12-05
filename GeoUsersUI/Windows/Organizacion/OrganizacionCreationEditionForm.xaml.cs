@@ -1,50 +1,57 @@
-﻿using GeoUsersUI.Models.ViewModels;
+﻿using GeoUsersUI.Models.ViewModels.Forms;
 using System.Windows;
 using Microsoft.Practices.Unity;
+using System.Threading.Tasks;
+using GeoUsers.Services.Model.DataTransfer;
 
 namespace GeoUsersUI.Windows
 {
     /// <summary>
-    /// Interaction logic for OrganizacionCreationEditionForm.xaml
+    /// Interaction logic for UsuarioCreationEditionForm.xaml
     /// </summary>
     public partial class OrganizacionCreationEditionForm : Window
     {
-        private BaseOrganizacionViewModel ViewModel { get; set; }
+        private BaseOrganizacionViewModel CastedDataContext { get; set; }
 
         public OrganizacionCreationEditionForm()
         {
-            DataContext = App.Container.Resolve<OrganizacionCreationViewModel>();
-
-            Initialize();
-        }
-
-        public OrganizacionCreationEditionForm(long organizacionId)
-        {
-        }
-
-        private void Initialize()
-        {
             InitializeComponent();
 
-            ViewModel = ((BaseOrganizacionViewModel)DataContext);
+            DataContext = CastedDataContext = App.Container.Resolve<OrganizacionCreationEditionViewModel>();
+
+            var initialized = Initialize();
         }
 
-        public bool GetResult()
+        public async Task<bool> Initialize()
         {
-            return ViewModel.Result;
+            await ((BaseOrganizacionViewModel)DataContext).LoadData();
+
+            ComboLocalidad.ItemsSource = CastedDataContext.Localidades;
+            ComboOrganizacion.ItemsSource = CastedDataContext.TipoOrganizaciones;
+            ComboRubro.ItemsSource = CastedDataContext.Rubros;
+
+            return true;
         }
 
-        private async void ButtonSubmit_Click(object sender, RoutedEventArgs e)
+        public OrganizacionHeader GetResult()
         {
-            DialogResult = await ViewModel.Submit();
-
-            Close();
+            CastedDataContext.Result.Localidad = ((IdAndValue)ComboLocalidad.SelectedItem).Value;
+            return CastedDataContext.Result;
         }
 
-        private void ButtonDismiss_Click(object sender, RoutedEventArgs e)
+        private async void Submit(object sender, RoutedEventArgs e)
+        {
+            DialogResult = await CastedDataContext.Submit();
+
+            if (DialogResult.HasValue && DialogResult.Value)
+            {
+                Close();
+            }
+        }
+
+        private void Dismiss(object sender, RoutedEventArgs e)
         {
             DialogResult = false;
-
             Close();
         }
     }

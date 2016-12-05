@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\App.xaml
-91737625095
+91708685468
 
-38-808314078
+39778685706
 72919977783
-MainWindow.xaml;UserControls\CollapsibleMenu.xaml;UserControls\SmartSelect.xaml;Windows\Localidad\LocalidadCreationEditionForm.xaml;Windows\Organizacion\OrganizacionCreationEditionForm.xaml;Windows\Rubro\RubroCreationEditionForm.xaml;Windows\Sector\SectorCreationEditionForm.xaml;Windows\SmartSelectWindow.xaml;Windows\Usuario\UsuarioCreationEditionForm.xaml;
+MainWindow.xaml;UserControls\CollapsibleMenu.xaml;UserControls\SmartSelect.xaml;Windows\Localidad\LocalidadCreationEditionForm.xaml;Windows\TipoOrganizacion\TipoOrganizacionCreationEditionForm.xaml;Windows\Rubro\RubroCreationEditionForm.xaml;Windows\Sector\SectorCreationEditionForm.xaml;Windows\SmartSelectWindow.xaml;Windows\Organizacion\OrganizacionCreationEditionForm.xaml;
 
-False
+True
 

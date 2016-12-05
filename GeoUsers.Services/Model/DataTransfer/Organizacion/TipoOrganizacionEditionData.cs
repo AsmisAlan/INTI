@@ -1,6 +1,6 @@
 ﻿namespace GeoUsers.Services.Model.DataTransfer
 {
-    public class OrganizacionEditionData : OrganizacionCreationData
+    public class TipoOrganizacionEditionData : TipoOrganizacionCreationData
     {
         private long id { get; set; }
 

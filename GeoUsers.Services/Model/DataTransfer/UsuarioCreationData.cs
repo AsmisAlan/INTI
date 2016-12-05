@@ -1,6 +1,6 @@
 ﻿namespace GeoUsers.Services.Model.DataTransfer
 {
-    public class UsuarioCreationData : UsuarioHeader
+    public class OrganizacionCreationData : OrganizacionHeader
     {
         protected string telefono { get; set; }
 
@@ -12,7 +12,7 @@
 
         protected virtual long? cuit { get; set; }
 
-        protected virtual bool usuarioInti { get; set; }
+        protected virtual bool organizacionInti { get; set; }
 
         protected int? localidadId { get; set; }
 
@@ -72,10 +72,10 @@
 
         public virtual bool UsuarioInti
         {
-            get { return usuarioInti; }
+            get { return organizacionInti; }
             set
             {
-                usuarioInti = value;
+                organizacionInti = value;
                 OnPropertyChanged(nameof(UsuarioInti));
             }
         }

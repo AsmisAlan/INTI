@@ -55,7 +55,6 @@ namespace GeoUsersUI.UserControls
             }
         }
 
-        // Using a DependencyProperty as the backing store for Buttons.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty HeaderNameProperty =
              DependencyProperty.Register("HeaderName",
                                          typeof(string),
@@ -78,7 +77,6 @@ namespace GeoUsersUI.UserControls
             }
         }
 
-        // Using a DependencyProperty as the backing store for Buttons.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsMenuOpenedProperty =
              DependencyProperty.Register("IsMenuOpened",
                                          typeof(bool),
@@ -96,7 +94,7 @@ namespace GeoUsersUI.UserControls
             DataContext = CastedDataContext = new CollapsibleMenuViewModel(HeaderName, Buttons, IsMenuOpened);
         }
 
-        private void ToggleButtonsVisibility()
+        public void ToggleButtonsVisibility()
         {
             var visibility = CastedDataContext.IsMenuOpened ? Visibility.Collapsed : Visibility.Visible;
 

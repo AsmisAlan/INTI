@@ -10,14 +10,14 @@ namespace GeoUsers.Services.Automapper.Profiles
         {
             CreateMap<Sector, IdAndValue>()
                 .ForMember(x => x.Value, opt => opt.MapFrom(x => x.Nombre));
-            CreateMap<Organizacion, IdAndValue>()
+            CreateMap<TipoOrganizacion, IdAndValue>()
                 .ForMember(x => x.Value, opt => opt.MapFrom(x => x.Tipo));
             CreateMap<Rubro, IdAndValue>()
                 .ForMember(x => x.Value, opt => opt.MapFrom(x => x.Nombre));
             CreateMap<Localidad, IdAndValue>()
                 .ForMember(x => x.Value, opt => opt.MapFrom(x => $"{x.Nombre} ({x.CodigoPostal})"));
 
-            CreateMap<Usuario, UsuarioHeader>()
+            CreateMap<Organizacion, OrganizacionHeader>()
                 .ForMember(x => x.Direccion, opt => opt.MapFrom(x => $"{x.Direccion} {x.Localidad.Nombre}"));
         }
     }

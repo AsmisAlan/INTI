@@ -38,7 +38,7 @@ namespace GeoUsersUI.UserControls
 
         public void RemoveEntityButton_Click(object sender, EventArgs e)
         {
-
+            var a = 1;
         }
 
         public void AddEntityButton_Click(object sender, EventArgs e)

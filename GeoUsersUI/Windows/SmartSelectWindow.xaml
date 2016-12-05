@@ -18,6 +18,7 @@
         </Grid.ColumnDefinitions>
         <UserControls:SmartSelect Grid.Row="0" 
                                   Grid.Column="0" 
+                                  x:Name="SmartSelectControl"
                                   Grid.ColumnSpan="2" 
                                   HorizontalAlignment="Stretch" 
                                   VerticalAlignment="Stretch"/>

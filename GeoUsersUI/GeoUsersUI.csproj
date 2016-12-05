@@ -78,16 +78,17 @@
     <Compile Include="Extensions\MessageBoxExtensions.cs" />
     <Compile Include="GoogleMaps\GoogleCodeResponse.cs" />
     <Compile Include="GoogleMaps\MapManager.cs" />
+    <Compile Include="Models\ViewModels\Helpers\FilterStatus.cs" />
     <Compile Include="Models\ViewModels\MainViewModel.cs" />
     <Compile Include="Models\ViewModels\Forms\LocalidadCreationViewModel.cs" />
-    <Compile Include="Models\ViewModels\Forms\Organizacion\BaseOrganizacionViewModel.cs" />
-    <Compile Include="Models\ViewModels\Forms\Organizacion\OrganizacionCreationViewModel.cs" />
+    <Compile Include="Models\ViewModels\Forms\TipoOrganizacion\BaseTipoOrganizacionViewModel.cs" />
+    <Compile Include="Models\ViewModels\Forms\TipoOrganizacion\TipoOrganizacionCreationViewModel.cs" />
     <Compile Include="Models\ViewModels\Forms\Rubro\BaseRubroViewModel.cs" />
     <Compile Include="Models\ViewModels\Forms\Rubro\RubroCreationViewModel.cs" />
     <Compile Include="Models\ViewModels\Forms\Sector\BaseSectorViewModel.cs" />
     <Compile Include="Models\ViewModels\Forms\Sector\SectorCreationViewModel.cs" />
-    <Compile Include="Models\ViewModels\Forms\Usuario\UsuarioCreationEditionViewModel.cs" />
-    <Compile Include="Models\ViewModels\Forms\Usuario\BaseUsuarioViewModel.cs" />
+    <Compile Include="Models\ViewModels\Forms\Organizacion\OrganizacionCreationEditionViewModel.cs" />
+    <Compile Include="Models\ViewModels\Forms\Organizacion\BaseOrganizacionViewModel.cs" />
     <Compile Include="Models\ViewModels\Helpers\MainMenuContainer.cs" />
     <Compile Include="Models\ViewModels\Helpers\MenuContainer.cs" />
     <Compile Include="Models\ViewModels\UserControls\CollapsibleMenu\CollapsibleMenuViewModel.cs" />
@@ -105,8 +106,8 @@
     <Compile Include="Windows\Localidad\LocalidadCreationEditionForm.xaml.cs">
       <DependentUpon>LocalidadCreationEditionForm.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\Organizacion\OrganizacionCreationEditionForm.xaml.cs">
-      <DependentUpon>OrganizacionCreationEditionForm.xaml</DependentUpon>
+    <Compile Include="Windows\TipoOrganizacion\TipoOrganizacionCreationEditionForm.xaml.cs">
+      <DependentUpon>TipoOrganizacionCreationEditionForm.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\Rubro\RubroCreationEditionForm.xaml.cs">
       <DependentUpon>RubroCreationEditionForm.xaml</DependentUpon>
@@ -117,8 +118,8 @@
     <Compile Include="Windows\SmartSelectWindow.xaml.cs">
       <DependentUpon>SmartSelectWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\Usuario\UsuarioCreationEditionForm.xaml.cs">
-      <DependentUpon>UsuarioCreationEditionForm.xaml</DependentUpon>
+    <Compile Include="Windows\Organizacion\OrganizacionCreationEditionForm.xaml.cs">
+      <DependentUpon>OrganizacionCreationEditionForm.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -144,7 +145,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\Organizacion\OrganizacionCreationEditionForm.xaml">
+    <Page Include="Windows\TipoOrganizacion\TipoOrganizacionCreationEditionForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -160,7 +161,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\Usuario\UsuarioCreationEditionForm.xaml">
+    <Page Include="Windows\Organizacion\OrganizacionCreationEditionForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

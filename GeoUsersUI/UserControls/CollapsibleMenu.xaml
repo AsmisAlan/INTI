@@ -6,30 +6,29 @@
              xmlns:local="clr-namespace:GeoUsersUI.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="40"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <Button Name="ButtonHeader" 
+    <Border CornerRadius="8">
+        <Grid Margin="0 0 5 5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200">
+                </ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <Button Name="ButtonHeader" 
                 Content="{Binding Path=HeaderName}"
-                Height="40"
-                Background="DodgerBlue"
-                Opacity="0.9"
-                VerticalAlignment="Bottom"
-                HorizontalAlignment="Stretch"
+                Style="{StaticResource MenuHeaderButton}"
                 Click="ButtonHeader_Click">
-        </Button>
-        <ItemsControl ItemsSource="{Binding Path=Buttons}"
+            </Button>
+
+            <ItemsControl ItemsSource="{Binding Path=Buttons}"
                       VerticalAlignment="Top"
                       HorizontalAlignment="Stretch"
                       Grid.Row="1">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
                         <Button Content="{Binding Name}"
                                 Background="DeepSkyBlue"
                                 Opacity="0.9"
@@ -39,9 +38,9 @@
                                 Visibility="{Binding ButtonVisibility}"
                                 Click="Button_Click">
                         </Button>
-                    </StackPanel>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-    </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Grid>
+    </Border>
 </UserControl>

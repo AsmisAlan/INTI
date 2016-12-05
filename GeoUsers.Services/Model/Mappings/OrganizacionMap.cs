@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using GeoUsers.Services.Model.Entities;
+﻿using GeoUsers.Services.Model.Entities;
 using NHibernate.Mapping.ByCode;
 
 namespace GeoUsers.Services.Model.Mappings
@@ -13,13 +10,36 @@ namespace GeoUsers.Services.Model.Mappings
             Table("ORGANIZACION");
 
             Id<int>(x => x.Id, x =>
+                {
+                    x.Column("IDORGANIZACION");
+                    x.Generator(new IdentityGeneratorDef());
+                    x.UnsavedValue(0);
+                });
+
+            Property(x => x.Nombre, "NOMBRE");
+            Property(x => x.Personal, "PERSONAL");
+            Property(x => x.Telefono, "TELEFONO");
+            Property(x => x.Web, "WEB");
+            Property(x => x.UsuarioInti, "USUARIOINTI");
+            Property(x => x.ContactoCargo, "CONTACTOCARGO");
+            Property(x => x.Cuit, "CUIT");
+            Property(x => x.Direccion, "DIRECCION");
+            Property(x => x.Email, "EMAIL");
+
+            ManyToOne(x => x.Localidad, map =>
             {
-                x.Column("IDORGANIZACION");
-                x.Generator(new IdentityGeneratorDef());
-                x.UnsavedValue(0);
+                map.Column("IDLOCALIDAD");
             });
 
-            Property(x => x.Tipo, "TIPO");
+            ManyToOne(x => x.TipoOrganizacion, map =>
+            {
+                map.Column("IDTIPOORGANIZACION");
+            });
+
+            ManyToOne(x => x.Rubro, map =>
+            {
+                map.Column("IDRUBRO");
+            });
         }
     }
 }

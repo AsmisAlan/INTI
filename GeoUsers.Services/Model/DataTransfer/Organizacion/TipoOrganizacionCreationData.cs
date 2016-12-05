@@ -1,6 +1,6 @@
 ﻿namespace GeoUsers.Services.Model.DataTransfer
 {
-    public class OrganizacionCreationData : BaseNotifierEntity
+    public class TipoOrganizacionCreationData : BaseNotifierEntity
     {
         private string tipo { get; set; }
 

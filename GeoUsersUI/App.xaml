@@ -5,24 +5,29 @@
              xmlns:ViewModels="clr-namespace:GeoUsersUI.Models.ViewModels" x:Class="GeoUsersUI.App"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
+        <!--Grid style used in forms-->
         <Style TargetType="Grid" x:Key="FormGrid">
             <Setter Property="Margin" Value="10,10,10,10"/>
         </Style>
+        <!--Label style used in forms-->
         <Style TargetType="Label" 
                x:Key="FormLabel">
             <Setter Property="HorizontalAlignment" Value="Right" />
             <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
+        <!--Grid style used in forms-->
         <Style TargetType="TextBox" x:Key="FormTextBox">
             <Setter Property="Height" Value="30"/>
             <Setter Property="Margin" Value="0, 0, 10, 0"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
+        <!--Combobox style used in forms-->
         <Style TargetType="ComboBox" x:Key="FormComboBox">
             <Setter Property="Height" Value="30"/>
             <Setter Property="Margin" Value="0, 0, 10, 0"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
+        <!--Numeric textbox style. Contains validation.-->
         <Style x:Key="NumericTextBox" 
                TargetType="TextBox"
                BasedOn="{StaticResource FormTextBox}">
@@ -34,6 +39,7 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        <!--Email textbox style. Contains validation.-->
         <Style x:Key="EmailTextBox" 
                TargetType="TextBox"
                BasedOn="{StaticResource FormTextBox}">
@@ -47,11 +53,31 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        <!--Control template. Adds the ! sign to invalid inputs.-->
         <ControlTemplate x:Key="ValidationTemplate">
             <DockPanel>
                 <AdornedElementPlaceholder/>
                 <TextBlock Foreground="Red" FontSize="20">!</TextBlock>
             </DockPanel>
         </ControlTemplate>
+        <!--Base Menu Button.-->
+        <Style TargetType="Button" x:Key="MenuButton">
+            <Setter Property="Height" Value="40"></Setter>
+            <Setter Property="Background" Value="DodgerBlue"></Setter>
+            <Setter Property="Opacity" Value="0.9"></Setter>
+        </Style>
+        <!--Menu Header Button.-->
+        <Style TargetType="Button" 
+               x:Key="MenuHeaderButton"
+               BasedOn="{StaticResource MenuButton}">
+            <Setter Property="VerticalAlignment" Value="Bottom"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+        </Style>
+        <!--Menu Header Button.-->
+        <Style TargetType="Button" 
+               x:Key="MenuFilterButton"
+               BasedOn="{StaticResource MenuButton}">
+            <Setter Property="Width" Value="220"></Setter>
+        </Style>
     </Application.Resources>
 </Application>

@@ -37,9 +37,7 @@ C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\obj\Debug\Windows\SmartSel
 C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\obj\Debug\Windows\SmartSelectWindow.baml
 C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\bin\Debug\Newtonsoft.Json.dll
 C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\bin\Debug\Newtonsoft.Json.xml
-C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\obj\Debug\Windows\Usuario\UsuarioCreationEditionForm.g.cs
 C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\obj\Debug\App.baml
-C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\obj\Debug\Windows\Usuario\UsuarioCreationEditionForm.baml
 C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\obj\Debug\Windows\Localidad\LocalidadCreationEditionForm.g.cs
 C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\obj\Debug\Windows\Localidad\LocalidadCreationEditionForm.baml
 C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\obj\Debug\Windows\Organizacion\OrganizacionCreationEditionForm.g.cs
@@ -50,3 +48,5 @@ C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\obj\Debug\Windows\Rubro\Ru
 C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\obj\Debug\Windows\Rubro\RubroCreationEditionForm.baml
 C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\obj\Debug\UserControls\CollapsibleMenu.g.cs
 C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\obj\Debug\UserControls\CollapsibleMenu.baml
+C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\obj\Debug\Windows\TipoOrganizacion\TipoOrganizacionCreationEditionForm.g.cs
+C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\obj\Debug\Windows\TipoOrganizacion\TipoOrganizacionCreationEditionForm.baml

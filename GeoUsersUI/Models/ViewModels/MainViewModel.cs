@@ -1,6 +1,7 @@
 ﻿using GeoUsers.Services;
 using GeoUsers.Services.Logics;
 using GeoUsers.Services.Model.DataTransfer;
+using GeoUsersUI.Models.ViewModels.Helpers;
 using GeoUsersUI.Models.ViewModels.UserControls;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,15 +11,15 @@ namespace GeoUsersUI.Models.ViewModels
 {
     public class MainViewModel
     {
-        readonly UsuarioLogic usuarioLogic;
+        readonly OrganizacionLogic organizacionLogic;
 
-        public ObservableCollection<UsuarioHeader> Usuarios { get; set; }
+        public ObservableCollection<OrganizacionHeader> Organizaciones { get; set; }
 
-        public Task<IEnumerable<UsuarioHeader>> InitializationTask { get; private set; }
+        public Task<IEnumerable<OrganizacionHeader>> InitializationTask { get; private set; }
 
         public MainMenuContainer MainMenu { get; set; }
 
-        public string Header { get; set; }
+        public FilterStatus OrganizacionesFilter { get; set; }
 
         public bool Loading { get; set; }
 
@@ -26,14 +27,15 @@ namespace GeoUsersUI.Models.ViewModels
         {
         }
 
-        public MainViewModel(UsuarioLogic usuarioLogic)
+        public MainViewModel(OrganizacionLogic organizacionLogic)
         {
-            this.usuarioLogic = usuarioLogic;
-            Header = "TEST";
+            this.organizacionLogic = organizacionLogic;
+
+            OrganizacionesFilter = new FilterStatus();
             InitializationTask = ExecuteDataFunction();
         }
 
-        private async Task<IEnumerable<UsuarioHeader>> ExecuteDataFunction()
+        private async Task<IEnumerable<OrganizacionHeader>> ExecuteDataFunction()
         {
             Loading = true;
 
@@ -41,17 +43,15 @@ namespace GeoUsersUI.Models.ViewModels
             {
                 using (var sessionBlock = GeoUsersServices.SessionProvider.GetSessionContextBlock())
                 {
-                    return usuarioLogic.GetUsuarioHeaders();
+                    return organizacionLogic.GetOrganizacionHeaders();
                 }
             });
 
-            Usuarios = new ObservableCollection<UsuarioHeader>(results);
+            Organizaciones = new ObservableCollection<OrganizacionHeader>(results);
 
             Loading = false;
 
             return results;
         }
-
-
     }
 }
