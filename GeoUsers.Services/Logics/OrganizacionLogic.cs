@@ -65,7 +65,7 @@ namespace GeoUsers.Services.Logics
 
             if (rubro == null) throw new Exception("Rubro Invalido");
 
-            var tipoOrganizacion = tipoOrganizacionLogic.GetOrganizacion(creationData.OrganizacionId.Value);
+            var tipoOrganizacion = tipoOrganizacionLogic.GetOrganizacion(creationData.TipoOrganizacionId.Value);
 
             if (tipoOrganizacion == null) throw new Exception("Organizacion Invalida");
 

@@ -43,7 +43,7 @@ namespace GeoUsersUI.Models.ViewModels.Forms
                        !string.IsNullOrEmpty(Organizacion.Direccion) &&
                        !string.IsNullOrEmpty(Organizacion.Email) &&
                        Organizacion.LocalidadId.HasValue &&
-                       Organizacion.OrganizacionId.HasValue &&
+                       Organizacion.TipoOrganizacionId.HasValue &&
                        Organizacion.RubroId.HasValue &&
                        Organizacion.Personal.HasValue;
             };
@@ -57,7 +57,7 @@ namespace GeoUsersUI.Models.ViewModels.Forms
                 {
                     Localidades = localidadLogic.GetForSelection();
                     Rubros = rubroLogic.GetForSelection();
-                    TipoOrganizaciones = organizacionLogic.GetForSelection();
+                    TipoOrganizaciones = tipoOrganizacionLogic.GetForSelection();
                 }
             });
 

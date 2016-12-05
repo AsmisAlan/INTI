@@ -29,18 +29,21 @@ namespace GeoUsersUI.Windows
             ViewModel = ((BaseSectorViewModel)DataContext);
         }
 
-        private async void ButtonDismiss_Click(object sender, RoutedEventArgs e)
-        {
-            DialogResult = await ViewModel.Submit();
-
-            Close();
-        }
-
-        private void ButtonSubmit_Click(object sender, RoutedEventArgs e)
+        private void ButtonDismiss_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = false;
 
             Close();
+        }
+
+        private async void ButtonSubmit_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResult = await ViewModel.Submit();
+
+            if (DialogResult.HasValue && DialogResult.Value)
+            {
+                Close();
+            }
         }
     }
 }

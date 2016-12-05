@@ -16,7 +16,7 @@
 
         protected int? localidadId { get; set; }
 
-        protected int? organizacionId { get; set; }
+        protected int? tipoOrganizacionId { get; set; }
 
         protected int? rubroId { get; set; }
 
@@ -90,13 +90,13 @@
             }
         }
 
-        public int? OrganizacionId
+        public int? TipoOrganizacionId
         {
-            get { return organizacionId; }
+            get { return tipoOrganizacionId; }
             set
             {
-                organizacionId = value;
-                OnPropertyChanged(nameof(OrganizacionId));
+                tipoOrganizacionId = value;
+                OnPropertyChanged(nameof(TipoOrganizacionId));
             }
         }
 

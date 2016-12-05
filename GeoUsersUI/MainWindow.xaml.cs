@@ -34,13 +34,13 @@ namespace GeoUsersUI
         {
             InitializeMainMenu();
 
-            //var organizacions = await CastedDataContext.InitializationTask;
+            var organizacions = await CastedDataContext.InitializationTask;
 
-            //DataGrid.ItemsSource = CastedDataContext.Organizacions;
+            DataGrid.ItemsSource = CastedDataContext.Organizaciones;
 
-            //var url = await GetMapUrl(organizacions);
+            var url = await GetMapUrl(organizacions);
 
-            //Browser.NavigateToString(url);
+            Browser.NavigateToString(url);
 
             return true;
         }
@@ -85,7 +85,7 @@ namespace GeoUsersUI
 
             var tipoOrganizacionButtons = new ObservableCollection<MenuButton>();
 
-            tipoOrganizacionButtons.Add(MenuButton.Copy(newOrganizacionButton, () => { return OpenOrganizacionCreationForm(); }));
+            tipoOrganizacionButtons.Add(MenuButton.Copy(newOrganizacionButton, () => { return OpenTipoOrganizacionCreationForm(); }));
             tipoOrganizacionButtons.Add(MenuButton.Copy(editOrganizacionButton, () => { return OpenOrganizacionCreationForm(); }));
             tipoOrganizacionButtons.Add(MenuButton.Copy(deleteOrganizacionButton, () => { return OpenOrganizacionDeletionForm(); }));
 

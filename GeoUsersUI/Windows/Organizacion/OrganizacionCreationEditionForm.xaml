@@ -140,7 +140,7 @@
                   Grid.Column="1"
                   SelectedValuePath="Id"
                   DisplayMemberPath="Value"
-                  SelectedValue="{Binding Organizacion.OrganizacionId}"
+                  SelectedValue="{Binding Organizacion.TipoOrganizacionId}"
                   IsSynchronizedWithCurrentItem="True"
                   x:Name="ComboOrganizacion"
                   Style="{StaticResource FormComboBox}"/>
