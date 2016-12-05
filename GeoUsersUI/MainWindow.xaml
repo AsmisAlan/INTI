@@ -74,27 +74,31 @@
                         <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
                     <Label Content="Filtrar"></Label>
+                    <ComboBox  Grid.Row="1"
+                               VerticalAlignment="Center">
+                    </ComboBox>
                     <Button Content="{Binding Path=OrganizacionesFilter.SectorStatus}"
                             Style="{StaticResource MenuButton}"
-                            Grid.Row="1">
+                            x:Name="SectorFilterButton"
+                            Click="SectorFilterButton_Click"
+                            Grid.Row="2">
                     </Button>
                     <Button Content="{Binding Path=OrganizacionesFilter.RubroStatus}"
                             Style="{StaticResource MenuButton}"
-                            Grid.Row="2">
+                            x:Name="RubroFilterButton"
+                            Grid.Row="3">
                     </Button>
                     <Button Content="{Binding Path=OrganizacionesFilter.TipoOrganizacionStatus}"
                             Style="{StaticResource MenuButton}"
-                            Grid.Row="3">
+                            x:Name="TipoOrganizacionFilterButton"
+                            Grid.Row="4">
                     </Button>
                     <Button Content="{Binding Path=OrganizacionesFilter.LocalidadStatus}"
                             Style="{StaticResource MenuButton}"
-                            Grid.Row="4">
+                            x:Name="LocalidadFilterButton"
+                            Grid.Row="5">
                     </Button>
-                    <CheckBox Content="Organizacion Inti"
-                              IsChecked="{Binding Path=OrganizacionesFilter.UsuarioInti}"
-                              Grid.Row="5"
-                              VerticalAlignment="Center">
-                    </CheckBox>
+
                 </Grid>
             </ScrollViewer>
         </Grid>
@@ -120,7 +124,7 @@
                                     Width="*"
                                     Binding="{Binding Path=Nombre}">
                     </DataGridTextColumn>
-                    <DataGridTextColumn Header="Nombre"
+                    <DataGridTextColumn Header="Direccion"
                                     Width="*"
                                     Binding="{Binding Path=Direccion}">
                     </DataGridTextColumn>

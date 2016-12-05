@@ -27,6 +27,7 @@
         <ListBox Grid.Row="1"
                  Grid.Column="0"
                  Margin="0, 0, 0, 10"
+                 x:Name="SelectionListBox"
                  ItemsSource="{Binding Selection}"/>
         <Label Grid.Row="0" 
                Grid.Column="2"
@@ -35,14 +36,15 @@
         <ListBox Grid.Row="1"
                  Grid.Column="2"
                  Margin="0, 0, 0, 10"
-                 ItemsSource="{Binding Entities}"/>
-        <TextBlock Grid.Row="1"
+                 x:Name="EntitiesListBox"
+                 ItemsSource="{Binding Path=Entities}"/>
+        <!--<TextBlock Grid.Row="1"
                Grid.Column="2"
                VerticalAlignment="Center"
                Text="Cargando..."
                TextAlignment="Center"
                Visibility="{Binding Path=Loading}">
-        </TextBlock>
+        </TextBlock>-->
         <Grid Grid.Row="1"
               Grid.Column="1"
               Margin="0, 0, 0, 10">

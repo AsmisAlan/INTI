@@ -27,13 +27,28 @@ namespace GeoUsers.Services.Logics
                           .OrderBy(x => x.Nombre);
         }
 
-        public IEnumerable<IdAndValue> GetForSelection(/*ICollection<int> currentIds*/)
+        public IEnumerable<IdAndValue> GetByIds(IEnumerable<int> sectorIds)
         {
             var sectores = Session.QueryOver<Sector>()
-                          //.WhereRestrictionOn(x => x.Id)
-                          //.Not.IsIn(currentIds.ToArray())
-                          .List()
-                          .OrderBy(x => x.Nombre);
+                                  .WhereRestrictionOn(x => x.Id)
+                                  .IsIn(sectorIds.ToArray())
+                                  .List();
+
+            return Mapper.Map<IEnumerable<IdAndValue>>(sectores);
+        }
+
+        public IEnumerable<IdAndValue> GetForSelection(ICollection<int> currentIds = null)
+        {
+            var sectoresQuery = Session.QueryOver<Sector>();
+
+            if (currentIds != null && currentIds.Count > 0)
+            {
+                sectoresQuery.WhereRestrictionOn(x => x.Id)
+                             .Not.IsIn(currentIds.ToArray());
+            }
+
+            var sectores = sectoresQuery.List()
+                                        .OrderBy(x => x.Nombre);
 
             return Mapper.Map<IEnumerable<IdAndValue>>(sectores);
         }

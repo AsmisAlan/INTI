@@ -16,21 +16,31 @@ namespace GeoUsersUI.Windows
         }
 
         public SmartSelectWindow(Func<IEnumerable<IdAndValue>> dataFunction,
-                                 IEnumerable<IdAndValue> selection)
+                                 Func<IEnumerable<IdAndValue>> getSelectioDataFunction,
+                                 IEnumerable<int> selection)
         {
             InitializeComponent();
 
-            SmartSelectControl.Initialize(dataFunction, selection);
+            SmartSelectControl.Initialize(dataFunction, getSelectioDataFunction, selection);
+        }
+
+        public IEnumerable<int> GetSelection()
+        {
+            return SmartSelectControl.GetSelection();
         }
 
         private void ButtonAccept_Click(object sender, RoutedEventArgs e)
         {
+            DialogResult = true;
 
+            Close();
         }
 
         private void ButtonDismiss_Click(object sender, RoutedEventArgs e)
         {
+            DialogResult = false;
 
+            Close();
         }
     }
 }

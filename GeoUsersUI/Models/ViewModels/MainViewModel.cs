@@ -2,9 +2,10 @@
 using GeoUsers.Services.Logics;
 using GeoUsers.Services.Model.DataTransfer;
 using GeoUsersUI.Models.ViewModels.Helpers;
-using GeoUsersUI.Models.ViewModels.UserControls;
+using GeoUsersUI.Windows;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace GeoUsersUI.Models.ViewModels
@@ -12,6 +13,7 @@ namespace GeoUsersUI.Models.ViewModels
     public class MainViewModel
     {
         readonly OrganizacionLogic organizacionLogic;
+        readonly SectorLogic sectorLogic;
 
         public ObservableCollection<OrganizacionHeader> Organizaciones { get; set; }
 
@@ -27,9 +29,11 @@ namespace GeoUsersUI.Models.ViewModels
         {
         }
 
-        public MainViewModel(OrganizacionLogic organizacionLogic)
+        public MainViewModel(OrganizacionLogic organizacionLogic,
+                             SectorLogic sectorLogic)
         {
             this.organizacionLogic = organizacionLogic;
+            this.sectorLogic = sectorLogic;
 
             OrganizacionesFilter = new FilterStatus();
             InitializationTask = ExecuteDataFunction();
@@ -43,7 +47,7 @@ namespace GeoUsersUI.Models.ViewModels
             {
                 using (var sessionBlock = GeoUsersServices.SessionProvider.GetSessionContextBlock())
                 {
-                    return organizacionLogic.GetOrganizacionHeaders();
+                    return organizacionLogic.GetOrganizacionHeaders(OrganizacionesFilter.Filter);
                 }
             });
 
@@ -52,6 +56,21 @@ namespace GeoUsersUI.Models.ViewModels
             Loading = false;
 
             return results;
+        }
+
+        public bool? ApplySectorFilter()
+        {
+            var form = new SmartSelectWindow(() => { return sectorLogic.GetForSelection(OrganizacionesFilter.Filter.SectorIds); },
+                                             () => { return sectorLogic.GetByIds(OrganizacionesFilter.Filter.SectorIds); },
+                                             OrganizacionesFilter.Filter.SectorIds);
+            form.ShowDialog();
+
+            if (form.DialogResult.HasValue && form.DialogResult.Value)
+            {
+                OrganizacionesFilter.Filter.SectorIds = form.GetSelection().ToList();
+            }
+
+            return form.DialogResult;
         }
     }
 }

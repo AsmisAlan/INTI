@@ -48,13 +48,39 @@ namespace GeoUsers.Services.Logics
             return Mapper.Map<IEnumerable<IdAndValue>>(organizaciones);
         }
 
-        public IEnumerable<OrganizacionHeader> GetOrganizacionHeaders(/*ICollection<int> organizacionIds*/)
+        public IEnumerable<OrganizacionHeader> GetOrganizacionHeaders(FilterData filter)
         {
-            var organizaciones = Session.QueryOver<Organizacion>()
-                                        //.WhereRestrictionOn(x => x.Id)
-                                        //.IsIn(organizacionIds.ToArray())
-                                        .List()
-                                        .OrderBy(x => x.Nombre);
+            var organizacionesQuery = Session.QueryOver<Organizacion>();
+
+            if (filter.LocalidadIds != null && filter.LocalidadIds.Count > 0)
+            {
+                organizacionesQuery.WhereRestrictionOn(x => x.Localidad.Id)
+                                   .IsIn(filter.LocalidadIds.ToArray());
+            }
+
+            if (filter.SectorIds != null && filter.SectorIds.Count > 0)
+            {
+                Rubro rubroAlias = null;
+
+                organizacionesQuery.JoinAlias(x => x.Rubro, () => rubroAlias)
+                                   .WhereRestrictionOn(() => rubroAlias.Sector.Id)
+                                   .IsIn(filter.SectorIds.ToArray());
+            }
+
+            if (filter.RubroIds != null && filter.RubroIds.Count > 0)
+            {
+                organizacionesQuery.WhereRestrictionOn(x => x.Rubro.Id)
+                                   .IsIn(filter.RubroIds.ToArray());
+            }
+
+            if (filter.TipoOrganizacionIds != null && filter.TipoOrganizacionIds.Count > 0)
+            {
+                organizacionesQuery.WhereRestrictionOn(x => x.TipoOrganizacion.Id)
+                                   .IsIn(filter.TipoOrganizacionIds.ToArray());
+            }
+
+            var organizaciones = organizacionesQuery.List()
+                                                    .OrderBy(x => x.Nombre);
 
             return Mapper.Map<IEnumerable<OrganizacionHeader>>(organizaciones);
         }
@@ -89,7 +115,7 @@ namespace GeoUsers.Services.Logics
                 Rubro = rubro
             };
 
-            Session.Save(tipoOrganizacion);
+            Session.Save(organizacion);
 
             Session.Transaction.Commit();
 

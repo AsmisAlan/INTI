@@ -12,6 +12,7 @@ namespace GeoUsersUI.Models.ViewModels.SmartSelect
     {
         public ObservableCollection<IdAndValue> Selection { get; private set; }
         public Func<IEnumerable<IdAndValue>> DataFunction { get; set; }
+        public Func<IEnumerable<IdAndValue>> GetSelectionFunction { get; set; }
         public bool Loading { get; set; }
         public string EntityListTitle { get; set; }
 
@@ -25,50 +26,48 @@ namespace GeoUsersUI.Models.ViewModels.SmartSelect
             RemoveEntityButtonContent = ">";
         }
 
-        public void SetSelection(IEnumerable<IdAndValue> selection)
+        public async Task<bool> Initialize(Func<IEnumerable<IdAndValue>> dataFunction,
+                                           Func<IEnumerable<IdAndValue>> getSelectionDataFunction,
+                                           IEnumerable<int> selection)
         {
-            Selection = new ObservableCollection<IdAndValue>(selection);
-        }
-
-        public void Initialize(Func<IEnumerable<IdAndValue>> dataFunction,
-                               IEnumerable<IdAndValue> selection)
-        {
-            Loading = true;
             DataFunction = dataFunction;
-            SetSelection(selection);
-            executeDataFunction();
+            GetSelectionFunction = getSelectionDataFunction;
+
+            return await LoadInitialData(selection);
         }
 
-        private async void executeDataFunction()
+        private async Task<bool> LoadInitialData(IEnumerable<int> selectedIds)
         {
-            var results = await DataFunctionWrapper();
-
-            var selectedIds = Selection.Select(x => x.Id);
-            var entities = results.Where(x => !selectedIds.Contains(x.Id));
-
-            Entities = new ObservableCollection<IdAndValue>(entities);
-
-            Loading = false;
+            return await DataFunctionWrapper(selectedIds);
         }
 
-        private async Task<IEnumerable<IdAndValue>> DataFunctionWrapper()
+        private async Task<bool> DataFunctionWrapper(IEnumerable<int> selectedIds)
         {
             return await Task.Run(() =>
             {
                 using (var sessionBlock = GeoUsersServices.SessionProvider.GetSessionContextBlock())
                 {
-                    return DataFunction();
+                    Entities = new ObservableCollection<IdAndValue>(DataFunction());
+
+                    SetSelection(GetSelectionFunction());
+
+                    return true;
                 }
             });
         }
 
-        private void AddSelection(IdAndValue item)
+        public void SetSelection(IEnumerable<IdAndValue> selection)
+        {
+            Selection = new ObservableCollection<IdAndValue>(selection);
+        }
+
+        public void AddSelection(IdAndValue item)
         {
             Selection.Add(item);
             Entities.Remove(item);
         }
 
-        private void RemoveSelection(IdAndValue item)
+        public void RemoveSelection(IdAndValue item)
         {
             Selection.Remove(item);
             Entities.Add(item);

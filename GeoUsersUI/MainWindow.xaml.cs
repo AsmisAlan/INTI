@@ -34,11 +34,11 @@ namespace GeoUsersUI
         {
             InitializeMainMenu();
 
-            var organizacions = await CastedDataContext.InitializationTask;
+            var organizaciones = await CastedDataContext.InitializationTask;
 
             DataGrid.ItemsSource = CastedDataContext.Organizaciones;
 
-            var url = await GetMapUrl(organizacions);
+            var url = await GetMapUrl(organizaciones);
 
             Browser.NavigateToString(url);
 
@@ -233,6 +233,11 @@ namespace GeoUsersUI
             form.ShowDialog();
 
             return true;
+        }
+
+        private void SectorFilterButton_Click(object sender, RoutedEventArgs e)
+        {
+            CastedDataContext.ApplySectorFilter();
         }
     }
 }

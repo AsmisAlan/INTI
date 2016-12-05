@@ -1,20 +1,9 @@
-﻿using GeoUsers.Services.Model;
-using GeoUsers.Services.Model.DataTransfer;
+﻿using GeoUsers.Services.Model.DataTransfer;
 using GeoUsersUI.Models.ViewModels.SmartSelect;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Linq;
 
 namespace GeoUsersUI.UserControls
 {
@@ -28,22 +17,43 @@ namespace GeoUsersUI.UserControls
         public SmartSelect()
         {
             InitializeComponent();
+
+            DataContext = ViewModel = new SmartSelectViewModel();
         }
 
-        public void Initialize(Func<IEnumerable<IdAndValue>> dataFunction,
-                               IEnumerable<IdAndValue> selection)
+        public async void Initialize(Func<IEnumerable<IdAndValue>> dataFunction,
+                               Func<IEnumerable<IdAndValue>> getSelectionDataFunction,
+                               IEnumerable<int> selection)
         {
-            ViewModel.Initialize(dataFunction, selection);
+            await ViewModel.Initialize(dataFunction, getSelectionDataFunction, selection);
+
+            EntitiesListBox.ItemsSource = ViewModel.Entities;
+            SelectionListBox.ItemsSource = ViewModel.Selection;
         }
 
         public void RemoveEntityButton_Click(object sender, EventArgs e)
         {
-            var a = 1;
+            var value = ((IdAndValue)SelectionListBox.SelectedItem);
+
+            if (value != null)
+            {
+                ViewModel.RemoveSelection(value);
+            }
         }
 
         public void AddEntityButton_Click(object sender, EventArgs e)
         {
+            var value = ((IdAndValue)EntitiesListBox.SelectedItem);
 
+            if (value != null)
+            {
+                ViewModel.AddSelection(value);
+            }
+        }
+
+        public IEnumerable<int> GetSelection()
+        {
+            return ViewModel.Selection.Select(x => x.Id);
         }
     }
 }
