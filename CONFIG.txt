@@ -1,0 +1,3 @@
+para usar base de datos postgres, usar el codigo comentado en "hibernate.cfg.xml"
+*importante, tener el driver de postgress para hibernate
+*tener la base de datos armada.

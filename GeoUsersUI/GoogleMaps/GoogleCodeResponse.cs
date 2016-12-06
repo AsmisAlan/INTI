@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using System.Net;
 
 namespace GeoUsersUI.GoogleMaps
 {
@@ -10,6 +12,7 @@ namespace GeoUsersUI.GoogleMaps
     {
         public results[] results { get; set; }
         public string status { get; set; }
+
 
     }
 
@@ -64,5 +67,48 @@ namespace GeoUsersUI.GoogleMaps
     {
         public string lat { get; set; }
         public string lng { get; set; }
+    }
+
+    public class Cordenada
+    {
+        public string lat { get; set; }
+        public string lon { get; set; }
+        public bool status { get; set; }
+    }
+
+    public class Geocode
+    {
+
+        public Cordenada gerLatLong(string direccion)
+        {
+            string Address = direccion.Replace(" ", "+");
+            string AddressURL = "http://maps.google.com/maps/api/geocode/json?address=" + Address;
+            var cordenada = new Cordenada();
+            cordenada.status = false;
+            using (var webClient = new System.Net.WebClient())
+            {
+                Newtonsoft.Json.Linq.JObject json;
+                GoogleGeoCodeResponse dirObjet;
+                try
+                {
+                    json = Newtonsoft.Json.Linq.JObject.Parse(webClient.DownloadString(AddressURL));
+
+                    dirObjet = JsonConvert.DeserializeObject<GoogleGeoCodeResponse>(json.ToString());
+                }
+                catch (WebException)
+                {
+                    //alert here ("No se puede acceder a la url solicitada, revise su conexión a internet.");
+                    return cordenada;
+                }
+                cordenada.lat = dirObjet.results[0].geometry.location.lat.ToString();
+                cordenada.lon = dirObjet.results[0].geometry.location.lng.ToString();
+                if (cordenada.lat != "" && cordenada.lon != "")
+                {
+                    cordenada.status = true;
+                }
+                return cordenada;
+            }
+
+        }
     }
 }

@@ -4,16 +4,16 @@
 winexe
 C#
 .cs
-C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\obj\Debug\
+C:\Proyectos\Visual Studio\INTI\GeoUsersUI\obj\Debug\
 GeoUsersUI
 none
 false
 DEBUG;TRACE
-C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\App.xaml
+C:\Proyectos\Visual Studio\INTI\GeoUsersUI\App.xaml
 91708685468
 
 35568327519
-72919977783
+72-606056963
 MainWindow.xaml;UserControls\CollapsibleMenu.xaml;UserControls\SmartSelect.xaml;Windows\Localidad\LocalidadCreationEditionForm.xaml;Windows\TipoOrganizacion\TipoOrganizacionCreationEditionForm.xaml;Windows\Rubro\RubroCreationEditionForm.xaml;Windows\Sector\SectorCreationEditionForm.xaml;Windows\SmartSelectWindow.xaml;Windows\Organizacion\OrganizacionCreationEditionForm.xaml;
 
 False
