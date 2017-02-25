@@ -12,7 +12,7 @@ namespace GeoUsers.Services.Model.DataTransfer
 
         public ICollection<int> LocalidadIds { get; set; }
 
-        public bool UsuarioInti { get; set; }
+        public int UsuarioInti { get; set; }
 
         public FilterData()
         {

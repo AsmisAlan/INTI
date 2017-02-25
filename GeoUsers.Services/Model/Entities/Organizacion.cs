@@ -25,5 +25,10 @@
         public virtual TipoOrganizacion TipoOrganizacion { get; set; }
 
         public virtual Rubro Rubro { get; set; }
+
+        public override string ToString()
+        {
+            return Nombre;
+        }
     }
 }

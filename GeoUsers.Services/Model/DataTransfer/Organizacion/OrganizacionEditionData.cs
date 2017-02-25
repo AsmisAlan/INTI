@@ -1,8 +1,14 @@
 ﻿namespace GeoUsers.Services.Model.DataTransfer
 {
-    public class OrganizacionCreationData : OrganizacionHeader
+    public class OrganizacionEditionData : BaseNotifierEntity
     {
-        protected string telefono { get; set; }
+        protected int? localidadId { get; set; }
+
+        protected int? tipoOrganizacionId { get; set; }
+
+        protected int? rubroId { get; set; }
+
+        protected string direccion { get; set; }
 
         protected string contactoCargo { get; set; }
 
@@ -12,13 +18,37 @@
 
         protected virtual long? cuit { get; set; }
 
-        protected virtual bool organizacionInti { get; set; }
+        protected virtual bool usuarioInti { get; set; }
 
-        protected int? localidadId { get; set; }
+        protected string nombre { get; set; }
 
-        protected int? tipoOrganizacionId { get; set; }
+        protected string telefono { get; set; }
 
-        protected int? rubroId { get; set; }
+        protected string email { get; set; }
+
+        public int? Id { get; set; }
+
+        public string Nombre
+        {
+            get { return nombre; }
+            set
+            {
+                nombre = value;
+                OnPropertyChanged(nameof(Nombre));
+            }
+        }
+
+
+
+        public string Email
+        {
+            get { return email; }
+            set
+            {
+                email = value;
+                OnPropertyChanged(nameof(Email));
+            }
+        }
 
         public string Telefono
         {
@@ -72,11 +102,21 @@
 
         public virtual bool UsuarioInti
         {
-            get { return organizacionInti; }
+            get { return usuarioInti; }
             set
             {
-                organizacionInti = value;
+                usuarioInti = value;
                 OnPropertyChanged(nameof(UsuarioInti));
+            }
+        }
+
+        public string Direccion
+        {
+            get { return direccion; }
+            set
+            {
+                direccion = value;
+                OnPropertyChanged(nameof(Direccion));
             }
         }
 

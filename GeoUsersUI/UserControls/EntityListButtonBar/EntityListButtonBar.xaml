@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="GeoUsersUI.UserControls.EntityListButtonBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GeoUsersUI.UserControls"
+             mc:Ignorable="d" Height="30" Width="330">
+    <StackPanel Orientation="Horizontal"
+                HorizontalAlignment="Right">
+        <Button Content="Nuevo"
+                Name="CreateButton"
+                Style="{StaticResource ButtonBarButton}"
+                Click="CreateButton_Click">
+        </Button>
+        <Button Content="Modificar"
+                Name="EditButton"
+                Style="{StaticResource ButtonBarButton}"
+                Click="EditButton_Click">
+        </Button>
+        <Button Content="Eliminar"
+                Name="DeleteButton"
+                Style="{StaticResource ButtonBarButton}"
+                Click="DeleteButton_Click">
+        </Button>
+        <Button Content="Cerrar"
+                Name="CloseButton"
+                Style="{StaticResource ButtonBarButton}"
+                Click="CloseButton_Click">
+        </Button>
+    </StackPanel>
+</UserControl>

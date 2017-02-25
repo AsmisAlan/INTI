@@ -1,10 +1,12 @@
 ﻿namespace GeoUsers.Services.Model.DataTransfer
 {
-    public class LocalidadCreationData : BaseNotifierEntity
+    public class LocalidadEditionData : BaseNotifierEntity
     {
         private string nombre { get; set; }
 
         private int? codigoPostal { get; set; }
+
+        public int? Id { get; set; }
 
         public string Nombre
         {

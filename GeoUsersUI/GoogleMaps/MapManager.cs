@@ -81,6 +81,8 @@ namespace GeoUsersUI.GoogleMaps
                     return;
                 }
 
+
+
                 centerLatitude = dirObjet.results[0].geometry.location.lat.ToString();
                 centerLongitude = dirObjet.results[0].geometry.location.lng.ToString();
                 if (markers.Length == 0)

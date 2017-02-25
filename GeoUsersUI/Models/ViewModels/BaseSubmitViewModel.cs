@@ -1,5 +1,5 @@
 ﻿using GeoUsers.Services;
-using GeoUsersUI.Extensions;
+using GeoUsersUI.Utils;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
@@ -34,7 +34,7 @@ namespace GeoUsersUI.Models.ViewModels
             // TODO. implement notifypropertychanged together with a loading property to notify when the loading starts and finishes.
             if (!SubmitValidation())
             {
-                MessageBoxExtensions.ShowFormIncompleteError();
+                MessageBoxUtils.ShowFormIncompleteError();
                 return Task.FromResult(false);
             }
 

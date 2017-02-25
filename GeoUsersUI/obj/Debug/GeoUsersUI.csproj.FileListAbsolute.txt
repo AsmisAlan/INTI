@@ -50,3 +50,15 @@ C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\obj\Debug\UserControls\Col
 C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\obj\Debug\UserControls\CollapsibleMenu.baml
 C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\obj\Debug\Windows\TipoOrganizacion\TipoOrganizacionCreationEditionForm.g.cs
 C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\obj\Debug\Windows\TipoOrganizacion\TipoOrganizacionCreationEditionForm.baml
+C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\obj\Debug\Windows\Organizacion\OrganizacionList.g.cs
+C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\obj\Debug\Windows\Organizacion\OrganizacionList.baml
+C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\obj\Debug\UserControls\EntityListButtonBar\EntityListButtonBar.g.cs
+C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\obj\Debug\UserControls\EntityListButtonBar\EntityListButtonBar.baml
+C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\obj\Debug\Windows\Rubro\RubroList.g.cs
+C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\obj\Debug\Windows\Rubro\RubroList.baml
+C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\obj\Debug\Windows\Sector\SectorList.g.cs
+C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\obj\Debug\Windows\Sector\SectorList.baml
+C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\obj\Debug\Windows\TipoOrganizacion\TipoOrganizacionList.g.cs
+C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\obj\Debug\Windows\TipoOrganizacion\TipoOrganizacionList.baml
+C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\obj\Debug\Windows\Localidad\LocalidadList.g.cs
+C:\Users\Juan\Documents\Projects\Inti\INTI\GeoUsersUI\obj\Debug\Windows\Localidad\LocalidadList.baml

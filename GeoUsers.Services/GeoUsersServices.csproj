@@ -72,17 +72,22 @@
     <Compile Include="Configuration\Automapper\Profiles\EntitiesProfile.cs" />
     <Compile Include="Configuration\InjectionConfig.cs" />
     <Compile Include="IDisposable.cs" />
+    <Compile Include="Model\DataTransfer\BaseComparableNotifierEntity.cs" />
     <Compile Include="Model\DataTransfer\BaseNotifierEntity.cs" />
     <Compile Include="Model\DataTransfer\Filter.cs" />
-    <Compile Include="Model\DataTransfer\Organizacion\TipoOrganizacionEditionData.cs" />
-    <Compile Include="Model\DataTransfer\Organizacion\TipoOrganizacionCreationData.cs" />
-    <Compile Include="Model\DataTransfer\LocalidadCreationData.cs" />
-    <Compile Include="Model\DataTransfer\Rubro\RubroCreationData.cs" />
+    <Compile Include="Model\DataTransfer\Localidad\LocalidadHeaderData.cs" />
+    <Compile Include="Model\DataTransfer\Organizacion\OrganizacionBaseData.cs" />
+    <Compile Include="Model\DataTransfer\Organizacion\OrganizacionPersonalData.cs" />
+    <Compile Include="Model\DataTransfer\Organizacion\OrganizacionData.cs" />
+    <Compile Include="Model\DataTransfer\Rubro\RubroHeaderData.cs" />
+    <Compile Include="Model\DataTransfer\TipoOrganizacion\TipoOrganizacionEditionData.cs" />
+    <Compile Include="Model\DataTransfer\Localidad\LocalidadCreationData.cs" />
     <Compile Include="Model\DataTransfer\Rubro\RubroEditionData.cs" />
-    <Compile Include="Model\DataTransfer\Sector\SectorCreationData.cs" />
+    <Compile Include="Model\DataTransfer\Sector\SectorHeaderData.cs" />
     <Compile Include="Model\DataTransfer\Sector\SectorEditionData.cs" />
-    <Compile Include="Model\DataTransfer\UsuarioCreationData.cs" />
-    <Compile Include="Model\DataTransfer\UsuarioHeader.cs" />
+    <Compile Include="Model\DataTransfer\Organizacion\OrganizacionEditionData.cs" />
+    <Compile Include="Model\DataTransfer\Organizacion\OrganizacionHeader.cs" />
+    <Compile Include="Model\DataTransfer\TipoOrganizacion\TipoOrganizacionHeaderData.cs" />
     <Compile Include="Model\Entities\BaseEntity.cs" />
     <Compile Include="Model\Entities\Localidad.cs" />
     <Compile Include="Model\Entities\TipoOrganizacion.cs" />
@@ -90,6 +95,8 @@
     <Compile Include="Model\Entities\Sector.cs" />
     <Compile Include="Model\Entities\Organizacion.cs" />
     <Compile Include="Model\DataTransfer\IdAndValue.cs" />
+    <Compile Include="Model\Enums\UsuarioIntiStatus.cs" />
+    <Compile Include="Model\Interfaces\IBaseIdentifier.cs" />
     <Compile Include="Model\Mappings\BaseClassMapping.cs" />
     <Compile Include="Model\Mappings\LocalidadMap.cs" />
     <Compile Include="Model\Mappings\TipoOrganizacionMap.cs" />
@@ -106,6 +113,7 @@
     <Compile Include="Logics\OrganizacionLogic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SessionProvider.cs" />
+    <Compile Include="Utils\EnumUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

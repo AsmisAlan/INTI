@@ -119,7 +119,7 @@
         <CheckBox Grid.Row="8"
                   Grid.Column="1"
                   x:Name="CheckUsuarioInti"
-                  VerticalAlignment="Bottom"
+                  VerticalAlignment="Center"
                   IsChecked="{Binding Path=Organizacion.UsuarioInti}"
                   Margin="0,0,0,3"/>
         <Label Content="Localidad :"
@@ -129,6 +129,7 @@
                   Grid.Column="1"
                   x:Name="ComboLocalidad"
                   SelectedValuePath="Id"
+                  ItemsSource="{Binding Path=Localidades}"
                   DisplayMemberPath="Value"
                   SelectedValue="{Binding Organizacion.LocalidadId}"
                   IsSynchronizedWithCurrentItem="True"
@@ -142,6 +143,7 @@
                   DisplayMemberPath="Value"
                   SelectedValue="{Binding Organizacion.TipoOrganizacionId}"
                   IsSynchronizedWithCurrentItem="True"
+                  ItemsSource="{Binding Path=TipoOrganizaciones, NotifyOnSourceUpdated=True}"
                   x:Name="ComboOrganizacion"
                   Style="{StaticResource FormComboBox}"/>
         <Label Content="Rubro :"
@@ -150,6 +152,7 @@
         <ComboBox Grid.Row="11"
                   Grid.Column="1"
                   x:Name="ComboRubro"
+                  ItemsSource="{Binding Path=Rubros}"
                   SelectedValuePath="Id"
                   DisplayMemberPath="Value"
                   SelectedValue="{Binding Organizacion.RubroId}"

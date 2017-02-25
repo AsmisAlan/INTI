@@ -1,10 +1,10 @@
 ﻿namespace GeoUsers.Services.Model.DataTransfer
 {
-    public class RubroCreationData : BaseNotifierEntity
+    public class LocalidadHeaderData : BaseComparableNotifierEntity
     {
-        protected string nombre { get; set; }
+        private string nombre { get; set; }
 
-        protected int? sectorId { get; set; }
+        private string codigoPostal { get; set; }
 
         public string Nombre
         {
@@ -20,17 +20,17 @@
             }
         }
 
-        public int? SectorId
+        public string CodigoPostal
         {
             get
             {
-                return sectorId;
+                return codigoPostal;
             }
             set
             {
-                sectorId = value;
+                codigoPostal = value;
 
-                OnPropertyChanged(nameof(SectorId));
+                OnPropertyChanged(nameof(CodigoPostal));
             }
         }
     }

@@ -9,7 +9,7 @@ namespace GeoUsers.Services.Model.Mappings
         {
             Table("SECTOR");
 
-            Id<int>(x => x.Id, x =>
+            Id(x => x.Id, x =>
             {
                 x.Column("IDSECTOR");
                 x.Generator(new IdentityGeneratorDef());
@@ -18,7 +18,18 @@ namespace GeoUsers.Services.Model.Mappings
 
             Property(x => x.Nombre, "NOMBRE");
 
+            Set(x => x.Rubros, collectionMapping =>
+            {
+                collectionMapping.Key(key =>
+                {
+                    key.Column("IDSECTOR");
+                });
 
+                collectionMapping.Table("RUBRO");
+                collectionMapping.Cascade(Cascade.All | Cascade.DeleteOrphans);
+                collectionMapping.Inverse(true);
+            },
+            mapping => mapping.OneToMany());
         }
     }
 }

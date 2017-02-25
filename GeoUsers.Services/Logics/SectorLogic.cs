@@ -15,16 +15,21 @@ namespace GeoUsers.Services.Logics
                            ISessionFactory sessionFactory) : base(autoMapper, sessionFactory)
         { }
 
-        public Sector GetSector(int sectorId)
+        public SectorEditionData GetForEdition(int sectorId)
         {
-            return Session.Get<Sector>(sectorId);
+            var sector = Session.Get<Sector>(sectorId);
+
+            return Mapper.Map<SectorEditionData>(sector);
         }
 
-        public IEnumerable<Sector> GetAll()
+        public IEnumerable<SectorHeaderData> GetAll()
         {
-            return Session.QueryOver<Sector>()
-                          .List()
-                          .OrderBy(x => x.Nombre);
+            var sectores = Session.QueryOver<Sector>()
+                                  .OrderBy(x => x.Nombre)
+                                  .Asc
+                                  .List();
+
+            return Mapper.Map<IEnumerable<SectorHeaderData>>(sectores);
         }
 
         public IEnumerable<IdAndValue> GetByIds(IEnumerable<int> sectorIds)
@@ -47,13 +52,26 @@ namespace GeoUsers.Services.Logics
                              .Not.IsIn(currentIds.ToArray());
             }
 
-            var sectores = sectoresQuery.List()
-                                        .OrderBy(x => x.Nombre);
+            var sectores = sectoresQuery.OrderBy(x => x.Nombre)
+                                        .Asc
+                                        .List();
 
             return Mapper.Map<IEnumerable<IdAndValue>>(sectores);
         }
 
-        public bool Create(SectorCreationData sectorData)
+        public bool Save(SectorEditionData sectorData)
+        {
+            if (sectorData.Id.HasValue)
+            {
+                return Edit(sectorData);
+            }
+            else
+            {
+                return Create(sectorData);
+            }
+        }
+
+        public bool Create(SectorEditionData sectorData)
         {
             var sector = new Sector()
             {
@@ -67,13 +85,13 @@ namespace GeoUsers.Services.Logics
             return true;
         }
 
-        public bool Edit(int sectorId, string nombre)
+        public bool Edit(SectorEditionData sectorData)
         {
-            var sector = Session.Get<Sector>(sectorId);
+            var sector = Session.Get<Sector>(sectorData.Id);
 
             if (sector == null) throw new Exception("Sector Invalido");
 
-            sector.Nombre = nombre;
+            sector.Nombre = sectorData.Nombre;
 
             Session.Save(sector);
 

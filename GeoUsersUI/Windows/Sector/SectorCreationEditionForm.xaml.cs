@@ -9,24 +9,20 @@ namespace GeoUsersUI.Windows
     /// </summary>
     public partial class SectorCreationEditionForm : Window
     {
-        private BaseSectorViewModel ViewModel { get; set; }
+        private SectorEditionViewModel CastedDataContext { get; set; }
 
-        public SectorCreationEditionForm()
-        {
-            DataContext = App.Container.Resolve<SectorCreationViewModel>();
-
-            Initialize();
-        }
-
-        public SectorCreationEditionForm(long organizacionId)
-        {
-        }
-
-        private void Initialize()
+        public SectorCreationEditionForm(int? sectorId = null)
         {
             InitializeComponent();
 
-            ViewModel = ((BaseSectorViewModel)DataContext);
+            DataContext = CastedDataContext = App.Container.Resolve<SectorEditionViewModel>();
+
+            Initialize(sectorId);
+        }
+
+        private async void Initialize(int? sectorId)
+        {
+            await CastedDataContext.Initialize(sectorId);
         }
 
         private void ButtonDismiss_Click(object sender, RoutedEventArgs e)
@@ -38,7 +34,7 @@ namespace GeoUsersUI.Windows
 
         private async void ButtonSubmit_Click(object sender, RoutedEventArgs e)
         {
-            DialogResult = await ViewModel.Submit();
+            DialogResult = await CastedDataContext.Submit();
 
             if (DialogResult.HasValue && DialogResult.Value)
             {

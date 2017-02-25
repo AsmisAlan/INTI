@@ -11,31 +11,30 @@ namespace GeoUsersUI.Windows
     /// </summary>
     public partial class OrganizacionCreationEditionForm : Window
     {
-        private BaseOrganizacionViewModel CastedDataContext { get; set; }
+        private OrganizacionViewModel CastedDataContext { get; set; }
 
-        public OrganizacionCreationEditionForm()
+        public OrganizacionCreationEditionForm(int? organizacionId = null)
         {
             InitializeComponent();
 
-            DataContext = CastedDataContext = App.Container.Resolve<OrganizacionCreationEditionViewModel>();
+            DataContext = CastedDataContext = App.Container.Resolve<OrganizacionViewModel>();
 
-            var initialized = Initialize();
+            var initialized = Initialize(organizacionId);
         }
 
-        public async Task<bool> Initialize()
+        public async Task<bool> Initialize(int? organizacionId = null)
         {
-            await ((BaseOrganizacionViewModel)DataContext).LoadData();
-
-            ComboLocalidad.ItemsSource = CastedDataContext.Localidades;
-            ComboOrganizacion.ItemsSource = CastedDataContext.TipoOrganizaciones;
-            ComboRubro.ItemsSource = CastedDataContext.Rubros;
+            await CastedDataContext.Initialize(organizacionId);
 
             return true;
         }
 
-        public OrganizacionHeader GetResult()
+        public OrganizacionHeaderData GetResult()
         {
-            CastedDataContext.Result.Localidad = ((IdAndValue)ComboLocalidad.SelectedItem).Value;
+            var localidad = ((IdAndValue)ComboLocalidad.SelectedItem).Value;
+
+            CastedDataContext.Result.Direccion = $"{CastedDataContext.Result.Direccion} {localidad}";
+
             return CastedDataContext.Result;
         }
 

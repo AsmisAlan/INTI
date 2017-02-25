@@ -1,6 +1,8 @@
-﻿namespace GeoUsers.Services.Model.DataTransfer
+﻿using System.Collections.ObjectModel;
+
+namespace GeoUsers.Services.Model.DataTransfer
 {
-    public class SectorCreationData : BaseNotifierEntity
+    public class SectorHeaderData : BaseComparableNotifierEntity
     {
         private string nombre { get; set; }
 

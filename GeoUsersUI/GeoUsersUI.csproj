@@ -75,20 +75,26 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Extensions\MessageBoxExtensions.cs" />
+    <Compile Include="Models\ViewModels\BaseListViewModel.cs" />
+    <Compile Include="Models\ViewModels\Forms\Localidad\LocalidadListViewModel.cs" />
+    <Compile Include="Models\ViewModels\Forms\Rubro\RubroListViewModel.cs" />
+    <Compile Include="Models\ViewModels\Forms\Sector\SectorListViewModel.cs" />
+    <Compile Include="Models\ViewModels\Forms\TipoOrganizacion\TipoOrganizacionListViewModel.cs" />
+    <Compile Include="UserControls\EntityListButtonBar\EntityListButtonBar.xaml.cs">
+      <DependentUpon>EntityListButtonBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\CollectionExtensions.cs" />
+    <Compile Include="Utils\MessageBoxUtils.cs" />
     <Compile Include="GoogleMaps\GoogleCodeResponse.cs" />
     <Compile Include="GoogleMaps\MapManager.cs" />
+    <Compile Include="Models\ViewModels\Forms\Organizacion\OrganizacionListViewModel.cs" />
     <Compile Include="Models\ViewModels\Helpers\FilterStatus.cs" />
     <Compile Include="Models\ViewModels\MainViewModel.cs" />
-    <Compile Include="Models\ViewModels\Forms\LocalidadCreationViewModel.cs" />
-    <Compile Include="Models\ViewModels\Forms\TipoOrganizacion\BaseTipoOrganizacionViewModel.cs" />
-    <Compile Include="Models\ViewModels\Forms\TipoOrganizacion\TipoOrganizacionCreationViewModel.cs" />
-    <Compile Include="Models\ViewModels\Forms\Rubro\BaseRubroViewModel.cs" />
-    <Compile Include="Models\ViewModels\Forms\Rubro\RubroCreationViewModel.cs" />
-    <Compile Include="Models\ViewModels\Forms\Sector\BaseSectorViewModel.cs" />
-    <Compile Include="Models\ViewModels\Forms\Sector\SectorCreationViewModel.cs" />
-    <Compile Include="Models\ViewModels\Forms\Organizacion\OrganizacionCreationEditionViewModel.cs" />
-    <Compile Include="Models\ViewModels\Forms\Organizacion\BaseOrganizacionViewModel.cs" />
+    <Compile Include="Models\ViewModels\Forms\Localidad\LocalidadCreationViewModel.cs" />
+    <Compile Include="Models\ViewModels\Forms\TipoOrganizacion\TipoOrganizacionEditionViewModel.cs" />
+    <Compile Include="Models\ViewModels\Forms\Rubro\RubroEditionViewModel.cs" />
+    <Compile Include="Models\ViewModels\Forms\Sector\SectorEditionViewModel.cs" />
+    <Compile Include="Models\ViewModels\Forms\Organizacion\OrganizacionViewModel.cs" />
     <Compile Include="Models\ViewModels\Helpers\MainMenuContainer.cs" />
     <Compile Include="Models\ViewModels\Helpers\MenuContainer.cs" />
     <Compile Include="Models\ViewModels\UserControls\CollapsibleMenu\CollapsibleMenuViewModel.cs" />
@@ -100,11 +106,25 @@
     <Compile Include="UserControls\SmartSelect.xaml.cs">
       <DependentUpon>SmartSelect.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Utils\ObjectExtensions.cs" />
     <Compile Include="ValidationRules\EmailInputValidationRule.cs" />
     <Compile Include="ValidationRules\NumericInputValidationRule.cs" />
     <Compile Include="Models\ViewModels\BaseSubmitViewModel.cs" />
+    <Compile Include="ValuleConverters\BooleanToYesNoConverter.cs" />
+    <Compile Include="Windows\Localidad\LocalidadList.xaml.cs">
+      <DependentUpon>LocalidadList.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\Localidad\LocalidadCreationEditionForm.xaml.cs">
       <DependentUpon>LocalidadCreationEditionForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Organizacion\OrganizacionList.xaml.cs">
+      <DependentUpon>OrganizacionList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Rubro\RubroList.xaml.cs">
+      <DependentUpon>RubroList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Sector\SectorList.xaml.cs">
+      <DependentUpon>SectorList.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\TipoOrganizacion\TipoOrganizacionCreationEditionForm.xaml.cs">
       <DependentUpon>TipoOrganizacionCreationEditionForm.xaml</DependentUpon>
@@ -120,6 +140,9 @@
     </Compile>
     <Compile Include="Windows\Organizacion\OrganizacionCreationEditionForm.xaml.cs">
       <DependentUpon>OrganizacionCreationEditionForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\TipoOrganizacion\TipoOrganizacionList.xaml.cs">
+      <DependentUpon>TipoOrganizacionList.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -137,11 +160,31 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserControls\EntityListButtonBar\EntityListButtonBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\SmartSelect.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Windows\Localidad\LocalidadList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\Localidad\LocalidadCreationEditionForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\Organizacion\OrganizacionList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\Rubro\RubroList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\Sector\SectorList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -162,6 +205,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\Organizacion\OrganizacionCreationEditionForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\TipoOrganizacion\TipoOrganizacionList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

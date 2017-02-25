@@ -25,8 +25,6 @@ namespace GeoUsersUI
 
             DataContext = CastedDataContext = App.Container.Resolve<MainViewModel>();
 
-            DataGrid.ItemsSource = new ObservableCollection<OrganizacionHeader>();
-
             var loadingFinished = Initialize();
         }
 
@@ -34,11 +32,9 @@ namespace GeoUsersUI
         {
             InitializeMainMenu();
 
-            var organizaciones = await CastedDataContext.InitializationTask;
+            await CastedDataContext.InitializationTask;
 
-            DataGrid.ItemsSource = CastedDataContext.Organizaciones;
-
-            var url = await GetMapUrl(organizaciones);
+            var url = await GetMapUrl(CastedDataContext.Organizaciones);
 
             Browser.NavigateToString(url);
 
@@ -50,88 +46,110 @@ namespace GeoUsersUI
             var newOrganizacionButton = new MenuButton()
             {
                 Name = "Nuevo",
-                OnButtonClickAction = () => { return OpenOrganizacionCreationForm(); }
+                OnButtonClickAction = () => { return OpenOrganizacionCreationForm(); },
+                ButtonVisibility = Visibility.Collapsed
             };
 
-            var editOrganizacionButton = new MenuButton()
+            var listOrganizacionButton = new MenuButton()
             {
-                Name = "Editar",
-                OnButtonClickAction = () => { return OpenOrganizacionCreationForm(); }
-            };
-
-            var deleteOrganizacionButton = new MenuButton()
-            {
-                Name = "Eliminar",
-                OnButtonClickAction = () => { return OpenOrganizacionCreationForm(); }
+                Name = "Listado",
+                OnButtonClickAction = () => { return OpenOrganizacionList(); },
+                ButtonVisibility = Visibility.Collapsed
             };
 
             var organizacionButtons = new ObservableCollection<MenuButton>();
 
             organizacionButtons.Add(newOrganizacionButton);
-            organizacionButtons.Add(editOrganizacionButton);
-            organizacionButtons.Add(deleteOrganizacionButton);
+            organizacionButtons.Add(listOrganizacionButton);
 
             var rubroButtons = new ObservableCollection<MenuButton>();
 
             rubroButtons.Add(MenuButton.Copy(newOrganizacionButton, () => { return OpenRubroCreationForm(); }));
-            rubroButtons.Add(MenuButton.Copy(editOrganizacionButton, () => { return OpenRubroCreationForm(); }));
-            rubroButtons.Add(MenuButton.Copy(deleteOrganizacionButton, () => { return OpenRubroDeletionForm(); }));
+            rubroButtons.Add(MenuButton.Copy(listOrganizacionButton, () => { return OpenRubroList(); }));
 
             var sectorButtons = new ObservableCollection<MenuButton>();
 
             sectorButtons.Add(MenuButton.Copy(newOrganizacionButton, () => { return OpenSectorCreationForm(); }));
-            sectorButtons.Add(MenuButton.Copy(editOrganizacionButton, () => { return OpenSectorCreationForm(); }));
-            sectorButtons.Add(MenuButton.Copy(deleteOrganizacionButton, () => { return OpenSectorDeletionForm(); }));
+            sectorButtons.Add(MenuButton.Copy(listOrganizacionButton, () => { return OpenSectorList(); }));
 
             var tipoOrganizacionButtons = new ObservableCollection<MenuButton>();
 
             tipoOrganizacionButtons.Add(MenuButton.Copy(newOrganizacionButton, () => { return OpenTipoOrganizacionCreationForm(); }));
-            tipoOrganizacionButtons.Add(MenuButton.Copy(editOrganizacionButton, () => { return OpenOrganizacionCreationForm(); }));
-            tipoOrganizacionButtons.Add(MenuButton.Copy(deleteOrganizacionButton, () => { return OpenOrganizacionDeletionForm(); }));
+            tipoOrganizacionButtons.Add(MenuButton.Copy(listOrganizacionButton, () => { return OpenTipoOrganizacionList(); }));
 
             var localidadButtons = new ObservableCollection<MenuButton>();
 
             localidadButtons.Add(MenuButton.Copy(newOrganizacionButton, () => { return OpenLocalidadCreationForm(); }));
-            localidadButtons.Add(MenuButton.Copy(editOrganizacionButton, () => { return OpenLocalidadCreationForm(); }));
-            localidadButtons.Add(MenuButton.Copy(deleteOrganizacionButton, () => { return OpenLocalidadDeletionForm(); }));
+            localidadButtons.Add(MenuButton.Copy(listOrganizacionButton, () => { return OpenLocalidadList(); }));
 
-            OrganizacionMenu.HeaderName = "Organizaciones";
-            OrganizacionMenu.Buttons = organizacionButtons;
-            OrganizacionMenu.ToggleButtonsVisibility();
+            CastedDataContext.OrganizacionMenuContainer = new MenuContainer()
+            {
+                Buttons = organizacionButtons,
+                HeaderName = "Organizaciones",
+                IsMenuOpened = false
+            };
 
-            RubroMenu.HeaderName = "Rubros";
-            RubroMenu.Buttons = rubroButtons;
-            RubroMenu.ToggleButtonsVisibility();
+            CastedDataContext.RubroMenuContainer = new MenuContainer()
+            {
+                Buttons = rubroButtons,
+                HeaderName = "Rubros",
+                IsMenuOpened = false
+            };
 
-            SectorMenu.HeaderName = "Sectores";
-            SectorMenu.Buttons = sectorButtons;
-            SectorMenu.ToggleButtonsVisibility();
+            CastedDataContext.SectorMenuContainer = new MenuContainer()
+            {
+                Buttons = sectorButtons,
+                HeaderName = "Sectores",
+                IsMenuOpened = false
+            };
 
-            TipoOrganizacionMenu.HeaderName = "Tipo Organizaciones";
-            TipoOrganizacionMenu.Buttons = tipoOrganizacionButtons;
-            TipoOrganizacionMenu.ToggleButtonsVisibility();
+            CastedDataContext.TipoOrganizacionMenuContainer = new MenuContainer()
+            {
+                Buttons = tipoOrganizacionButtons,
+                HeaderName = "Tipo Organizaciones",
+                IsMenuOpened = false
+            };
 
-            LocalidadMenu.HeaderName = "Localidades";
-            LocalidadMenu.Buttons = localidadButtons;
-            LocalidadMenu.ToggleButtonsVisibility();
+            CastedDataContext.LocalidadMenuContainer = new MenuContainer()
+            {
+                Buttons = localidadButtons,
+                HeaderName = "Localidades",
+                IsMenuOpened = false
+            };
         }
 
-        public async Task<string> GetMapUrl(IEnumerable<OrganizacionHeader> organizacions)
+        public async Task<string> GetMapUrl(IEnumerable<OrganizacionHeaderData> organizaciones)
         {
             return await Task.Run(() =>
             {
                 var mapManager = new MapManager();
 
-                foreach (var organizacion in (organizacions))
+                foreach (var organizacion in (organizaciones))
                 {
-                    mapManager.addDireccion($"{organizacion.Direccion} {organizacion.Localidad}", organizacion.Nombre);
+                    mapManager.addDireccion(organizacion.Direccion, organizacion.Nombre);
                 }
 
                 return mapManager.getHtmlString();
             });
         }
 
-        private async void UpdateMap(OrganizacionHeader organizacion)
+        private async Task<bool> UpdateMap()
+        {
+            var url = await GetMapUrl(CastedDataContext.Organizaciones);
+
+            Browser.NavigateToString(url);
+
+            return true;
+        }
+
+        private async Task<bool> UpdateUI()
+        {
+            await CastedDataContext.UpdateOrganizacionHeaders();
+
+            return await UpdateMap();
+        }
+
+        private async void AddOrganizacionToMap(OrganizacionHeaderData organizacion)
         {
             CastedDataContext.Organizaciones.Add(organizacion);
 
@@ -142,11 +160,11 @@ namespace GeoUsersUI
 
         private bool OpenOrganizacionCreationForm(int? organizacionId = null)
         {
-            var form = new OrganizacionCreationEditionForm();
+            var form = new OrganizacionCreationEditionForm(organizacionId);
 
             if (form.ShowDialog().Value)
             {
-                UpdateMap(form.GetResult());
+                AddOrganizacionToMap(form.GetResult());
             }
 
             return true;
@@ -188,56 +206,109 @@ namespace GeoUsersUI
             return true;
         }
 
-        private bool OpenOrganizacionDeletionForm(int? organizacionId = null)
+        private bool OpenOrganizacionList()
         {
-
-            //if (form.ShowDialog().Value)
-            //{
-            //    UpdateMap(form.GetResult());
-            //}
-
-            return true;
-        }
-
-        private bool OpenRubroDeletionForm(int? rubroId = null)
-        {
-            var form = new RubroCreationEditionForm();
+            var form = new OrganizacionList();
 
             form.ShowDialog();
 
             return true;
         }
 
-        private bool OpenTipoOrganizacionDeletionForm(int? organizacionId = null)
+        private bool OpenRubroList()
         {
-            //var form = new TipoOrganizacionCreationEditionForm();
-
-            //form.ShowDialog();
-
-            return true;
-        }
-
-        private bool OpenSectorDeletionForm(int? sectorId = null)
-        {
-            var form = new SectorCreationEditionForm();
+            var form = new RubroList();
 
             form.ShowDialog();
 
             return true;
         }
 
-        private bool OpenLocalidadDeletionForm(int? localidadId = null)
+        private bool OpenSectorList()
         {
-            var form = new LocalidadCreationEditionForm();
+            var form = new SectorList();
 
             form.ShowDialog();
 
             return true;
         }
 
-        private void SectorFilterButton_Click(object sender, RoutedEventArgs e)
+        private bool OpenTipoOrganizacionList()
         {
-            CastedDataContext.ApplySectorFilter();
+            var form = new TipoOrganizacionList();
+
+            form.ShowDialog();
+
+            return true;
+        }
+
+        private bool OpenLocalidadList()
+        {
+            var form = new LocalidadList();
+
+            form.ShowDialog();
+
+            return true;
+        }
+
+        private async void SectorFilterButton_Click(object sender, RoutedEventArgs e)
+        {
+            var update = CastedDataContext.ApplySectorFilter();
+
+            if (update.HasValue && update.Value)
+            {
+                await UpdateUI();
+            }
+        }
+
+        private async void RubroFilterButton_Click(object sender, RoutedEventArgs e)
+        {
+            var update = CastedDataContext.ApplyRubroFilter();
+
+            if (update.HasValue && update.Value)
+            {
+                await UpdateUI();
+            }
+        }
+
+        private async void TipoOrganizacionFilterButton_Click(object sender, RoutedEventArgs e)
+        {
+            var update = CastedDataContext.ApplyTipoOrganizacionFilter();
+
+            if (update.HasValue && update.Value)
+            {
+                await UpdateUI();
+            }
+        }
+
+        private async void LocalidadFilterButton_Click(object sender, RoutedEventArgs e)
+        {
+            var update = CastedDataContext.ApplyLocalidadFilter();
+
+            if (update.HasValue && update.Value)
+            {
+                await UpdateUI();
+            }
+        }
+
+        private async void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (CastedDataContext.InitializationTask != null && CastedDataContext.InitializationTask.IsCompleted)
+            {
+                await UpdateUI();
+            }
+        }
+
+        private void DataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (DataGrid.SelectedItem == null)
+            {
+                return;
+            }
+
+            var organizacion = (OrganizacionHeaderData)DataGrid.SelectedItem;
+
+            OpenOrganizacionCreationForm(organizacion.Id);
         }
     }
 }

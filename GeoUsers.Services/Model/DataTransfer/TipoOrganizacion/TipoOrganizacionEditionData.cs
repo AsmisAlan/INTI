@@ -1,6 +1,6 @@
 ﻿namespace GeoUsers.Services.Model.DataTransfer
 {
-    public class TipoOrganizacionCreationData : BaseNotifierEntity
+    public class TipoOrganizacionEditionData : BaseNotifierEntity
     {
         private string tipo { get; set; }
 
@@ -17,5 +17,7 @@
                 OnPropertyChanged(nameof(Tipo));
             }
         }
+
+        public int? Id { get; set; }
     }
 }

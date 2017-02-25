@@ -15,28 +15,60 @@ namespace GeoUsers.Services.Logics
                               ISessionFactory sessionFactory) : base(autoMapper, sessionFactory)
         { }
 
-        public Localidad GetLocalidad(int localidadId)
+        public Localidad Get(int localidadId)
         {
             return Session.Get<Localidad>(localidadId);
         }
 
-        public IEnumerable<Localidad> GetAll()
+        public LocalidadEditionData GetForEdition(int localidadId)
         {
-            return Session.QueryOver<Localidad>()
-                          .List()
-                          .OrderBy(x => x.Nombre);
+            var localidad = Get(localidadId);
+
+            return Mapper.Map<LocalidadEditionData>(localidad);
         }
 
-        public IEnumerable<IdAndValue> GetForSelection()
+        public IEnumerable<LocalidadHeaderData> GetAll()
         {
             var localidades = Session.QueryOver<Localidad>()
                                      .List()
                                      .OrderBy(x => x.Nombre);
 
+            return Mapper.Map<IEnumerable<LocalidadHeaderData>>(localidades);
+        }
+
+        public IEnumerable<IdAndValue> GetByIds(ICollection<int> localidadIds)
+        {
+            var localidades = Session.QueryOver<Localidad>()
+                                .WhereRestrictionOn(x => x.Id)
+                                .IsIn(localidadIds.ToArray())
+                                .List()
+                                .OrderBy(x => x.Nombre);
+
             return Mapper.Map<IEnumerable<IdAndValue>>(localidades);
         }
 
-        public bool Create(LocalidadCreationData localidadData)
+        public IEnumerable<IdAndValue> GetForSelection(ICollection<int> currentIds = null)
+        {
+            var localidadQuery = Session.QueryOver<Localidad>();
+
+            if (currentIds != null)
+            {
+                localidadQuery.WhereRestrictionOn(x => x.Id)
+                           .Not.IsIn(currentIds.ToArray());
+            }
+
+            var localidades = localidadQuery.List()
+                                    .OrderBy(x => x.Nombre);
+
+            return Mapper.Map<IEnumerable<IdAndValue>>(localidades);
+        }
+
+        public bool Save(LocalidadEditionData localidadData)
+        {
+            return localidadData.Id.HasValue ? Edit(localidadData) : Create(localidadData);
+        }
+
+        public bool Create(LocalidadEditionData localidadData)
         {
             var localidad = new Localidad()
             {
@@ -51,14 +83,14 @@ namespace GeoUsers.Services.Logics
             return true;
         }
 
-        public bool Edit(int localidadId, string nombre, int codigoPostal)
+        public bool Edit(LocalidadEditionData localidadData)
         {
-            var localidad = Session.Get<Localidad>(localidadId);
+            var localidad = Session.Get<Localidad>(localidadData.Id);
 
             if (localidad == null) throw new Exception("Localidad Invalida");
 
-            localidad.Nombre = nombre;
-            localidad.CodigoPostal = codigoPostal;
+            localidad.Nombre = localidadData.Nombre;
+            localidad.CodigoPostal = localidadData.CodigoPostal.Value;
 
             Session.Save(localidad);
 

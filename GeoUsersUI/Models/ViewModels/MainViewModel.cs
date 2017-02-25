@@ -1,7 +1,10 @@
 ﻿using GeoUsers.Services;
 using GeoUsers.Services.Logics;
 using GeoUsers.Services.Model.DataTransfer;
+using GeoUsers.Services.Model.Enums;
+using GeoUsers.Services.Utils;
 using GeoUsersUI.Models.ViewModels.Helpers;
+using GeoUsersUI.Utils;
 using GeoUsersUI.Windows;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,16 +13,29 @@ using System.Threading.Tasks;
 
 namespace GeoUsersUI.Models.ViewModels
 {
-    public class MainViewModel
+    public class MainViewModel : BaseNotifierEntity
     {
         readonly OrganizacionLogic organizacionLogic;
         readonly SectorLogic sectorLogic;
+        readonly RubroLogic rubroLogic;
+        readonly LocalidadLogic localidadLogic;
+        readonly TipoOrganizacionLogic tipoOrganizacionLogic;
 
-        public ObservableCollection<OrganizacionHeader> Organizaciones { get; set; }
+        public ObservableCollection<OrganizacionHeaderData> Organizaciones { get; set; }
 
-        public Task<IEnumerable<OrganizacionHeader>> InitializationTask { get; private set; }
+        public ObservableCollection<IdAndValue> UsuarioIntiStatuses { get; set; }
 
-        public MainMenuContainer MainMenu { get; set; }
+        public Task<IEnumerable<OrganizacionHeaderData>> InitializationTask { get; private set; }
+
+        public MenuContainer OrganizacionMenuContainer { get; set; }
+
+        public MenuContainer TipoOrganizacionMenuContainer { get; set; }
+
+        public MenuContainer SectorMenuContainer { get; set; }
+
+        public MenuContainer RubroMenuContainer { get; set; }
+
+        public MenuContainer LocalidadMenuContainer { get; set; }
 
         public FilterStatus OrganizacionesFilter { get; set; }
 
@@ -30,16 +46,49 @@ namespace GeoUsersUI.Models.ViewModels
         }
 
         public MainViewModel(OrganizacionLogic organizacionLogic,
-                             SectorLogic sectorLogic)
+                             SectorLogic sectorLogic,
+                             RubroLogic rubroLogic,
+                             LocalidadLogic localidadLogic,
+                             TipoOrganizacionLogic tipoOrganizacionLogic)
         {
             this.organizacionLogic = organizacionLogic;
             this.sectorLogic = sectorLogic;
+            this.localidadLogic = localidadLogic;
+            this.rubroLogic = rubroLogic;
+            this.tipoOrganizacionLogic = tipoOrganizacionLogic;
+
+            UsuarioIntiStatuses = new ObservableCollection<IdAndValue>();
+
+            var usuarioIntiStatus = new IdAndValue()
+            {
+                Id = ((int)UsuarioIntiStatus.UsuarioInti),
+                Value = EnumUtils.GetDescription(UsuarioIntiStatus.UsuarioInti)
+            };
+
+            var noUsuarioIntiStatus = new IdAndValue()
+            {
+                Id = ((int)UsuarioIntiStatus.NoUsuarioInti),
+                Value = EnumUtils.GetDescription(UsuarioIntiStatus.NoUsuarioInti)
+            };
+
+            var todosStatus = new IdAndValue()
+            {
+                Id = ((int)UsuarioIntiStatus.Todos),
+                Value = EnumUtils.GetDescription(UsuarioIntiStatus.Todos)
+            };
+
+            UsuarioIntiStatuses.Add(usuarioIntiStatus);
+            UsuarioIntiStatuses.Add(noUsuarioIntiStatus);
+            UsuarioIntiStatuses.Add(todosStatus);
 
             OrganizacionesFilter = new FilterStatus();
-            InitializationTask = ExecuteDataFunction();
+
+            Organizaciones = new ObservableCollection<OrganizacionHeaderData>();
+
+            InitializationTask = UpdateOrganizacionHeaders();
         }
 
-        private async Task<IEnumerable<OrganizacionHeader>> ExecuteDataFunction()
+        public async Task<IEnumerable<OrganizacionHeaderData>> UpdateOrganizacionHeaders()
         {
             Loading = true;
 
@@ -47,11 +96,11 @@ namespace GeoUsersUI.Models.ViewModels
             {
                 using (var sessionBlock = GeoUsersServices.SessionProvider.GetSessionContextBlock())
                 {
-                    return organizacionLogic.GetOrganizacionHeaders(OrganizacionesFilter.Filter);
+                    return organizacionLogic.GetByFilter(OrganizacionesFilter.Filter);
                 }
             });
 
-            Organizaciones = new ObservableCollection<OrganizacionHeader>(results);
+            Organizaciones.Update(results);
 
             Loading = false;
 
@@ -68,6 +117,65 @@ namespace GeoUsersUI.Models.ViewModels
             if (form.DialogResult.HasValue && form.DialogResult.Value)
             {
                 OrganizacionesFilter.Filter.SectorIds = form.GetSelection().ToList();
+
+                OrganizacionesFilter.UpdateStatuses();
+            }
+
+            return form.DialogResult;
+        }
+
+        public bool? ApplyRubroFilter()
+        {
+            var form = new SmartSelectWindow(() => { return rubroLogic.GetForSelection(OrganizacionesFilter.Filter.RubroIds); },
+                                             () => { return rubroLogic.GetByIds(OrganizacionesFilter.Filter.RubroIds); },
+                                             OrganizacionesFilter.Filter.RubroIds);
+            form.ShowDialog();
+
+            if (form.DialogResult.HasValue && form.DialogResult.Value)
+            {
+                OrganizacionesFilter.Filter.RubroIds = form.GetSelection().ToList();
+
+                OrganizacionesFilter.UpdateStatuses();
+            }
+
+            return form.DialogResult;
+        }
+
+        public bool? ApplyLocalidadFilter()
+        {
+            var form = new SmartSelectWindow(() => { return localidadLogic.GetForSelection(OrganizacionesFilter.Filter.LocalidadIds); },
+                                             () => { return localidadLogic.GetByIds(OrganizacionesFilter.Filter.LocalidadIds); },
+                                             OrganizacionesFilter.Filter.LocalidadIds);
+            form.ShowDialog();
+
+            if (form.DialogResult.HasValue && form.DialogResult.Value)
+            {
+                OrganizacionesFilter.Filter.LocalidadIds = form.GetSelection().ToList();
+
+                OrganizacionesFilter.UpdateStatuses();
+            }
+
+            return form.DialogResult;
+        }
+
+        public bool? ApplyTipoOrganizacionFilter()
+        {
+            var form = new SmartSelectWindow(() =>
+                                             {
+                                                 return tipoOrganizacionLogic.GetForSelection(OrganizacionesFilter.Filter.TipoOrganizacionIds);
+                                             },
+                                             () =>
+                                             {
+                                                 return tipoOrganizacionLogic.GetByIds(OrganizacionesFilter.Filter.TipoOrganizacionIds);
+                                             },
+                                             OrganizacionesFilter.Filter.TipoOrganizacionIds);
+            form.ShowDialog();
+
+            if (form.DialogResult.HasValue && form.DialogResult.Value)
+            {
+                OrganizacionesFilter.Filter.TipoOrganizacionIds = form.GetSelection().ToList();
+
+                OrganizacionesFilter.UpdateStatuses();
             }
 
             return form.DialogResult;

@@ -6,6 +6,11 @@ namespace GeoUsers.Services.Model.Entities
     {
         public virtual string Nombre { get; set; }
 
-        public virtual IEnumerable<Rubro> Rubros { get; set; }
+        public virtual ISet<Rubro> Rubros { get; set; }
+
+        public override string ToString()
+        {
+            return Nombre;
+        }
     }
 }
