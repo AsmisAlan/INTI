@@ -1,8 +1,8 @@
 ﻿using GeoUsers.Services.Model.DataTransfer;
+using GeoUsers.Services.SQLExceptions;
 using GeoUsersUI.Models.ViewModels.Forms;
 using GeoUsersUI.Utils;
 using Microsoft.Practices.Unity;
-using System;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -26,17 +26,6 @@ namespace GeoUsersUI.Windows
 
         private async void Initialize()
         {
-            ViewModel.CloseFunction = () =>
-            {
-                Close();
-
-                return true;
-            };
-
-            ViewModel.EditFunction = GetEditFunction();
-            ViewModel.DeleteFunction = GetDeleteFunction();
-            ViewModel.CreateFunction = GetCreateFunction();
-
             await UpdateLocalidades();
         }
 
@@ -47,69 +36,73 @@ namespace GeoUsersUI.Windows
             return true;
         }
 
-        private Func<Task<bool>> GetCreateFunction()
+        private async void OpenEditionForm()
         {
-            return async () =>
+            if (LocalidadGrid.SelectedItem == null)
             {
-                var form = new LocalidadCreationEditionForm();
+                return;
+            }
 
-                var result = form.ShowDialog();
+            var localidad = (LocalidadHeaderData)LocalidadGrid.SelectedItem;
 
-                if (result.HasValue && result.Value)
-                {
-                    await UpdateLocalidades();
-                }
+            var form = new LocalidadCreationEditionForm(localidad.Id);
 
-                return true;
-            };
+            var result = form.ShowDialog();
+
+            if (result.HasValue && result.Value)
+            {
+                await UpdateLocalidades();
+            }
         }
 
-        private Func<Task<bool>> GetEditFunction()
+        private async void ButtonBar_OnCreateButtonClick(object sender, RoutedEventArgs e)
         {
-            return async () =>
+            var form = new LocalidadCreationEditionForm();
+
+            var result = form.ShowDialog();
+
+            if (result.HasValue && result.Value)
             {
-                if (LocalidadGrid.SelectedItem == null)
-                {
-                    return false;
-                }
-
-                var localidad = (LocalidadHeaderData)LocalidadGrid.SelectedItem;
-
-                var form = new LocalidadCreationEditionForm(localidad.Id);
-
-                var result = form.ShowDialog();
-
-                if (result.HasValue && result.Value)
-                {
-                    await UpdateLocalidades();
-                }
-
-                return true;
-            };
-        }
-
-        private Func<Task<bool>> GetDeleteFunction()
-        {
-            return async () =>
-            {
-                var result = MessageBoxUtils.ShowConfirmationBox("Seguro desea eliminar la localidad ?");
-
-                if (result == MessageBoxResult.Yes)
-                {
-                    var localidad = (LocalidadHeaderData)LocalidadGrid.SelectedItem;
-
-                    await ViewModel.Delete(localidad.Id);
-
-                    await UpdateLocalidades();
-                }
-
-                return true;
-            };
+                await UpdateLocalidades();
+            }
         }
 
         private void LocalidadGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            ViewModel.EditFunction();
+            OpenEditionForm();
+        }
+
+        private void ButtonBar_OnEditButtonClick(object sender, RoutedEventArgs e)
+        {
+            OpenEditionForm();
+        }
+
+        private async void ButtonBar_OnDeleteButtonClick(object sender, RoutedEventArgs e)
+        {
+            var result = MessageBoxUtils.Confirmation("Seguro desea eliminar la localidad ?");
+
+            if (result == MessageBoxResult.Yes)
+            {
+                var localidad = (LocalidadHeaderData)LocalidadGrid.SelectedItem;
+
+                try
+                {
+                    await ViewModel.Delete(localidad.Id);
+                }
+                catch (ReferencedEntityException)
+                {
+                    MessageBoxUtils.Error("La localidad que se intenta eliminar se encuentra en uso");
+
+                    return;
+                }
+
+                await UpdateLocalidades();
+            }
+        }
+
+        private void ButtonBar_OnCloseButtonClick(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }

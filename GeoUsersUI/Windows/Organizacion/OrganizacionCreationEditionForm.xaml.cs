@@ -11,20 +11,20 @@ namespace GeoUsersUI.Windows
     /// </summary>
     public partial class OrganizacionCreationEditionForm : Window
     {
-        private OrganizacionViewModel CastedDataContext { get; set; }
+        private OrganizacionViewModel ViewModel { get; set; }
 
         public OrganizacionCreationEditionForm(int? organizacionId = null)
         {
             InitializeComponent();
 
-            DataContext = CastedDataContext = App.Container.Resolve<OrganizacionViewModel>();
+            DataContext = ViewModel = App.Container.Resolve<OrganizacionViewModel>();
 
             var initialized = Initialize(organizacionId);
         }
 
         public async Task<bool> Initialize(int? organizacionId = null)
         {
-            await CastedDataContext.Initialize(organizacionId);
+            await ViewModel.Initialize(organizacionId);
 
             return true;
         }
@@ -33,14 +33,14 @@ namespace GeoUsersUI.Windows
         {
             var localidad = ((IdAndValue)ComboLocalidad.SelectedItem).Value;
 
-            CastedDataContext.Result.Direccion = $"{CastedDataContext.Result.Direccion} {localidad}";
+            ViewModel.Result.Direccion = $"{ViewModel.Result.Direccion} {localidad}";
 
-            return CastedDataContext.Result;
+            return ViewModel.Result;
         }
 
         private async void Submit(object sender, RoutedEventArgs e)
         {
-            DialogResult = await CastedDataContext.Submit();
+            DialogResult = await ViewModel.Submit();
 
             if (DialogResult.HasValue && DialogResult.Value)
             {

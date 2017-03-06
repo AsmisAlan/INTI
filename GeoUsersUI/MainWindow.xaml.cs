@@ -9,6 +9,9 @@ using GeoUsersUI.GoogleMaps;
 using System.Collections.ObjectModel;
 using GeoUsersUI.Windows;
 using GeoUsersUI.Models.ViewModels.UserControls;
+using CefSharp;
+using GeoUsersUI.UserControls;
+using System;
 
 namespace GeoUsersUI
 {
@@ -17,28 +20,35 @@ namespace GeoUsersUI
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainViewModel CastedDataContext { get; set; }
+        public MainViewModel ViewModel { get; set; }
 
         public MainWindow()
         {
             InitializeComponent();
 
-            DataContext = CastedDataContext = App.Container.Resolve<MainViewModel>();
+            Browser.FrameLoadEnd += Browser_FrameLoadEnd;
+
+            DataContext = ViewModel = App.Container.Resolve<MainViewModel>();
 
             var loadingFinished = Initialize();
         }
 
-        public async Task<bool> Initialize()
+        private async Task<bool> Initialize()
         {
             InitializeMainMenu();
 
-            await CastedDataContext.InitializationTask;
+            await ViewModel.InitializationTask;
 
-            var url = await GetMapUrl(CastedDataContext.Organizaciones);
+            var url = await GetMapUrl(ViewModel.Organizaciones);
 
-            Browser.NavigateToString(url);
+            UpdateMapUrl(url);
 
             return true;
+        }
+
+        private void UpdateMapUrl(string url)
+        {
+            Browser.LoadHtml(url, "http://www.geousers.com.ar");
         }
 
         private void InitializeMainMenu()
@@ -46,16 +56,18 @@ namespace GeoUsersUI
             var newOrganizacionButton = new MenuButton()
             {
                 Name = "Nuevo",
-                OnButtonClickAction = () => { return OpenOrganizacionCreationForm(); },
                 ButtonVisibility = Visibility.Collapsed
             };
+
+            newOrganizacionButton.ButtonClick += NewOrganizacionButton_ButtonClick;
 
             var listOrganizacionButton = new MenuButton()
             {
                 Name = "Listado",
-                OnButtonClickAction = () => { return OpenOrganizacionList(); },
                 ButtonVisibility = Visibility.Collapsed
             };
+
+            listOrganizacionButton.ButtonClick += OpenOrganizacionList;
 
             var organizacionButtons = new ObservableCollection<MenuButton>();
 
@@ -64,53 +76,77 @@ namespace GeoUsersUI
 
             var rubroButtons = new ObservableCollection<MenuButton>();
 
-            rubroButtons.Add(MenuButton.Copy(newOrganizacionButton, () => { return OpenRubroCreationForm(); }));
-            rubroButtons.Add(MenuButton.Copy(listOrganizacionButton, () => { return OpenRubroList(); }));
+            var newRubroButton = MenuButton.Copy(newOrganizacionButton);
+            var listRubroButton = MenuButton.Copy(listOrganizacionButton);
+
+            newRubroButton.ButtonClick += NewRubroButton_ButtonClick;
+            listRubroButton.ButtonClick += OpenRubroList;
+
+            rubroButtons.Add(MenuButton.Copy(newOrganizacionButton));
+            rubroButtons.Add(MenuButton.Copy(listOrganizacionButton));
 
             var sectorButtons = new ObservableCollection<MenuButton>();
 
-            sectorButtons.Add(MenuButton.Copy(newOrganizacionButton, () => { return OpenSectorCreationForm(); }));
-            sectorButtons.Add(MenuButton.Copy(listOrganizacionButton, () => { return OpenSectorList(); }));
+            var newSectorButton = MenuButton.Copy(newOrganizacionButton);
+            var listSectorButton = MenuButton.Copy(listOrganizacionButton);
+
+            newSectorButton.ButtonClick += NewSectorButton_ButtonClick; ;
+            listSectorButton.ButtonClick += OpenSectorList;
+
+            sectorButtons.Add(newSectorButton);
+            sectorButtons.Add(listSectorButton);
 
             var tipoOrganizacionButtons = new ObservableCollection<MenuButton>();
 
-            tipoOrganizacionButtons.Add(MenuButton.Copy(newOrganizacionButton, () => { return OpenTipoOrganizacionCreationForm(); }));
-            tipoOrganizacionButtons.Add(MenuButton.Copy(listOrganizacionButton, () => { return OpenTipoOrganizacionList(); }));
+            var newTipoOrganizacionButton = MenuButton.Copy(newOrganizacionButton);
+            var listTipoOrganizacionButton = MenuButton.Copy(listOrganizacionButton);
+
+            newTipoOrganizacionButton.ButtonClick += NewTipoOrganizacionButton_ButtonClick;
+            listTipoOrganizacionButton.ButtonClick += OpenTipoOrganizacionList;
+
+            tipoOrganizacionButtons.Add(newTipoOrganizacionButton);
+            tipoOrganizacionButtons.Add(listTipoOrganizacionButton);
 
             var localidadButtons = new ObservableCollection<MenuButton>();
 
-            localidadButtons.Add(MenuButton.Copy(newOrganizacionButton, () => { return OpenLocalidadCreationForm(); }));
-            localidadButtons.Add(MenuButton.Copy(listOrganizacionButton, () => { return OpenLocalidadList(); }));
+            var newLocalidadButton = MenuButton.Copy(newOrganizacionButton);
+            var localidadListButton = MenuButton.Copy(listOrganizacionButton);
 
-            CastedDataContext.OrganizacionMenuContainer = new MenuContainer()
+            newLocalidadButton.ButtonClick += NewLocalidadButton_ButtonClick;
+            localidadListButton.ButtonClick += OpenLocalidadList;
+
+            localidadButtons.Add(newLocalidadButton);
+            localidadButtons.Add(localidadListButton);
+
+            ViewModel.OrganizacionMenuContainer = new MenuContainer()
             {
                 Buttons = organizacionButtons,
                 HeaderName = "Organizaciones",
                 IsMenuOpened = false
             };
 
-            CastedDataContext.RubroMenuContainer = new MenuContainer()
+            ViewModel.RubroMenuContainer = new MenuContainer()
             {
                 Buttons = rubroButtons,
                 HeaderName = "Rubros",
                 IsMenuOpened = false
             };
 
-            CastedDataContext.SectorMenuContainer = new MenuContainer()
+            ViewModel.SectorMenuContainer = new MenuContainer()
             {
                 Buttons = sectorButtons,
                 HeaderName = "Sectores",
                 IsMenuOpened = false
             };
 
-            CastedDataContext.TipoOrganizacionMenuContainer = new MenuContainer()
+            ViewModel.TipoOrganizacionMenuContainer = new MenuContainer()
             {
                 Buttons = tipoOrganizacionButtons,
                 HeaderName = "Tipo Organizaciones",
                 IsMenuOpened = false
             };
 
-            CastedDataContext.LocalidadMenuContainer = new MenuContainer()
+            ViewModel.LocalidadMenuContainer = new MenuContainer()
             {
                 Buttons = localidadButtons,
                 HeaderName = "Localidades",
@@ -118,56 +154,44 @@ namespace GeoUsersUI
             };
         }
 
-        public async Task<string> GetMapUrl(IEnumerable<OrganizacionHeaderData> organizaciones)
+
+
+        private async Task<string> GetMapUrl(IEnumerable<OrganizacionHeaderData> organizaciones)
         {
             return await Task.Run(() =>
             {
-                var mapManager = new MapManager();
+                var mapManager = new GoogleMapsManager();
 
-                foreach (var organizacion in (organizaciones))
-                {
-                    mapManager.addDireccion(organizacion.Direccion, organizacion.Nombre);
-                }
-
-                return mapManager.getHtmlString();
+                return mapManager.GetHtmlString(organizaciones);
             });
         }
 
         private async Task<bool> UpdateMap()
         {
-            var url = await GetMapUrl(CastedDataContext.Organizaciones);
+            var url = await GetMapUrl(ViewModel.Organizaciones);
 
-            Browser.NavigateToString(url);
+            UpdateMapUrl(url);
 
             return true;
         }
 
         private async Task<bool> UpdateUI()
         {
-            await CastedDataContext.UpdateOrganizacionHeaders();
+            ViewModel.LoadingMap = Visibility.Visible;
+
+            await ViewModel.UpdateOrganizacionHeaders();
 
             return await UpdateMap();
         }
 
-        private async void AddOrganizacionToMap(OrganizacionHeaderData organizacion)
-        {
-            CastedDataContext.Organizaciones.Add(organizacion);
-
-            var url = await GetMapUrl(CastedDataContext.Organizaciones);
-
-            Browser.NavigateToString(url);
-        }
-
-        private bool OpenOrganizacionCreationForm(int? organizacionId = null)
+        private async void OpenOrganizacionCreationForm(int? organizacionId = null)
         {
             var form = new OrganizacionCreationEditionForm(organizacionId);
 
             if (form.ShowDialog().Value)
             {
-                AddOrganizacionToMap(form.GetResult());
+                await UpdateUI();
             }
-
-            return true;
         }
 
         private bool OpenRubroCreationForm(int? rubroId = null)
@@ -206,54 +230,69 @@ namespace GeoUsersUI
             return true;
         }
 
-        private bool OpenOrganizacionList()
+        private void NewLocalidadButton_ButtonClick(object sender, EventArgs e)
+        {
+            OpenLocalidadCreationForm();
+        }
+
+        private void NewTipoOrganizacionButton_ButtonClick(object sender, EventArgs e)
+        {
+            OpenTipoOrganizacionCreationForm();
+        }
+
+        private void NewSectorButton_ButtonClick(object sender, EventArgs e)
+        {
+            OpenSectorCreationForm();
+        }
+
+        private void NewRubroButton_ButtonClick(object sender, EventArgs e)
+        {
+            OpenRubroCreationForm();
+        }
+
+        private void NewOrganizacionButton_ButtonClick(object sender, System.EventArgs e)
+        {
+            OpenOrganizacionCreationForm();
+        }
+
+        private void OpenOrganizacionList(object sender, EventArgs e)
         {
             var form = new OrganizacionList();
 
             form.ShowDialog();
-
-            return true;
         }
 
-        private bool OpenRubroList()
+        private void OpenRubroList(object sender, EventArgs e)
         {
             var form = new RubroList();
 
             form.ShowDialog();
-
-            return true;
         }
 
-        private bool OpenSectorList()
+        private void OpenSectorList(object sender, EventArgs e)
         {
             var form = new SectorList();
 
             form.ShowDialog();
-
-            return true;
         }
 
-        private bool OpenTipoOrganizacionList()
+        private void OpenTipoOrganizacionList(object sender, EventArgs e)
         {
             var form = new TipoOrganizacionList();
 
             form.ShowDialog();
-
-            return true;
         }
 
-        private bool OpenLocalidadList()
+        private void OpenLocalidadList(object sender, EventArgs e)
         {
             var form = new LocalidadList();
 
             form.ShowDialog();
-
-            return true;
         }
 
         private async void SectorFilterButton_Click(object sender, RoutedEventArgs e)
         {
-            var update = CastedDataContext.ApplySectorFilter();
+            var update = ViewModel.ApplySectorFilter();
 
             if (update.HasValue && update.Value)
             {
@@ -263,7 +302,7 @@ namespace GeoUsersUI
 
         private async void RubroFilterButton_Click(object sender, RoutedEventArgs e)
         {
-            var update = CastedDataContext.ApplyRubroFilter();
+            var update = ViewModel.ApplyRubroFilter();
 
             if (update.HasValue && update.Value)
             {
@@ -273,7 +312,7 @@ namespace GeoUsersUI
 
         private async void TipoOrganizacionFilterButton_Click(object sender, RoutedEventArgs e)
         {
-            var update = CastedDataContext.ApplyTipoOrganizacionFilter();
+            var update = ViewModel.ApplyTipoOrganizacionFilter();
 
             if (update.HasValue && update.Value)
             {
@@ -283,7 +322,7 @@ namespace GeoUsersUI
 
         private async void LocalidadFilterButton_Click(object sender, RoutedEventArgs e)
         {
-            var update = CastedDataContext.ApplyLocalidadFilter();
+            var update = ViewModel.ApplyLocalidadFilter();
 
             if (update.HasValue && update.Value)
             {
@@ -293,7 +332,7 @@ namespace GeoUsersUI
 
         private async void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (CastedDataContext.InitializationTask != null && CastedDataContext.InitializationTask.IsCompleted)
+            if (ViewModel.InitializationTask != null && ViewModel.InitializationTask.IsCompleted)
             {
                 await UpdateUI();
             }
@@ -309,6 +348,16 @@ namespace GeoUsersUI
             var organizacion = (OrganizacionHeaderData)DataGrid.SelectedItem;
 
             OpenOrganizacionCreationForm(organizacion.Id);
+        }
+
+        private void SearchBar_OnSearchTermChanged(object sender, RoutedEventArgs e)
+        {
+            ViewModel.FilterOrganizaciones(((OnSearchTermChangedEventArgs)e).SearchTerm);
+        }
+
+        private void Browser_FrameLoadEnd(object sender, FrameLoadEndEventArgs e)
+        {
+            ViewModel.LoadingMap = Visibility.Hidden;
         }
     }
 }

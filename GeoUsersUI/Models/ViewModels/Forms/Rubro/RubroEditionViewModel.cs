@@ -60,9 +60,15 @@ namespace GeoUsersUI.Models.ViewModels
 
                     if (rubroId.HasValue)
                     {
+                        WindowTitle = "Modificar Rubro";
+
                         var rubroData = rubroLogic.GetForEdition(rubroId.Value);
 
                         Rubro.Update(rubroData);
+                    }
+                    else
+                    {
+                        WindowTitle = "Crear Rubro";
                     }
                 }
             });

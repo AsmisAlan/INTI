@@ -35,6 +35,8 @@ namespace GeoUsersUI.Models.ViewModels
         {
             if (sectorId.HasValue)
             {
+                WindowTitle = "Modificar Sector";
+
                 await Task.Run(() =>
                 {
                     using (var sessionContext = GeoUsersServices.SessionProvider.GetSessionContextBlock())
@@ -44,6 +46,10 @@ namespace GeoUsersUI.Models.ViewModels
                         Sector.Update(sectorData);
                     }
                 });
+            }
+            else
+            {
+                WindowTitle = "Crear Sector";
             }
 
             return true;

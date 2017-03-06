@@ -47,18 +47,12 @@ namespace GeoUsers.Services.Logics
             return Mapper.Map<IEnumerable<IdAndValue>>(localidades);
         }
 
-        public IEnumerable<IdAndValue> GetForSelection(ICollection<int> currentIds = null)
+        public IEnumerable<IdAndValue> GetForSelection()
         {
-            var localidadQuery = Session.QueryOver<Localidad>();
-
-            if (currentIds != null)
-            {
-                localidadQuery.WhereRestrictionOn(x => x.Id)
-                           .Not.IsIn(currentIds.ToArray());
-            }
-
-            var localidades = localidadQuery.List()
-                                    .OrderBy(x => x.Nombre);
+            var localidades = Session.QueryOver<Localidad>()
+                                     .OrderBy(x => x.Nombre)
+                                     .Asc
+                                     .List();
 
             return Mapper.Map<IEnumerable<IdAndValue>>(localidades);
         }
@@ -105,9 +99,7 @@ namespace GeoUsers.Services.Logics
 
             if (localidad == null) throw new Exception("Localidad Invalida");
 
-            Session.Delete(localidad);
-
-            return true;
+            return Delete(localidad);
         }
     }
 }

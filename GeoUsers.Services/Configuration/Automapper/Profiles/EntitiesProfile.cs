@@ -11,7 +11,8 @@ namespace GeoUsers.Services.Automapper.Profiles
             CreateMap<Sector, IdAndValue>()
                 .ForMember(x => x.Value, opt => opt.MapFrom(x => x.Nombre));
 
-            CreateMap<Sector, SectorHeaderData>();
+            CreateMap<Sector, SectorHeaderData>()
+                .ForMember(x => x.IsActive, opt => opt.UseValue(true));
 
             CreateMap<Sector, SectorEditionData>();
 
@@ -20,12 +21,14 @@ namespace GeoUsers.Services.Automapper.Profiles
 
             CreateMap<TipoOrganizacion, TipoOrganizacionEditionData>();
 
-            CreateMap<TipoOrganizacion, TipoOrganizacionHeaderData>();
+            CreateMap<TipoOrganizacion, TipoOrganizacionHeaderData>()
+                .ForMember(x => x.IsActive, opt => opt.UseValue(true));
 
             CreateMap<Rubro, IdAndValue>()
                 .ForMember(x => x.Value, opt => opt.MapFrom(x => x.Nombre));
 
             CreateMap<Rubro, RubroHeaderData>()
+                .ForMember(x => x.IsActive, opt => opt.UseValue(true))
                 .ForMember(x => x.Sector, opt => opt.MapFrom(x => x.Sector.Nombre));
 
             CreateMap<Rubro, RubroEditionData>()
@@ -36,12 +39,16 @@ namespace GeoUsers.Services.Automapper.Profiles
 
             CreateMap<Localidad, LocalidadEditionData>();
 
-            CreateMap<Localidad, LocalidadHeaderData>();
+            CreateMap<Localidad, LocalidadHeaderData>()
+                .ForMember(x => x.IsActive, opt => opt.UseValue(true));
 
             CreateMap<Organizacion, OrganizacionHeaderData>()
+                .ForMember(x => x.IsActive, opt => opt.UseValue(true))
                 .ForMember(x => x.Direccion, opt => opt.MapFrom(x => $"{x.Direccion} {x.Localidad.Nombre}"));
 
-            CreateMap<Organizacion, OrganizacionData>();
+            CreateMap<Organizacion, OrganizacionData>()
+                .IncludeBase<Organizacion, OrganizacionBaseData>()
+                .ForMember(x => x.IsActive, opt => opt.UseValue(true));
 
             CreateMap<Organizacion, OrganizacionEditionData>()
                 .ForMember(x => x.Direccion, opt => opt.MapFrom(x => x.Direccion))

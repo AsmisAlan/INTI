@@ -73,9 +73,15 @@ namespace GeoUsersUI.Models.ViewModels.Forms
 
                     if (organizacionId.HasValue)
                     {
+                        WindowTitle = "Modificar Organizacion";
+
                         var organizacionData = organizacionLogic.GetForEdition(organizacionId.Value);
 
                         Organizacion.Update(organizacionData);
+                    }
+                    else
+                    {
+                        WindowTitle = "Crear Organizacion";
                     }
                 }
             });

@@ -6,6 +6,8 @@
 
         protected string sector { get; set; }
 
+        protected bool isActive { get; set; }
+
         public string Nombre
         {
             get
@@ -31,6 +33,20 @@
                 sector = value;
 
                 OnPropertyChanged(nameof(Sector));
+            }
+        }
+
+        public bool IsActive
+        {
+            get
+            {
+                return isActive;
+            }
+            set
+            {
+                isActive = value;
+
+                OnPropertyChanged(nameof(IsActive));
             }
         }
     }

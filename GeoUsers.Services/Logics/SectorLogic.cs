@@ -2,6 +2,7 @@
 using GeoUsers.Services.Model;
 using GeoUsers.Services.Model.DataTransfer;
 using GeoUsers.Services.Model.Entities;
+using GeoUsers.Services.SQLExceptions;
 using NHibernate;
 using System;
 using System.Collections.Generic;
@@ -42,19 +43,12 @@ namespace GeoUsers.Services.Logics
             return Mapper.Map<IEnumerable<IdAndValue>>(sectores);
         }
 
-        public IEnumerable<IdAndValue> GetForSelection(ICollection<int> currentIds = null)
+        public IEnumerable<IdAndValue> GetForSelection()
         {
-            var sectoresQuery = Session.QueryOver<Sector>();
-
-            if (currentIds != null && currentIds.Count > 0)
-            {
-                sectoresQuery.WhereRestrictionOn(x => x.Id)
-                             .Not.IsIn(currentIds.ToArray());
-            }
-
-            var sectores = sectoresQuery.OrderBy(x => x.Nombre)
-                                        .Asc
-                                        .List();
+            var sectores = Session.QueryOver<Sector>()
+                                       .OrderBy(x => x.Nombre)
+                                       .Asc
+                                       .List();
 
             return Mapper.Map<IEnumerable<IdAndValue>>(sectores);
         }
@@ -106,9 +100,7 @@ namespace GeoUsers.Services.Logics
 
             if (sector == null) throw new Exception("Sector Invalido");
 
-            Session.Delete(sector);
-
-            return true;
+            return Delete(sector);
         }
     }
 }

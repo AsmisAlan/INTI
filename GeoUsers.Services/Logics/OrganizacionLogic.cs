@@ -2,6 +2,7 @@
 using GeoUsers.Services.Model.DataTransfer;
 using GeoUsers.Services.Model.Entities;
 using GeoUsers.Services.Model.Enums;
+using GeoUsers.Services.Utils;
 using NHibernate;
 using System;
 using System.Collections.Generic;
@@ -147,6 +148,13 @@ namespace GeoUsers.Services.Logics
                 TipoOrganizacion = tipoOrganizacion,
                 Rubro = rubro
             };
+
+            var address = $"{organizacion.Direccion} {organizacion.Localidad.Nombre}";
+
+            var coordinates = WebUtils.GetCoordinates(address);
+
+            organizacion.Latitud = coordinates.lat;
+            organizacion.Longitud = coordinates.lng;
 
             var organizacionId = (int)Session.Save(organizacion);
 

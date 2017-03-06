@@ -1,17 +1,43 @@
 ﻿using GeoUsers.Services.Model.DataTransfer;
-using GeoUsersUI.Models.ViewModels.SmartSelect;
+using GeoUsersUI.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Linq;
+using GeoUsersUI.Models.ViewModels.UserControls;
+using System.ComponentModel;
+using System.Windows;
+using System.Collections.ObjectModel;
 
 namespace GeoUsersUI.UserControls
 {
     /// <summary>
     /// Interaction logic for SmartSelect.xaml
     /// </summary>
-    public partial class SmartSelect : UserControl
+    public partial class SmartSelect : UserControl, INotifyPropertyChanged
     {
+        public string EntityListHeader
+        {
+            get
+            {
+                return (string)GetValue(EntityListHeaderProperty);
+            }
+            set
+            {
+                SetValue(EntityListHeaderProperty, value);
+
+                OnPropertyChanged(nameof(EntityListHeader));
+            }
+        }
+
+        public static readonly DependencyProperty EntityListHeaderProperty =
+             DependencyProperty.Register("EntityListHeader",
+                                         typeof(string),
+                                         typeof(SmartSelect),
+                                         new PropertyMetadata(""));
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public SmartSelectViewModel ViewModel { get; set; }
 
         public SmartSelect()
@@ -22,8 +48,8 @@ namespace GeoUsersUI.UserControls
         }
 
         public async void Initialize(Func<IEnumerable<IdAndValue>> dataFunction,
-                               Func<IEnumerable<IdAndValue>> getSelectionDataFunction,
-                               IEnumerable<int> selection)
+                                     Func<IEnumerable<IdAndValue>> getSelectionDataFunction,
+                                     IEnumerable<int> selection)
         {
             await ViewModel.Initialize(dataFunction, getSelectionDataFunction, selection);
 
@@ -33,27 +59,42 @@ namespace GeoUsersUI.UserControls
 
         public void RemoveEntityButton_Click(object sender, EventArgs e)
         {
-            var value = ((IdAndValue)SelectionListBox.SelectedItem);
-
-            if (value != null)
+            if (SelectionListBox.SelectedItems != null && SelectionListBox.SelectedItems.Count > 0)
             {
-                ViewModel.RemoveSelection(value);
+                var itemsToDelete = new SmartSelectItem[SelectionListBox.SelectedItems.Count];
+
+                SelectionListBox.SelectedItems.CopyTo(itemsToDelete, 0);
+
+                foreach (var item in itemsToDelete)
+                {
+                    ViewModel.RemoveSelection(item as SmartSelectItem);
+                }
             }
         }
 
         public void AddEntityButton_Click(object sender, EventArgs e)
         {
-            var value = ((IdAndValue)EntitiesListBox.SelectedItem);
-
-            if (value != null)
+            if (EntitiesListBox.SelectedItems != null && EntitiesListBox.SelectedItems.Count > 0)
             {
-                ViewModel.AddSelection(value);
+                foreach (var item in EntitiesListBox.SelectedItems)
+                {
+                    ViewModel.AddSelection(item as SmartSelectItem);
+                }
             }
+
+            ViewModel.OrderSelection();
+
+            EntitiesListBox.SelectedItems.Clear();
         }
 
         public IEnumerable<int> GetSelection()
         {
             return ViewModel.Selection.Select(x => x.Id);
+        }
+
+        protected void OnPropertyChanged(string name)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
     }
 }

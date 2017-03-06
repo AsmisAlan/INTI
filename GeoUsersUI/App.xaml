@@ -4,21 +4,213 @@
              xmlns:local="clr-namespace:GeoUsersUI"
              xmlns:ViewModels="clr-namespace:GeoUsersUI.Models.ViewModels" 
              xmlns:ValueConverters="clr-namespace:GeoUsersUI.ValueConverters" 
+             xmlns:UserControls="clr-namespace:GeoUsersUI.UserControls"
              x:Class="GeoUsersUI.App"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
+        <!--Buttons-->
+
+        <!--Override for button mouse over-->
+        <Style TargetType="{x:Type Button}" x:Key="BaseMouseOverOverride">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Opacity" Value="0.5"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!--Base button header-->
+        <Style TargetType="{x:Type Button}" x:Key="BaseHeaderButton" BasedOn="{StaticResource BaseMouseOverOverride}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="5 5 0 0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!--Base rounded button-->
+        <Style TargetType="{x:Type Button}" x:Key="BaseRoundedButton" BasedOn="{StaticResource BaseMouseOverOverride}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="5 5 5 5">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!--Base square button-->
+        <Style TargetType="{x:Type Button}" x:Key="BaseSquareButton" BasedOn="{StaticResource BaseMouseOverOverride}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!--Primary Button Background-->
+        <LinearGradientBrush x:Key="PrimaryButtonBackground" StartPoint="0.5,0" EndPoint="0.5,1">
+            <GradientStop Color="#FFC2C2CC" Offset="0"/>
+            <GradientStop Color="#FF838A9C" Offset="0.100"/>
+            <GradientStop Color="#FF1E4A61" Offset="0.200"/>
+            <GradientStop Color="#FF1066A9" Offset="0.600"/>
+            <GradientStop Color="#FF0778BD" Offset="0.800"/>
+            <GradientStop Color="#FF169BD3" Offset="1"/>
+        </LinearGradientBrush>
+
+        <!--Primary button-->
+        <Style TargetType="Button" x:Key="PrimaryButton" BasedOn="{StaticResource BaseSquareButton}">
+            <Setter Property="Height" Value="25"></Setter>
+            <Setter Property="Width" Value="70"></Setter>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="{StaticResource PrimaryButtonBackground}" />
+        </Style>
+
+        <!--Cancel Button Background-->
+        <LinearGradientBrush x:Key="CancelButtonBackground" StartPoint="0.5,0" EndPoint="0.5,1">
+            <GradientStop Color="#FFE38F07" Offset="0"/>
+            <GradientStop Color="#FFE28604" Offset="0.100"/>
+            <GradientStop Color="#FFCF4C16" Offset="0.200"/>
+            <GradientStop Color="#FFDF620E" Offset="0.600"/>
+            <GradientStop Color="#FFe38f09" Offset="1"/>
+        </LinearGradientBrush>
+
+        <!--Cancel button-->
+        <Style TargetType="Button" x:Key="CancelButton" BasedOn="{StaticResource BaseSquareButton}">
+            <Setter Property="Height" Value="25"></Setter>
+            <Setter Property="Width" Value="70"></Setter>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="{StaticResource CancelButtonBackground}" />
+        </Style>
+
+        <!--New Button Background-->
+        <LinearGradientBrush x:Key="NewButtonBackground" StartPoint="0.5,0" EndPoint="0.5,1">
+            <GradientStop Color="#FF96c979" Offset="0"/>
+            <GradientStop Color="#FF7db844" Offset="0.100"/>
+            <GradientStop Color="#FF1f6236" Offset="0.200"/>
+            <GradientStop Color="#FF398338" Offset="0.600"/>
+            <GradientStop Color="#FF69A931" Offset="1"/>
+        </LinearGradientBrush>
+
+        <!--New button-->
+        <Style TargetType="Button" x:Key="NewButton" BasedOn="{StaticResource BaseSquareButton}">
+            <Setter Property="Height" Value="25"></Setter>
+            <Setter Property="Width" Value="70"></Setter>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="{StaticResource NewButtonBackground}" />
+        </Style>
+
+        <!--Delete Button Background-->
+        <LinearGradientBrush x:Key="DeleteButtonBackground" StartPoint="0.5,0" EndPoint="0.5,1">
+            <GradientStop Color="#FFf35552" Offset="0"/>
+            <GradientStop Color="#FFde3e26" Offset="0.100"/>
+            <GradientStop Color="#FFa40700" Offset="0.200"/>
+            <GradientStop Color="#FFc42101" Offset="0.600"/>
+            <GradientStop Color="#FFdd3f21" Offset="1"/>
+        </LinearGradientBrush>
+
+        <!--Delete button-->
+        <Style TargetType="Button" x:Key="DeleteButton" BasedOn="{StaticResource BaseSquareButton}">
+            <Setter Property="Height" Value="25"></Setter>
+            <Setter Property="Width" Value="70"></Setter>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="{StaticResource DeleteButtonBackground}" />
+        </Style>
+
+        <!--Windows-->
+
+        <!--Main Window Brush-->
+        <LinearGradientBrush x:Key="MainWindowBorderBrush" StartPoint="0.5,0" EndPoint="0.5,1">
+            <GradientStop Color="#FF1D1D1D" Offset="0.300"/>
+            <GradientStop Color="#FF007F96" Offset="0.853"/>
+            <GradientStop Color="#FF0AEAFA" Offset="1"/>
+        </LinearGradientBrush>
+
+        <!--Base Window Background-->
+        <LinearGradientBrush x:Key="BaseWindowBackground" StartPoint="0.5,0" EndPoint="0.5,1">
+            <GradientStop Color="#FF1D1D1D" Offset="1"/>
+            <GradientStop Color="#FF007F96" Offset="0.300"/>
+            <GradientStop Color="#FF0AEAFA" Offset="600"/>
+        </LinearGradientBrush>
+
         <!--Value converters-->
 
         <!--Bool to Yes No value converter-->
         <ValueConverters:BooleanToYesNoConverter x:Key="BooleanToYesNoConverter" />
 
-        <!--User controls-->
+        <!--User Controls-->
 
-        <!--Button bar button.-->
-        <Style TargetType="Button" x:Key="ButtonBarButton">
-            <Setter Property="Height" Value="25"></Setter>
-            <Setter Property="Width" Value="70"></Setter>
-            <Setter Property="Margin" Value="0, 0, 10, 0"></Setter>
+        <Style TargetType="UserControls:FormButtonBar">
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+            <Setter Property="Margin" Value="0 0 10 0"/>
+        </Style>
+
+        <Style TargetType="UserControls:EntityListButtonBar">
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+        </Style>
+
+        <!--Smart select-->
+        <Style TargetType="ListBox" x:Key="SmartSelectList">
+            <Setter Property="SelectionMode" Value="Extended"/>
+        </Style>
+        <Style TargetType="ListBoxItem" x:Key="SmartSelectListItem">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=IsActive}" Value="False">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <!--Search bar-->
+
+        <!--Button gradients -->
+        <LinearGradientBrush x:Key="SearchButtonGradient" EndPoint="0.504,1.5" StartPoint="0.504,0.03">
+            <GradientStop Color="#f0ad4e" Offset="0"/>
+            <GradientStop Color="#FFFFFFFF" Offset="0.900"/>
+        </LinearGradientBrush>
+
+        <!--Search Button.-->
+        <Style TargetType="Button" x:Key="SearchButton">
+            <Setter Property="Background" Value="{StaticResource SearchButtonGradient}"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="BorderThickness" Value="0 1 1 1"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="MinWidth" Value="100"/>
+        </Style>
+
+        <!--Collapsible Menu-->
+
+        <!--Menu Option Button Background-->
+        <LinearGradientBrush x:Key="MenuOptionButtonBackground" StartPoint="0.5,0" EndPoint="0.5,1">
+            <GradientStop Color="#FF54AFC9" Offset="0"/>
+            <GradientStop Color="#FF6ADDFF" Offset="0.500"/>
+            <GradientStop Color="#FFFFFFFF" Offset="1"/>
+        </LinearGradientBrush>
+        <!--Menu Option Button Border-->
+        <LinearGradientBrush x:Key="MenuOptionButtonBorder" StartPoint="0.5,0" EndPoint="0.5,1">
+            <GradientStop Color="#FF2A5866" Offset="0"/>
+            <GradientStop Color="#FF2A5866" Offset="0.300"/>
+            <GradientStop Color="#FF6ADDFF" Offset="1"/>
+        </LinearGradientBrush>
+
+        <!--Menu Option Button-->
+        <Style TargetType="Button" x:Key="MenuOptionButton">
+            <Setter Property="Background" Value="{StaticResource MenuOptionButtonBackground}"></Setter>
+            <Setter Property="BorderBrush" Value="{StaticResource MenuOptionButtonBorder}"></Setter>
+            <Setter Property="Height" Value="30"></Setter>
+            <Setter Property="FontWeight" Value="Bold"></Setter>
         </Style>
 
         <!--Form styles-->
@@ -32,6 +224,7 @@
                x:Key="FormLabel">
             <Setter Property="HorizontalAlignment" Value="Right" />
             <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Foreground" Value="White" />
         </Style>
         <!--Grid style used in forms-->
         <Style TargetType="TextBox" x:Key="FormTextBox">
@@ -46,10 +239,45 @@
             <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
 
-        <!--List styles-->
+        <!--Grid styles-->
+
+        <LinearGradientBrush x:Key="HeaderBrush" StartPoint="0.5,0" EndPoint="0.5,1">
+            <GradientStop Color="#FF6B8E95" Offset="0"/>
+            <GradientStop Color="#FF14A7C1" Offset="1"/>
+            <GradientStop Color="#FF1E424E" Offset="0.509"/>
+            <GradientStop Color="#FF1D4855" Offset="0.542"/>
+            <GradientStop Color="#FF1D4855" Offset="0.542"/>
+            <GradientStop Color="#FF193A44" Offset="0.526"/>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="HeaderBorderBrush" StartPoint="0.5,0" EndPoint="0.5,1">
+            <GradientStop Color="#FF1D1D1D" Offset="0.614"/>
+            <GradientStop Color="#FF007F96" Offset="0.853"/>
+            <GradientStop Color="#FF0AEAFA" Offset="1"/>
+        </LinearGradientBrush>
+
+        <Style x:Key="DataGridColumnHeaderStyle" TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="{StaticResource HeaderBrush}" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderBrush" Value="{StaticResource HeaderBorderBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="MinWidth" Value="0" />
+            <Setter Property="MinHeight" Value="30" />
+            <Setter Property="Cursor" Value="Hand" />
+        </Style>
+
+        <Style TargetType="DataGridRow" x:Key="HideableRow">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=IsActive}" Value="False">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
         <Style TargetType="DataGrid" x:Key="ListDataGrid">
             <Setter Property="IsReadOnly" Value="True" />
-            <Setter Property="AlternatingRowBackground" Value="AliceBlue" />
             <Setter Property="AutoGenerateColumns" Value="False" />
             <Setter Property="CanUserAddRows" Value="False" />
             <Setter Property="CanUserDeleteRows" Value="False" />
@@ -59,6 +287,8 @@
             <Setter Property="HeadersVisibility" Value="Column" />
             <Setter Property="SelectionMode" Value="Single" />
             <Setter Property="SelectionUnit" Value="FullRow" />
+            <Setter Property="ColumnHeaderStyle" Value="{StaticResource DataGridColumnHeaderStyle}"/>
+            <Setter Property="RowStyle" Value="{StaticResource HideableRow}"/>
         </Style>
 
         <!--Validation templates-->
@@ -100,22 +330,43 @@
         <!--Main menu buttons-->
 
         <!--Base Menu Button.-->
-        <Style TargetType="Button" x:Key="MenuButton">
-            <Setter Property="Height" Value="40"></Setter>
-            <Setter Property="Background" Value="DodgerBlue"></Setter>
-            <Setter Property="Opacity" Value="0.9"></Setter>
-        </Style>
+
+        <!--Button gradients -->
+        <LinearGradientBrush x:Key="BaseMenuButtonBackground" EndPoint="0.504,1.5" StartPoint="0.504,0.03">
+            <GradientStop Color="#FF6B8E95" Offset="0"/>
+            <GradientStop Color="#FF14A7C1" Offset="1"/>
+            <GradientStop Color="#FF1E424E" Offset="0.300"/>
+            <GradientStop Color="#FF1D4855" Offset="0.500"/>
+            <GradientStop Color="#FF1D4855" Offset="0.700"/>
+            <GradientStop Color="#FF193A44" Offset="0.900"/>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="BaseMenuButtonBorderBrush" StartPoint="0.5,0" EndPoint="0.5,1">
+            <GradientStop Color="#FF6B8E95" Offset="0"/>
+            <GradientStop Color="#FF14A7C1" Offset="1"/>
+            <GradientStop Color="#FF1E424E" Offset="0.509"/>
+            <GradientStop Color="#FF1D4855" Offset="0.542"/>
+            <GradientStop Color="#FF1D4855" Offset="0.542"/>
+            <GradientStop Color="#FF193A44" Offset="0.526"/>
+        </LinearGradientBrush>
+
         <!--Menu Header Button.-->
-        <Style TargetType="Button" 
-               x:Key="MenuHeaderButton"
-               BasedOn="{StaticResource MenuButton}">
+        <Style TargetType="Button" x:Key="MenuHeaderButton" BasedOn="{StaticResource BaseHeaderButton}">
+            <Setter Property="Background" Value="{StaticResource BaseMenuButtonBackground}"></Setter>
+            <Setter Property="BorderBrush" Value="{StaticResource BaseMenuButtonBorderBrush}"></Setter>
+            <Setter Property="Height" Value="40"></Setter>
+            <Setter Property="FontWeight" Value="Bold"></Setter>
+            <Setter Property="Foreground" Value="White"></Setter>
             <Setter Property="VerticalAlignment" Value="Bottom"></Setter>
             <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
         </Style>
         <!--Filter Menu Button.-->
-        <Style TargetType="Button" 
-               x:Key="MenuFilterButton"
-               BasedOn="{StaticResource MenuButton}">
+        <Style TargetType="Button" x:Key="MenuFilterButton" BasedOn="{StaticResource BaseRoundedButton}">
+            <Setter Property="Background" Value="{StaticResource BaseMenuButtonBackground}"></Setter>
+            <Setter Property="BorderBrush" Value="{StaticResource BaseMenuButtonBorderBrush}"></Setter>
+            <Setter Property="Height" Value="40"></Setter>
+            <Setter Property="FontWeight" Value="Bold"></Setter>
+            <Setter Property="Foreground" Value="White"></Setter>
             <Setter Property="Width" Value="220"></Setter>
         </Style>
     </Application.Resources>

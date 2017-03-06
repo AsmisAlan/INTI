@@ -10,16 +10,19 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace GeoUsersUI.Models.ViewModels
 {
-    public class MainViewModel : BaseNotifierEntity
+    public class MainViewModel : BaseWindowViewModel
     {
-        readonly OrganizacionLogic organizacionLogic;
-        readonly SectorLogic sectorLogic;
-        readonly RubroLogic rubroLogic;
-        readonly LocalidadLogic localidadLogic;
-        readonly TipoOrganizacionLogic tipoOrganizacionLogic;
+        private readonly OrganizacionLogic organizacionLogic;
+        private readonly SectorLogic sectorLogic;
+        private readonly RubroLogic rubroLogic;
+        private readonly LocalidadLogic localidadLogic;
+        private readonly TipoOrganizacionLogic tipoOrganizacionLogic;
+
+        private Visibility loadingMap { get; set; }
 
         public ObservableCollection<OrganizacionHeaderData> Organizaciones { get; set; }
 
@@ -39,8 +42,19 @@ namespace GeoUsersUI.Models.ViewModels
 
         public FilterStatus OrganizacionesFilter { get; set; }
 
-        public bool Loading { get; set; }
+        public Visibility LoadingMap
+        {
+            get
+            {
+                return loadingMap;
+            }
+            set
+            {
+                loadingMap = value;
 
+                OnPropertyChanged(nameof(LoadingMap));
+            }
+        }
         public MainViewModel()
         {
         }
@@ -90,8 +104,6 @@ namespace GeoUsersUI.Models.ViewModels
 
         public async Task<IEnumerable<OrganizacionHeaderData>> UpdateOrganizacionHeaders()
         {
-            Loading = true;
-
             var results = await Task.Run(() =>
             {
                 using (var sessionBlock = GeoUsersServices.SessionProvider.GetSessionContextBlock())
@@ -102,16 +114,15 @@ namespace GeoUsersUI.Models.ViewModels
 
             Organizaciones.Update(results);
 
-            Loading = false;
-
             return results;
         }
 
         public bool? ApplySectorFilter()
         {
-            var form = new SmartSelectWindow(() => { return sectorLogic.GetForSelection(OrganizacionesFilter.Filter.SectorIds); },
+            var form = new SmartSelectWindow(() => { return sectorLogic.GetForSelection(); },
                                              () => { return sectorLogic.GetByIds(OrganizacionesFilter.Filter.SectorIds); },
-                                             OrganizacionesFilter.Filter.SectorIds);
+                                             OrganizacionesFilter.Filter.SectorIds,
+                                             "Sectores");
             form.ShowDialog();
 
             if (form.DialogResult.HasValue && form.DialogResult.Value)
@@ -126,9 +137,10 @@ namespace GeoUsersUI.Models.ViewModels
 
         public bool? ApplyRubroFilter()
         {
-            var form = new SmartSelectWindow(() => { return rubroLogic.GetForSelection(OrganizacionesFilter.Filter.RubroIds); },
+            var form = new SmartSelectWindow(() => { return rubroLogic.GetForSelection(); },
                                              () => { return rubroLogic.GetByIds(OrganizacionesFilter.Filter.RubroIds); },
-                                             OrganizacionesFilter.Filter.RubroIds);
+                                             OrganizacionesFilter.Filter.RubroIds,
+                                             "Rubros");
             form.ShowDialog();
 
             if (form.DialogResult.HasValue && form.DialogResult.Value)
@@ -143,9 +155,10 @@ namespace GeoUsersUI.Models.ViewModels
 
         public bool? ApplyLocalidadFilter()
         {
-            var form = new SmartSelectWindow(() => { return localidadLogic.GetForSelection(OrganizacionesFilter.Filter.LocalidadIds); },
+            var form = new SmartSelectWindow(() => { return localidadLogic.GetForSelection(); },
                                              () => { return localidadLogic.GetByIds(OrganizacionesFilter.Filter.LocalidadIds); },
-                                             OrganizacionesFilter.Filter.LocalidadIds);
+                                             OrganizacionesFilter.Filter.LocalidadIds,
+                                             "Localidades");
             form.ShowDialog();
 
             if (form.DialogResult.HasValue && form.DialogResult.Value)
@@ -160,15 +173,12 @@ namespace GeoUsersUI.Models.ViewModels
 
         public bool? ApplyTipoOrganizacionFilter()
         {
-            var form = new SmartSelectWindow(() =>
-                                             {
-                                                 return tipoOrganizacionLogic.GetForSelection(OrganizacionesFilter.Filter.TipoOrganizacionIds);
-                                             },
-                                             () =>
-                                             {
-                                                 return tipoOrganizacionLogic.GetByIds(OrganizacionesFilter.Filter.TipoOrganizacionIds);
-                                             },
-                                             OrganizacionesFilter.Filter.TipoOrganizacionIds);
+            var currentIds = OrganizacionesFilter.Filter.TipoOrganizacionIds;
+
+            var form = new SmartSelectWindow(() => { return tipoOrganizacionLogic.GetForSelection(); },
+                                             () => { return tipoOrganizacionLogic.GetByIds(currentIds); },
+                                             OrganizacionesFilter.Filter.TipoOrganizacionIds,
+                                             "Tipos de Organizaciones");
             form.ShowDialog();
 
             if (form.DialogResult.HasValue && form.DialogResult.Value)
@@ -179,6 +189,22 @@ namespace GeoUsersUI.Models.ViewModels
             }
 
             return form.DialogResult;
+        }
+
+        public void FilterOrganizaciones(string serchTerm)
+        {
+            if (serchTerm == "")
+            {
+                return;
+            }
+
+            foreach (var organizacion in Organizaciones)
+            {
+                organizacion.IsActive = organizacion.Nombre.Contains(serchTerm) ||
+                                        organizacion.Direccion.Contains(serchTerm) ||
+                                        organizacion.Email.Contains(serchTerm) ||
+                                        organizacion.Telefono.Contains(serchTerm);
+            }
         }
     }
 }

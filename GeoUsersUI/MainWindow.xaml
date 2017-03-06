@@ -6,16 +6,19 @@
         xmlns:local="clr-namespace:GeoUsersUI"
         xmlns:UserControls="clr-namespace:GeoUsersUI.UserControls" 
         xmlns:ViewModels="clr-namespace:GeoUsersUI.Models.ViewModels" 
+        xmlns:cefSharp="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"  
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
         x:Class="GeoUsersUI.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" MinWidth="900">
+        Title="MainWindow" MinHeight="600" MinWidth="950"
+        Background="{StaticResource MainWindowBorderBrush}">
     <Grid Margin="10,10,10,10"
           Name="Container">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="230"/>
             <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
         <Grid Name="MenuGrid"
@@ -29,8 +32,8 @@
             </Grid.ColumnDefinitions>
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <WrapPanel Orientation="Vertical"
-                       HorizontalAlignment="Stretch"
-                       Grid.Column="0">
+                           HorizontalAlignment="Stretch"
+                           Grid.Column="0">
                     <UserControls:CollapsibleMenu 
                         Grid.Row="0"
                         x:Name="OrganizacionMenu"
@@ -113,35 +116,34 @@
                     <Label Content="Filtrar"
                            HorizontalAlignment="Center"
                            FontWeight="Bold"
+                           Foreground="White"
                            FontSize="20"></Label>
                     <ComboBox  Grid.Row="1"
-                               VerticalAlignment="Center"
                                ItemsSource="{Binding Path=UsuarioIntiStatuses}"
                                SelectedValuePath="Id"
                                DisplayMemberPath="Value"
                                SelectedValue="{Binding Path=OrganizacionesFilter.Filter.UsuarioInti}"
-                               IsSynchronizedWithCurrentItem="True" SelectionChanged="ComboBox_SelectionChanged">
-                    </ComboBox>
+                               IsSynchronizedWithCurrentItem="True" SelectionChanged="ComboBox_SelectionChanged" Margin="0,0,0,18"/>
                     <Button Content="{Binding Path=OrganizacionesFilter.SectorStatus}"
-                            Style="{StaticResource MenuButton}"
+                            Style="{StaticResource MenuFilterButton}"
                             x:Name="SectorFilterButton"
                             Click="SectorFilterButton_Click"
                             Grid.Row="2">
                     </Button>
                     <Button Content="{Binding Path=OrganizacionesFilter.RubroStatus}"
-                            Style="{StaticResource MenuButton}"
+                            Style="{StaticResource MenuFilterButton}"
                             x:Name="RubroFilterButton"
                             Click="RubroFilterButton_Click"
                             Grid.Row="3">
                     </Button>
                     <Button Content="{Binding Path=OrganizacionesFilter.TipoOrganizacionStatus}"
-                            Style="{StaticResource MenuButton}"
+                            Style="{StaticResource MenuFilterButton}"
                             x:Name="TipoOrganizacionFilterButton"
                             Click="TipoOrganizacionFilterButton_Click"
                             Grid.Row="4">
                     </Button>
                     <Button Content="{Binding Path=OrganizacionesFilter.LocalidadStatus}"
-                            Style="{StaticResource MenuButton}"
+                            Style="{StaticResource MenuFilterButton}"
                             x:Name="LocalidadFilterButton"
                             Click="LocalidadFilterButton_Click"
                             Grid.Row="5">
@@ -153,39 +155,52 @@
               Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="5*"/>
+                <RowDefinition Height="7*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
+            <UserControls:SearchBar x:Name="SearchBar"
+                                    VerticalAlignment="Top"
+                                    OnSearchTermChanged="SearchBar_OnSearchTermChanged"/>
             <DataGrid ItemsSource="{Binding Path=Organizaciones}"
-                      Grid.Row="0"
+                      Grid.Row="1"
                       Grid.Column="1"
                       Name="DataGrid" 
                       MouseDoubleClick="DataGrid_MouseDoubleClick"
                       Style="{StaticResource ListDataGrid}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Nombre"
-                                    Width="*"
-                                    Binding="{Binding Path=Nombre}">
+                                        Width="*"
+                                        Binding="{Binding Path=Nombre}">
                     </DataGridTextColumn>
                     <DataGridTextColumn Header="Direccion"
-                                    Width="*"
-                                    Binding="{Binding Path=Direccion}">
+                                        Width="*"
+                                        Binding="{Binding Path=Direccion}">
                     </DataGridTextColumn>
                     <DataGridTextColumn Header="Telefono"
-                                    Width="*"
-                                    Binding="{Binding Path=Telefono}">
+                                        Width="*"
+                                        Binding="{Binding Path=Telefono}">
                     </DataGridTextColumn>
                     <DataGridTextColumn Header="Email"
-                                    Width="*"
-                                    Binding="{Binding Path=Email}">
+                                        Width="*"
+                                        Binding="{Binding Path=Email}">
                     </DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
-            <WebBrowser Name="Browser" 
-                        Grid.Row="1">
-            </WebBrowser>
+            <cefSharp:ChromiumWebBrowser x:Name="Browser"
+                                         Grid.Row="2"/>
+            <fa:FontAwesome Icon="Spinner"
+                            Spin="True"
+                            VerticalAlignment="Center"
+                            TextAlignment="Right"
+                            x:Name="MapLoading"
+                            FontSize="60"
+                            Width="62"
+                            Height="62"
+                            Grid.Row="2"
+                            Visibility="{Binding Path=LoadingMap}"/>
         </Grid>
     </Grid>
 </Window>

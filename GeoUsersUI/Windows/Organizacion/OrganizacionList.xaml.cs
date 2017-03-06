@@ -4,7 +4,6 @@ using Microsoft.Practices.Unity;
 using System.Windows;
 using GeoUsersUI.Models.ViewModels;
 using System.Threading.Tasks;
-using System;
 
 namespace GeoUsersUI.Windows
 {
@@ -26,17 +25,6 @@ namespace GeoUsersUI.Windows
 
         private async void Initialize()
         {
-            ViewModel.CloseFunction = () =>
-            {
-                Close();
-
-                return true;
-            };
-
-            ViewModel.EditFunction = GetEditFunction();
-            ViewModel.DeleteFunction = GetDeleteFunction();
-            ViewModel.CreateFunction = GetCreateFunction();
-
             await UpdateOrganizaciones();
         }
 
@@ -47,71 +35,64 @@ namespace GeoUsersUI.Windows
             return true;
         }
 
-        private Func<Task<bool>> GetCreateFunction()
+        private async void OpenEditionForm()
         {
-            return async () =>
+            if (OrganizacionGrid.SelectedItem == null)
             {
-                var form = new OrganizacionCreationEditionForm();
+                return;
+            }
 
-                var result = form.ShowDialog();
+            var organizacion = (OrganizacionHeaderData)OrganizacionGrid.SelectedItem;
 
-                if (result.HasValue && result.Value)
-                {
-                    await UpdateOrganizaciones();
-                }
+            var form = new OrganizacionCreationEditionForm(organizacion.Id);
 
-                return true;
-            };
-        }
+            var result = form.ShowDialog();
 
-        private Func<Task<bool>> GetEditFunction()
-        {
-            return async () =>
+            if (result.HasValue && result.Value)
             {
-                if (OrganizacionGrid.SelectedItem == null)
-                {
-                    return false;
-                }
-
-                var organizacion = (OrganizacionHeaderData)OrganizacionGrid.SelectedItem;
-
-                var form = new OrganizacionCreationEditionForm(organizacion.Id);
-
-                var result = form.ShowDialog();
-
-                if (result.HasValue && result.Value)
-                {
-                    await UpdateOrganizaciones();
-                }
-
-                return true;
-            };
-        }
-
-        private Func<Task<bool>> GetDeleteFunction()
-        {
-            Func<Task<bool>> function = async () =>
-            {
-                var result = MessageBoxUtils.ShowConfirmationBox("Seguro desea eliminar la organización ?");
-
-                if (result == MessageBoxResult.Yes)
-                {
-                    var organizacion = (OrganizacionHeaderData)OrganizacionGrid.SelectedItem;
-
-                    await ViewModel.Delete(organizacion.Id);
-
-                    await UpdateOrganizaciones();
-                }
-
-                return true;
-            };
-
-            return function;
+                await UpdateOrganizaciones();
+            }
         }
 
         private void OrganizacionGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            ViewModel.EditFunction();
+            OpenEditionForm();
+        }
+
+        private void EntityListButtonBar_OnCloseButtonClick(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private async void EntityListButtonBar_OnCreateButtonClick(object sender, RoutedEventArgs e)
+        {
+            var form = new OrganizacionCreationEditionForm();
+
+            var result = form.ShowDialog();
+
+            if (result.HasValue && result.Value)
+            {
+                await UpdateOrganizaciones();
+            }
+        }
+
+        private async void EntityListButtonBar_OnDeleteButtonClick(object sender, RoutedEventArgs e)
+        {
+            var result = MessageBoxUtils.Confirmation("Seguro desea eliminar la organización ?");
+
+            if (result == MessageBoxResult.Yes)
+            {
+                var organizacion = (OrganizacionHeaderData)OrganizacionGrid.SelectedItem;
+
+                await ViewModel.Delete(organizacion.Id);
+
+                await UpdateOrganizaciones();
+            }
+        }
+
+        private void EntityListButtonBar_OnEditButtonClick(object sender, RoutedEventArgs e)
+        {
+            OpenEditionForm();
         }
     }
 }

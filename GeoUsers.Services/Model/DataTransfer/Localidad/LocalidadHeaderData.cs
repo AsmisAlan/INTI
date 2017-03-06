@@ -6,6 +6,8 @@
 
         private string codigoPostal { get; set; }
 
+        protected bool isActive { get; set; }
+
         public string Nombre
         {
             get
@@ -31,6 +33,20 @@
                 codigoPostal = value;
 
                 OnPropertyChanged(nameof(CodigoPostal));
+            }
+        }
+
+        public bool IsActive
+        {
+            get
+            {
+                return isActive;
+            }
+            set
+            {
+                isActive = value;
+
+                OnPropertyChanged(nameof(IsActive));
             }
         }
     }

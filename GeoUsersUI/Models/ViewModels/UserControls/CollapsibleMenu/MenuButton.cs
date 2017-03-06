@@ -10,18 +10,6 @@ namespace GeoUsersUI.Models.ViewModels.UserControls
 
         protected string name { get; set; }
 
-        protected Func<bool> onButtonClickAction { get; set; }
-
-        public Func<bool> OnButtonClickAction
-        {
-            get { return onButtonClickAction; }
-            set
-            {
-                onButtonClickAction = value;
-                OnPropertyChanged(nameof(onButtonClickAction));
-            }
-        }
-
         public string Name
         {
             get { return name; }
@@ -42,13 +30,19 @@ namespace GeoUsersUI.Models.ViewModels.UserControls
             }
         }
 
-        public static MenuButton Copy(MenuButton button, Func<bool> newButtonAction)
+        public event EventHandler ButtonClick;
+
+        public void OnButtonClick(EventArgs e)
+        {
+            ButtonClick?.Invoke(this, e);
+        }
+
+        public static MenuButton Copy(MenuButton button)
         {
             return new MenuButton()
             {
                 ButtonVisibility = button.ButtonVisibility,
-                Name = button.Name,
-                OnButtonClickAction = newButtonAction
+                Name = button.Name
             };
         }
     }

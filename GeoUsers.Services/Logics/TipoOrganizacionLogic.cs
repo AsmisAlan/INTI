@@ -47,20 +47,12 @@ namespace GeoUsers.Services.Logics
             return Mapper.Map<IEnumerable<IdAndValue>>(tipoOrganizacion);
         }
 
-        public IEnumerable<IdAndValue> GetForSelection(ICollection<int> currentIds = null)
+        public IEnumerable<IdAndValue> GetForSelection()
         {
-            var tipoOrganizacionQuery = Session.QueryOver<TipoOrganizacion>();
-
-            if (currentIds != null && currentIds.Count > 0)
-            {
-                tipoOrganizacionQuery.WhereRestrictionOn(x => x.Id)
-                                     .Not
-                                     .IsIn(currentIds.ToArray());
-            }
-
-            var tipoOrganizaciones = tipoOrganizacionQuery.OrderBy(x => x.Tipo)
-                                                          .Asc
-                                                          .List();
+            var tipoOrganizaciones = Session.QueryOver<TipoOrganizacion>()
+                                            .OrderBy(x => x.Tipo)
+                                            .Asc
+                                            .List();
 
             return Mapper.Map<IEnumerable<IdAndValue>>(tipoOrganizaciones);
         }
@@ -101,13 +93,11 @@ namespace GeoUsers.Services.Logics
 
         public bool Delete(int tipoOrganizacionId)
         {
-            var organizacion = Session.Get<TipoOrganizacion>(tipoOrganizacionId);
+            var tipoOrganizacion = Session.Get<TipoOrganizacion>(tipoOrganizacionId);
 
-            if (organizacion == null) throw new Exception("Tipo de organizacion invalida");
+            if (tipoOrganizacion == null) throw new Exception("Tipo de organizacion invalida");
 
-            Session.Delete(organizacion);
-
-            return true;
+            return Delete(tipoOrganizacion);
         }
     }
 }

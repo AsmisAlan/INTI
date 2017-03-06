@@ -3,8 +3,12 @@
     public class OrganizacionBaseData : BaseComparableNotifierEntity
     {
         protected string nombre { get; set; }
+
         protected string telefono { get; set; }
+
         protected string email { get; set; }
+
+        protected bool usuarioInti { get; set; }
 
         public string Nombre
         {
@@ -33,6 +37,16 @@
             {
                 telefono = value;
                 OnPropertyChanged(nameof(Telefono));
+            }
+        }
+
+        public bool UsuarioInti
+        {
+            get { return usuarioInti; }
+            set
+            {
+                usuarioInti = value;
+                OnPropertyChanged(nameof(UsuarioInti));
             }
         }
     }

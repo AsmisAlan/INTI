@@ -35,6 +35,8 @@ namespace GeoUsersUI.Models.ViewModels.Forms
         {
             if (localidadId.HasValue)
             {
+                WindowTitle = "Modificar Localidad";
+
                 await Task.Run(() =>
                 {
                     using (var sessionContext = GeoUsersServices.SessionProvider.GetSessionContextBlock())
@@ -44,6 +46,10 @@ namespace GeoUsersUI.Models.ViewModels.Forms
                         Localidad.Update(sectorData);
                     }
                 });
+            }
+            else
+            {
+                WindowTitle = "Crear Localidad";
             }
 
             return true;

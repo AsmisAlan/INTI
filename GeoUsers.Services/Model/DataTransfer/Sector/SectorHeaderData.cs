@@ -6,6 +6,8 @@ namespace GeoUsers.Services.Model.DataTransfer
     {
         private string nombre { get; set; }
 
+        protected bool isActive { get; set; }
+
         public string Nombre
         {
             get
@@ -17,6 +19,20 @@ namespace GeoUsers.Services.Model.DataTransfer
                 nombre = value;
 
                 OnPropertyChanged(nameof(Nombre));
+            }
+        }
+
+        public bool IsActive
+        {
+            get
+            {
+                return isActive;
+            }
+            set
+            {
+                isActive = value;
+
+                OnPropertyChanged(nameof(IsActive));
             }
         }
     }

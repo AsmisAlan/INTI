@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GeoUsersUI.Models.ViewModels.Forms
 {
-    public class LocalidadListViewModel : BaseListViewModel
+    public class LocalidadListViewModel
     {
         private readonly LocalidadLogic localidadLogic;
 

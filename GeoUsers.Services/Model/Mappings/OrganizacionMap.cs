@@ -25,6 +25,8 @@ namespace GeoUsers.Services.Model.Mappings
             Property(x => x.Cuit, "CUIT");
             Property(x => x.Direccion, "DIRECCION");
             Property(x => x.Email, "EMAIL");
+            Property(x => x.Latitud, "LATITUD");
+            Property(x => x.Longitud, "LONGITUD");
 
             ManyToOne(x => x.Localidad, map =>
             {

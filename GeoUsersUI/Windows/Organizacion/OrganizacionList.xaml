@@ -5,13 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GeoUsersUI.Windows"
         mc:Ignorable="d"
-        Title="OrganizacionList" Height="600" MinWidth="800">
+        Title="OrganizacionList" Height="600" MinWidth="800"
+        Background="{StaticResource BaseWindowBackground}">
     <Grid Name="MainGrid"
           Style="{StaticResource FormGrid}"
           Grid.Column="1">
         <Grid.RowDefinitions>
             <RowDefinition Height="10*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="*" MaxHeight="100"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -74,15 +75,12 @@
                 </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <StackPanel VerticalAlignment="Bottom"
-                    HorizontalAlignment="Right"
-                    Grid.Row="1">
-            <UserControls:EntityListButtonBar
-                EditFunction="{Binding Path=EditFunction}"
-                CreateFunction="{Binding Path=CreateFunction}"
-                DeleteFunction="{Binding Path=DeleteFunction}"
-                CloseFunction="{Binding Path=CloseFunction}">
-            </UserControls:EntityListButtonBar>
-        </StackPanel>
+        <UserControls:EntityListButtonBar
+                Grid.Row="1"
+                OnCloseButtonClick="EntityListButtonBar_OnCloseButtonClick"
+                OnCreateButtonClick="EntityListButtonBar_OnCreateButtonClick"
+                OnDeleteButtonClick="EntityListButtonBar_OnDeleteButtonClick"
+                OnEditButtonClick="EntityListButtonBar_OnEditButtonClick">
+        </UserControls:EntityListButtonBar>
     </Grid>
 </Window>

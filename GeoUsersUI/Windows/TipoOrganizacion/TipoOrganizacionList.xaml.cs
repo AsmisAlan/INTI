@@ -1,8 +1,8 @@
 ﻿using GeoUsers.Services.Model.DataTransfer;
+using GeoUsers.Services.SQLExceptions;
 using GeoUsersUI.Models.ViewModels.Forms;
 using GeoUsersUI.Utils;
 using Microsoft.Practices.Unity;
-using System;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -26,17 +26,6 @@ namespace GeoUsersUI.Windows
 
         private async void Initialize()
         {
-            ViewModel.CloseFunction = () =>
-            {
-                Close();
-
-                return true;
-            };
-
-            ViewModel.EditFunction = GetEditFunction();
-            ViewModel.DeleteFunction = GetDeleteFunction();
-            ViewModel.CreateFunction = GetCreateFunction();
-
             await UpdateTipoOrganizaciones();
         }
 
@@ -47,69 +36,74 @@ namespace GeoUsersUI.Windows
             return true;
         }
 
-        private Func<Task<bool>> GetCreateFunction()
+        private async void OpenEditionForm()
         {
-            return async () =>
+            if (TipoOrganizacionGrid.SelectedItem == null)
             {
-                var form = new TipoOrganizacionCreationEditionForm();
+                return;
+            }
 
-                var result = form.ShowDialog();
+            var tipoOrganizacion = (TipoOrganizacionHeaderData)TipoOrganizacionGrid.SelectedItem;
 
-                if (result.HasValue && result.Value)
-                {
-                    await UpdateTipoOrganizaciones();
-                }
+            var form = new TipoOrganizacionCreationEditionForm(tipoOrganizacion.Id);
 
-                return true;
-            };
-        }
+            var result = form.ShowDialog();
 
-        private Func<Task<bool>> GetEditFunction()
-        {
-            return async () =>
+            if (result.HasValue && result.Value)
             {
-                if (TipoOrganizacionGrid.SelectedItem == null)
-                {
-                    return false;
-                }
-
-                var tipoOrganizacion = (TipoOrganizacionHeaderData)TipoOrganizacionGrid.SelectedItem;
-
-                var form = new TipoOrganizacionCreationEditionForm(tipoOrganizacion.Id);
-
-                var result = form.ShowDialog();
-
-                if (result.HasValue && result.Value)
-                {
-                    await UpdateTipoOrganizaciones();
-                }
-
-                return true;
-            };
-        }
-
-        private Func<Task<bool>> GetDeleteFunction()
-        {
-            return async () =>
-            {
-                var result = MessageBoxUtils.ShowConfirmationBox("Seguro desea eliminar el tipo de organización ?");
-
-                if (result == MessageBoxResult.Yes)
-                {
-                    var tipoOrganizacion = (TipoOrganizacionHeaderData)TipoOrganizacionGrid.SelectedItem;
-
-                    await ViewModel.Delete(tipoOrganizacion.Id);
-
-                    await UpdateTipoOrganizaciones();
-                }
-
-                return true;
-            };
+                await UpdateTipoOrganizaciones();
+            }
         }
 
         private void TipoOrganizacionGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            ViewModel.EditFunction();
+            OpenEditionForm();
+        }
+
+        private void EntityListButtonBar_OnCloseButtonClick(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private async void EntityListButtonBar_OnCreateButtonClick(object sender, RoutedEventArgs e)
+        {
+            var form = new TipoOrganizacionCreationEditionForm();
+
+            var result = form.ShowDialog();
+
+            if (result.HasValue && result.Value)
+            {
+                await UpdateTipoOrganizaciones();
+            }
+        }
+
+        private async void EntityListButtonBar_OnDeleteButtonClick(object sender, RoutedEventArgs e)
+        {
+            var result = MessageBoxUtils.Confirmation("Seguro desea eliminar el tipo de organización ?");
+
+            if (result == MessageBoxResult.Yes)
+            {
+                var tipoOrganizacion = (TipoOrganizacionHeaderData)TipoOrganizacionGrid.SelectedItem;
+
+                try
+                {
+                    await ViewModel.Delete(tipoOrganizacion.Id);
+                }
+                catch (ReferencedEntityException)
+                {
+                    MessageBoxUtils.Error("El tipo de organizacion que se intenta eliminar se encuentra en uso.");
+
+                    return;
+                }
+
+
+                await UpdateTipoOrganizaciones();
+            }
+        }
+
+        private void EntityListButtonBar_OnEditButtonClick(object sender, RoutedEventArgs e)
+        {
+            OpenEditionForm();
         }
     }
 }

@@ -4,16 +4,19 @@ namespace GeoUsersUI.Utils
 {
     public static class MessageBoxUtils
     {
-        public static void ShowFormIncompleteError()
+        public static void Error(string message)
         {
-            MessageBox.Show("Hay campos obligatorios incompletos.", "Error", MessageBoxButton.OK);
+            MessageBox.Show(message, "Error", MessageBoxButton.OK);
         }
 
-        public static MessageBoxResult ShowConfirmationBox(string confirmationMessage)
+        public static void FormIncompleteError()
         {
-            return MessageBox.Show(confirmationMessage,
-                                   "Confirmar",
-                                   MessageBoxButton.YesNo);
+            Error("Hay campos obligatorios incompletos.");
+        }
+
+        public static MessageBoxResult Confirmation(string confirmationMessage)
+        {
+            return MessageBox.Show(confirmationMessage, "Confirmar", MessageBoxButton.YesNo);
         }
     }
 }

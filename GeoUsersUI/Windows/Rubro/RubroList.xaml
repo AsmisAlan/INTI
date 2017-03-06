@@ -6,7 +6,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GeoUsersUI.Windows"
         mc:Ignorable="d"
-        Title="RubroList" Height="300" Width="400">
+        Title="RubroList" Height="300" Width="400"
+        Background="{StaticResource BaseWindowBackground}">
     <Grid Name="MainGrid"
           Style="{StaticResource FormGrid}"
           Grid.Column="1">
@@ -39,10 +40,10 @@
                     Grid.Row="1">
             <UserControls:EntityListButtonBar
                 VerticalAlignment="Bottom"
-                EditFunction="{Binding EditFunction}"
-                CreateFunction="{Binding Path=CreateFunction}"
-                DeleteFunction="{Binding Path=DeleteFunction}"
-                CloseFunction="{Binding Path=CloseFunction}">
+                OnCloseButtonClick="EntityListButtonBar_OnCloseButtonClick"
+                OnCreateButtonClick="EntityListButtonBar_OnCreateButtonClick"
+                OnDeleteButtonClick="EntityListButtonBar_OnDeleteButtonClick"
+                OnEditButtonClick="EntityListButtonBar_OnEditButtonClick">
             </UserControls:EntityListButtonBar>
         </StackPanel>
     </Grid>

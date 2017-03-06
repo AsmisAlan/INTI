@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GeoUsersUI.Models.ViewModels.Forms
 {
-    class TipoOrganizacionListViewModel : BaseListViewModel
+    class TipoOrganizacionListViewModel
     {
         private readonly TipoOrganizacionLogic tipoOrganizacionLogic;
 

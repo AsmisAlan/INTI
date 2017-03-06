@@ -46,19 +46,12 @@ namespace GeoUsers.Services.Logics
             return Mapper.Map<IEnumerable<IdAndValue>>(rubros);
         }
 
-        public IEnumerable<IdAndValue> GetForSelection(ICollection<int> currentIds = null)
+        public IEnumerable<IdAndValue> GetForSelection()
         {
-            var rubrosQuery = Session.QueryOver<Rubro>();
-
-            if (currentIds != null)
-            {
-                rubrosQuery.WhereRestrictionOn(x => x.Id)
-                      .Not.IsIn(currentIds.ToArray());
-            }
-
-            var rubros = rubrosQuery.OrderBy(x => x.Nombre)
-                                    .Asc
-                                    .List();
+            var rubros = Session.QueryOver<Rubro>()
+                                .OrderBy(x => x.Nombre)
+                                .Asc
+                                .List();
 
             return Mapper.Map<IEnumerable<IdAndValue>>(rubros);
         }
@@ -130,9 +123,7 @@ namespace GeoUsers.Services.Logics
 
             if (rubro == null) throw new Exception("Rubro Invalido");
 
-            Session.Delete(rubro);
-
-            return true;
+            return Delete(rubro);
         }
     }
 }

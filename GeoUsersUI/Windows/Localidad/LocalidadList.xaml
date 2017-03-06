@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:GeoUsersUI.Windows"
         xmlns:UserControls="clr-namespace:GeoUsersUI.UserControls" 
         mc:Ignorable="d"
-        Title="LocalidadList" Height="300" Width="400">
+        Title="LocalidadList" Height="300" Width="400"
+        Background="{StaticResource BaseWindowBackground}">
     <Grid>
         <Grid Name="MainGrid"
           Style="{StaticResource FormGrid}"
@@ -39,10 +40,11 @@
                         HorizontalAlignment="Right"
                         Grid.Row="1">
                 <UserControls:EntityListButtonBar
-                    EditFunction="{Binding Path=EditFunction}"
-                    CreateFunction="{Binding Path=CreateFunction}"
-                    DeleteFunction="{Binding Path=DeleteFunction}"
-                    CloseFunction="{Binding Path=CloseFunction}">
+                    x:Name="ButtonBar"
+                    OnCreateButtonClick="ButtonBar_OnCreateButtonClick"
+                    OnEditButtonClick="ButtonBar_OnEditButtonClick"
+                    OnDeleteButtonClick="ButtonBar_OnDeleteButtonClick"
+                    OnCloseButtonClick="ButtonBar_OnCloseButtonClick">
                 </UserControls:EntityListButtonBar>
             </StackPanel>
         </Grid>

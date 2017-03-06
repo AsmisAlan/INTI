@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using GeoUsers.Services.SQLExceptions;
 using NHibernate;
 
 namespace GeoUsers.Services.Logics
@@ -30,6 +31,22 @@ namespace GeoUsers.Services.Logics
         {
             this.autoMapper = autoMapper;
             this.sessionFactory = sessionFactory;
+        }
+
+        protected bool Delete(object entity)
+        {
+            Session.Delete(entity);
+
+            try
+            {
+                Session.Transaction.Commit();
+            }
+            catch (ConstraintViolationException e)
+            {
+                throw new ReferencedEntityException(e.Message);
+            }
+
+            return true;
         }
     }
 }

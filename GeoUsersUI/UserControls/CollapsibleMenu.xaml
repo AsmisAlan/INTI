@@ -30,11 +30,7 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Button Content="{Binding Name}"
-                                Background="DeepSkyBlue"
-                                Opacity="0.9"
-                                Height="30"
-                                FontWeight="Bold"
-                                FontFamily="Arial"
+                                Style="{StaticResource MenuOptionButton}"
                                 Visibility="{Binding ButtonVisibility}"
                                 Click="Button_Click">
                         </Button>

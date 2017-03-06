@@ -1,7 +1,4 @@
-﻿using System;
-using System.ComponentModel;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 
 namespace GeoUsersUI.UserControls
@@ -9,89 +6,82 @@ namespace GeoUsersUI.UserControls
     /// <summary>
     /// Interaction logic for EntityListButtonBar.xaml
     /// </summary>
-    public partial class EntityListButtonBar : UserControl, INotifyPropertyChanged
+    public partial class EntityListButtonBar : UserControl
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        // Create event.
+        public static readonly RoutedEvent OnCreateButtonClickEvent = EventManager.RegisterRoutedEvent(
+            "OnCreateButtonClick",
+            RoutingStrategy.Bubble,
+            typeof(RoutedEventHandler),
+            typeof(EntityListButtonBar));
 
-        protected void OnPropertyChanged(string name)
+        public event RoutedEventHandler OnCreateButtonClick
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+            add { AddHandler(OnCreateButtonClickEvent, value); }
+            remove { RemoveHandler(OnCreateButtonClickEvent, value); }
         }
 
-        public static readonly DependencyProperty DeleteFunctionProperty = DependencyProperty.Register("DeleteFunction",
-                                                                                                       typeof(Func<Task<bool>>),
-                                                                                                       typeof(EntityListButtonBar),
-                                                                                                       new PropertyMetadata());
-
-        public Func<Task<bool>> DeleteFunction
+        void RaiseCreateEvent()
         {
-            get
-            {
-                return (Func<Task<bool>>)GetValue(DeleteFunctionProperty);
-            }
-            set
-            {
-                SetValue(DeleteFunctionProperty, value);
-
-                OnPropertyChanged(nameof(DeleteFunction));
-            }
+            RoutedEventArgs newEventArgs = new RoutedEventArgs(OnCreateButtonClickEvent);
+            RaiseEvent(newEventArgs);
         }
 
-        public static readonly DependencyProperty EditFunctionProperty = DependencyProperty.Register("EditFunction",
-                                                                                                     typeof(Func<Task<bool>>),
-                                                                                                     typeof(EntityListButtonBar),
-                                                                                                     new PropertyMetadata());
+        // Edit event.
+        public static readonly RoutedEvent OnEditButtonClickEvent = EventManager.RegisterRoutedEvent(
+            "OnEditButtonClick",
+            RoutingStrategy.Bubble,
+            typeof(RoutedEventHandler),
+            typeof(EntityListButtonBar));
 
-        public Func<Task<bool>> EditFunction
+        public event RoutedEventHandler OnEditButtonClick
         {
-            get
-            {
-                return (Func<Task<bool>>)GetValue(EditFunctionProperty);
-            }
-            set
-            {
-                SetValue(EditFunctionProperty, value);
-
-                OnPropertyChanged(nameof(EditFunction));
-            }
+            add { AddHandler(OnEditButtonClickEvent, value); }
+            remove { RemoveHandler(OnEditButtonClickEvent, value); }
         }
 
-        public static readonly DependencyProperty CreateFunctionProperty = DependencyProperty.Register("CreateFunction",
-                                                                                                        typeof(Func<Task<bool>>),
-                                                                                                        typeof(EntityListButtonBar),
-                                                                                                        new PropertyMetadata());
-
-        public Func<Task<bool>> CreateFunction
+        void RaiseEditEvent()
         {
-            get
-            {
-                return (Func<Task<bool>>)GetValue(CreateFunctionProperty);
-            }
-            set
-            {
-                SetValue(CreateFunctionProperty, value);
-
-                OnPropertyChanged(nameof(CreateFunction));
-            }
+            RoutedEventArgs newEventArgs = new RoutedEventArgs(OnEditButtonClickEvent);
+            RaiseEvent(newEventArgs);
         }
 
-        public static readonly DependencyProperty CloseFunctionProperty = DependencyProperty.Register("CloseFunction",
-                                                                                                      typeof(Func<bool>),
-                                                                                                      typeof(EntityListButtonBar),
-                                                                                                      new PropertyMetadata());
+        // Delete event.
+        public static readonly RoutedEvent OnDeleteButtonClickEvent = EventManager.RegisterRoutedEvent(
+            "OnDeleteButtonClick",
+            RoutingStrategy.Bubble,
+            typeof(RoutedEventHandler),
+            typeof(EntityListButtonBar));
 
-        public Func<bool> CloseFunction
+        public event RoutedEventHandler OnDeleteButtonClick
         {
-            get
-            {
-                return (Func<bool>)GetValue(CloseFunctionProperty);
-            }
-            set
-            {
-                SetValue(CloseFunctionProperty, value);
+            add { AddHandler(OnDeleteButtonClickEvent, value); }
+            remove { RemoveHandler(OnDeleteButtonClickEvent, value); }
+        }
 
-                OnPropertyChanged(nameof(CloseFunction));
-            }
+        void RaiseDeleteEvent()
+        {
+            RoutedEventArgs newEventArgs = new RoutedEventArgs(OnDeleteButtonClickEvent);
+            RaiseEvent(newEventArgs);
+        }
+
+        // Close event.
+        public static readonly RoutedEvent OnCloseButtonClickEvent = EventManager.RegisterRoutedEvent(
+            "OnCloseButtonClick",
+            RoutingStrategy.Bubble,
+            typeof(RoutedEventHandler),
+            typeof(EntityListButtonBar));
+
+        public event RoutedEventHandler OnCloseButtonClick
+        {
+            add { AddHandler(OnCloseButtonClickEvent, value); }
+            remove { RemoveHandler(OnCloseButtonClickEvent, value); }
+        }
+
+        void RaiseCloseEvent()
+        {
+            RoutedEventArgs newEventArgs = new RoutedEventArgs(OnCloseButtonClickEvent);
+            RaiseEvent(newEventArgs);
         }
 
         public EntityListButtonBar()
@@ -99,24 +89,24 @@ namespace GeoUsersUI.UserControls
             InitializeComponent();
         }
 
-        private async void EditButton_Click(object sender, RoutedEventArgs e)
+        private void EditButton_Click(object sender, RoutedEventArgs e)
         {
-            await EditFunction();
+            RaiseEditEvent();
         }
 
-        private async void DeleteButton_Click(object sender, RoutedEventArgs e)
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            await DeleteFunction();
+            RaiseDeleteEvent();
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-            CloseFunction();
+            RaiseCloseEvent();
         }
 
         private void CreateButton_Click(object sender, RoutedEventArgs e)
         {
-            CreateFunction();
+            RaiseCreateEvent();
         }
     }
 }

@@ -9,22 +9,25 @@
                 HorizontalAlignment="Right">
         <Button Content="Nuevo"
                 Name="CreateButton"
-                Style="{StaticResource ButtonBarButton}"
+                Style="{StaticResource NewButton}"
+                Margin="0 0 10 0"
                 Click="CreateButton_Click">
         </Button>
         <Button Content="Modificar"
                 Name="EditButton"
-                Style="{StaticResource ButtonBarButton}"
+                Style="{StaticResource PrimaryButton}"
+                Margin="0 0 10 0"
                 Click="EditButton_Click">
         </Button>
         <Button Content="Eliminar"
                 Name="DeleteButton"
-                Style="{StaticResource ButtonBarButton}"
+                Style="{StaticResource DeleteButton}"
+                Margin="0 0 10 0"
                 Click="DeleteButton_Click">
         </Button>
         <Button Content="Cerrar"
                 Name="CloseButton"
-                Style="{StaticResource ButtonBarButton}"
+                Style="{StaticResource CancelButton}"
                 Click="CloseButton_Click">
         </Button>
     </StackPanel>

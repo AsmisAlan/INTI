@@ -79,11 +79,6 @@ namespace GeoUsersUI.UserControls
                                          typeof(CollapsibleMenu),
                                          new PropertyMetadata(false, OnPropertyChanged));
 
-        private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            ((CollapsibleMenu)d).ToggleButtonsVisibility();
-        }
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         public CollapsibleMenu()
@@ -93,6 +88,11 @@ namespace GeoUsersUI.UserControls
             DataContext = this;
 
             ToggleButtonsVisibility();
+        }
+
+        private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((CollapsibleMenu)d).ToggleButtonsVisibility();
         }
 
         private void ToggleButtonsVisibility()
@@ -112,7 +112,7 @@ namespace GeoUsersUI.UserControls
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            ((MenuButton)((Button)sender).DataContext).OnButtonClickAction();
+            ((MenuButton)((Button)sender).DataContext).OnButtonClick(e);
         }
     }
 }

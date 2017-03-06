@@ -1,11 +1,10 @@
 ﻿using GeoUsers.Services.Model.DataTransfer;
+using GeoUsers.Services.SQLExceptions;
 using GeoUsersUI.Models.ViewModels.Forms;
 using GeoUsersUI.Utils;
 using Microsoft.Practices.Unity;
-using System;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace GeoUsersUI.Windows
 {
@@ -27,17 +26,6 @@ namespace GeoUsersUI.Windows
 
         private async void Initialize()
         {
-            ViewModel.CloseFunction = () =>
-            {
-                Close();
-
-                return true;
-            };
-
-            ViewModel.EditFunction = GetEditFunction();
-            ViewModel.DeleteFunction = GetDeleteFunction();
-            ViewModel.CreateFunction = GetCreateFunction();
-
             await UpdateRubros();
         }
 
@@ -48,69 +36,73 @@ namespace GeoUsersUI.Windows
             return true;
         }
 
-        private Func<Task<bool>> GetCreateFunction()
+        private async void OpenEditionForm()
         {
-            return async () =>
+            if (RubroGrid.SelectedItem == null)
             {
-                var form = new RubroCreationEditionForm();
+                return;
+            }
 
-                var result = form.ShowDialog();
+            var rubro = (RubroHeaderData)RubroGrid.SelectedItem;
 
-                if (result.HasValue && result.Value)
-                {
-                    await UpdateRubros();
-                }
+            var form = new RubroCreationEditionForm(rubro.Id);
 
-                return true;
-            };
-        }
+            var result = form.ShowDialog();
 
-        private Func<Task<bool>> GetEditFunction()
-        {
-            return async () =>
+            if (result.HasValue && result.Value)
             {
-                if (RubroGrid.SelectedItem == null)
-                {
-                    return false;
-                }
-
-                var rubro = (RubroHeaderData)RubroGrid.SelectedItem;
-
-                var form = new RubroCreationEditionForm(rubro.Id);
-
-                var result = form.ShowDialog();
-
-                if (result.HasValue && result.Value)
-                {
-                    await UpdateRubros();
-                }
-
-                return true;
-            };
-        }
-
-        private Func<Task<bool>> GetDeleteFunction()
-        {
-            return async () =>
-            {
-                var result = MessageBoxUtils.ShowConfirmationBox("Seguro desea eliminar el rubro ?");
-
-                if (result == MessageBoxResult.Yes)
-                {
-                    var rubro = (RubroHeaderData)RubroGrid.SelectedItem;
-
-                    await ViewModel.Delete(rubro.Id);
-
-                    await UpdateRubros();
-                }
-
-                return true;
-            };
+                await UpdateRubros();
+            }
         }
 
         private void RubroGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            ViewModel.EditFunction();
+            OpenEditionForm();
+        }
+
+        private void EntityListButtonBar_OnCloseButtonClick(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private async void EntityListButtonBar_OnCreateButtonClick(object sender, RoutedEventArgs e)
+        {
+            var form = new RubroCreationEditionForm();
+
+            var result = form.ShowDialog();
+
+            if (result.HasValue && result.Value)
+            {
+                await UpdateRubros();
+            }
+        }
+
+        private async void EntityListButtonBar_OnDeleteButtonClick(object sender, RoutedEventArgs e)
+        {
+            var result = MessageBoxUtils.Confirmation("Seguro desea eliminar el rubro ?");
+
+            if (result == MessageBoxResult.Yes)
+            {
+                var rubro = (RubroHeaderData)RubroGrid.SelectedItem;
+
+                try
+                {
+                    await ViewModel.Delete(rubro.Id);
+                }
+                catch (ReferencedEntityException)
+                {
+                    MessageBoxUtils.Error("El rubro que se intenta eliminar se encuentra en uso.");
+
+                    return;
+                }
+
+                await UpdateRubros();
+            }
+        }
+
+        private void EntityListButtonBar_OnEditButtonClick(object sender, RoutedEventArgs e)
+        {
+            OpenEditionForm();
         }
     }
 }

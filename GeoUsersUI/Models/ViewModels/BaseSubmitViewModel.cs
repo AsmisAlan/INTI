@@ -6,7 +6,7 @@ using System.Windows;
 
 namespace GeoUsersUI.Models.ViewModels
 {
-    public abstract class BaseSubmitViewModel<T>
+    public abstract class BaseSubmitViewModel<T> : BaseWindowViewModel
     {
         public T Result { get; set; }
 
@@ -34,7 +34,7 @@ namespace GeoUsersUI.Models.ViewModels
             // TODO. implement notifypropertychanged together with a loading property to notify when the loading starts and finishes.
             if (!SubmitValidation())
             {
-                MessageBoxUtils.ShowFormIncompleteError();
+                MessageBoxUtils.FormIncompleteError();
                 return Task.FromResult(false);
             }
 
@@ -54,6 +54,12 @@ namespace GeoUsersUI.Models.ViewModels
                     Console.Write(e);
                     // TODO. Logger implementation. Log exceptions.
                     MessageBox.Show("Operacion invalida");
+                    return false;
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+
                     return false;
                 }
             });

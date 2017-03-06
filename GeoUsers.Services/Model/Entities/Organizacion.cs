@@ -20,6 +20,10 @@
 
         public virtual bool UsuarioInti { get; set; }
 
+        public virtual string Latitud { get; set; }
+
+        public virtual string Longitud { get; set; }
+
         public virtual Localidad Localidad { get; set; }
 
         public virtual TipoOrganizacion TipoOrganizacion { get; set; }

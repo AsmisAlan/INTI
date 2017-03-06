@@ -12,6 +12,13 @@ namespace GeoUsersUI.Utils
         {
             if (source.Any())
             {
+                if (!newCollection.Any())
+                {
+                    source.Clear();
+
+                    return source;
+                }
+
                 var itemsToAdd = newCollection.Except(source);
 
                 foreach (var item in itemsToAdd)
@@ -28,14 +35,11 @@ namespace GeoUsersUI.Utils
                     item.Update(newItem);
                 }
 
-                if (itemsToAdd.Count() != newCollection.Count())
-                {
-                    var itemsToRemove = source.Except(newCollection).ToList();
+                var itemsToRemove = source.Except(newCollection).ToList();
 
-                    foreach (var item in itemsToRemove)
-                    {
-                        source.Remove(item);
-                    }
+                foreach (var item in itemsToRemove)
+                {
+                    source.Remove(item);
                 }
             }
             else

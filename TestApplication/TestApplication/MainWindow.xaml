@@ -8,56 +8,6 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        <Grid.DataContext>
-            <local:MainViewModel/>
-        </Grid.DataContext>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <Label Content="Web :"
-               Grid.Column="0"
-               VerticalAlignment="Center"
-               HorizontalAlignment="Center"
-               Grid.Row="0"/>
-        <TextBox Grid.Column="1"
-                 Grid.Row="0"
-                 x:Name="TextBoxWeb"
-                 Text="{Binding TestUser.Web}"
-                 Style="{StaticResource FormTextBox}">
-        </TextBox>
-        <Label Content="Phone :"
-               Grid.Row="1"
-               VerticalAlignment="Center"
-               HorizontalAlignment="Center"
-               Grid.Column="0"/>
-        <TextBox Grid.Row="1"
-                 Grid.Column="1"
-                 x:Name="TextBoxPhone"
-                 Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
-                 Style="{StaticResource NumericTextBox}">
-            <TextBox.Text>
-                <Binding Path="TestUser.Phone"
-                         UpdateSourceTrigger="LostFocus"
-                         NotifyOnValidationError="True">
-                    <Binding.ValidationRules>
-                        <ValidationRules:NumericInputValidationRule/>
-                    </Binding.ValidationRules>
-                </Binding>
-            </TextBox.Text>
-        </TextBox>
-        <Label Content="Testing results:"
-               Grid.Row="2"
-               VerticalAlignment="Center"
-               HorizontalAlignment="Center">
-        </Label>
-        <TextBlock Text="{Binding TestUser.Phone}"
-                   Grid.Row="2"
-                   Grid.Column="1"></TextBlock>
+        <Button>Test</Button>
     </Grid>
 </Window>

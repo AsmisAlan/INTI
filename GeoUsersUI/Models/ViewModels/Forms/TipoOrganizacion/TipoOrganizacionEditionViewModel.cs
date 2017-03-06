@@ -35,6 +35,8 @@ namespace GeoUsersUI.Models.ViewModels
         {
             if (sectorId.HasValue)
             {
+                WindowTitle = "Modificar Tipo de Organizacion";
+
                 await Task.Run(() =>
                 {
                     using (var sessionContext = GeoUsersServices.SessionProvider.GetSessionContextBlock())
@@ -44,6 +46,10 @@ namespace GeoUsersUI.Models.ViewModels
                         TipoOrganizacion.Update(tipoOrganizacionData);
                     }
                 });
+            }
+            else
+            {
+                WindowTitle = "Crear Tipo de Organizacion";
             }
 
             return true;
