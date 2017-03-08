@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:GeoUsersUI.Windows"
         xmlns:UserControls="clr-namespace:GeoUsersUI.UserControls"
         mc:Ignorable="d"
-        Title="SectorList" Height="400" Width="400"
+        Title="SectorList" Height="400" MinWidth="550"
         Background="{StaticResource BaseWindowBackground}">
     <Grid Name="MainGrid"
           Style="{StaticResource FormGrid}"
@@ -33,11 +33,13 @@
         </DataGrid>
         <UserControls:EntityListButtonBar
                 Grid.Row="1"
-                
                 OnCloseButtonClick="EntityListButtonBar_OnCloseButtonClick"
                 OnCreateButtonClick="EntityListButtonBar_OnCreateButtonClick"
                 OnDeleteButtonClick="EntityListButtonBar_OnDeleteButtonClick"
-                OnEditButtonClick="EntityListButtonBar_OnEditButtonClick">
-        </UserControls:EntityListButtonBar>
+                OnEditButtonClick="EntityListButtonBar_OnEditButtonClick"/>
+        <UserControls:DataGridExportButtonBar 
+                    Grid.Row="1"
+                    OnExportButtonClick="DataGridExportButtonBar_OnExportButtonClick"
+                    OnPrintButtonClick="DataGridExportButtonBar_OnPrintButtonClick"/>
     </Grid>
 </Window>

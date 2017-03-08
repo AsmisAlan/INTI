@@ -104,5 +104,15 @@ namespace GeoUsersUI.Windows
         {
             OpenEditionForm();
         }
+
+        private void DataGridExportButtonBar_OnExportButtonClick(object sender, RoutedEventArgs e)
+        {
+            ExcelExportUtils.ExportToExcel(SectorGrid);
+        }
+
+        private void DataGridExportButtonBar_OnPrintButtonClick(object sender, RoutedEventArgs e)
+        {
+            PrintUtils.PrintDataGrid(SectorGrid, "Sectores");
+        }
     }
 }

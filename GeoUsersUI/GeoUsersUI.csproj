@@ -110,6 +110,9 @@
     <Compile Include="Models\ViewModels\Forms\Sector\SectorListViewModel.cs" />
     <Compile Include="Models\ViewModels\Forms\TipoOrganizacion\TipoOrganizacionListViewModel.cs" />
     <Compile Include="Models\ViewModels\UserControls\SmartSelect\SmartSelectItem.cs" />
+    <Compile Include="UserControls\DataGridExportButtonBar\DataGridExportButtonBar.xaml.cs">
+      <DependentUpon>DataGridExportButtonBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\EntityListButtonBar\EntityListButtonBar.xaml.cs">
       <DependentUpon>EntityListButtonBar.xaml</DependentUpon>
     </Compile>
@@ -122,6 +125,7 @@
     </Compile>
     <Compile Include="UserControls\SearchBar\SearchType.cs" />
     <Compile Include="Utils\CollectionExtensions.cs" />
+    <Compile Include="Utils\ExcelExportUtils.cs" />
     <Compile Include="Utils\MessageBoxUtils.cs" />
     <Compile Include="Models\ViewModels\Forms\Organizacion\OrganizacionListViewModel.cs" />
     <Compile Include="Models\ViewModels\Helpers\FilterStatus.cs" />
@@ -143,6 +147,7 @@
       <DependentUpon>SmartSelect.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils\ObjectExtensions.cs" />
+    <Compile Include="Utils\PrintUtils.cs" />
     <Compile Include="ValidationRules\EmailInputValidationRule.cs" />
     <Compile Include="ValidationRules\NumericInputValidationRule.cs" />
     <Compile Include="Models\ViewModels\BaseSubmitViewModel.cs" />
@@ -193,6 +198,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="UserControls\CollapsibleMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\DataGridExportButtonBar\DataGridExportButtonBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -292,6 +301,35 @@
       <Project>{1f6187d2-98f3-4221-b8c5-26d44604e50a}</Project>
       <Name>GeoUsersServices</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Microsoft.Office.Core">
+      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>7</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="Microsoft.Office.Interop.Excel">
+      <Guid>{00020813-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>8</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="VBIDE">
+      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\cef.redist.x64.3.2883.1552\build\cef.redist.x64.targets" Condition="Exists('..\packages\cef.redist.x64.3.2883.1552\build\cef.redist.x64.targets')" />

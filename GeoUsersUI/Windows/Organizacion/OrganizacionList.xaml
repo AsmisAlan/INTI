@@ -80,7 +80,10 @@
                 OnCloseButtonClick="EntityListButtonBar_OnCloseButtonClick"
                 OnCreateButtonClick="EntityListButtonBar_OnCreateButtonClick"
                 OnDeleteButtonClick="EntityListButtonBar_OnDeleteButtonClick"
-                OnEditButtonClick="EntityListButtonBar_OnEditButtonClick">
-        </UserControls:EntityListButtonBar>
+                OnEditButtonClick="EntityListButtonBar_OnEditButtonClick"/>
+        <UserControls:DataGridExportButtonBar 
+            Grid.Row="1"
+            OnExportButtonClick="DataGridExportButtonBar_OnExportButtonClick"
+            OnPrintButtonClick="DataGridExportButtonBar_OnPrintButtonClick"/>
     </Grid>
 </Window>

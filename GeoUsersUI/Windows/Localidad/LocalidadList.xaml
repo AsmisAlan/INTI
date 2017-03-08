@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:GeoUsersUI.Windows"
         xmlns:UserControls="clr-namespace:GeoUsersUI.UserControls" 
         mc:Ignorable="d"
-        Title="LocalidadList" Height="300" Width="400"
+        Title="LocalidadList" Height="300" MinWidth="550"
         Background="{StaticResource BaseWindowBackground}">
     <Grid>
         <Grid Name="MainGrid"
@@ -36,17 +36,17 @@
                     </DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
-            <StackPanel VerticalAlignment="Bottom"
-                        HorizontalAlignment="Right"
-                        Grid.Row="1">
-                <UserControls:EntityListButtonBar
+            <UserControls:EntityListButtonBar
+                    Grid.Row="1"
                     x:Name="ButtonBar"
                     OnCreateButtonClick="ButtonBar_OnCreateButtonClick"
                     OnEditButtonClick="ButtonBar_OnEditButtonClick"
                     OnDeleteButtonClick="ButtonBar_OnDeleteButtonClick"
-                    OnCloseButtonClick="ButtonBar_OnCloseButtonClick">
-                </UserControls:EntityListButtonBar>
-            </StackPanel>
+                    OnCloseButtonClick="ButtonBar_OnCloseButtonClick"/>
+            <UserControls:DataGridExportButtonBar 
+                    Grid.Row="1"
+                    OnExportButtonClick="DataGridExportButtonBar_OnExportButtonClick"
+                    OnPrintButtonClick="DataGridExportButtonBar_OnPrintButtonClick"/>
         </Grid>
     </Grid>
 </Window>

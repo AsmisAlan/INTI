@@ -105,5 +105,15 @@ namespace GeoUsersUI.Windows
         {
             OpenEditionForm();
         }
+
+        private void DataGridExportButtonBar_OnExportButtonClick(object sender, RoutedEventArgs e)
+        {
+            ExcelExportUtils.ExportToExcel(TipoOrganizacionGrid);
+        }
+
+        private void DataGridExportButtonBar_OnPrintButtonClick(object sender, RoutedEventArgs e)
+        {
+            PrintUtils.PrintDataGrid(TipoOrganizacionGrid, "Tipos de Organizacion");
+        }
     }
 }

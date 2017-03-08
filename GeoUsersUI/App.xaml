@@ -127,6 +127,40 @@
             <Setter Property="Background" Value="{StaticResource DeleteButtonBackground}" />
         </Style>
 
+        <!--Export Button Background-->
+        <LinearGradientBrush x:Key="ExportButtonBackground" StartPoint="0.5,0" EndPoint="0.5,1">
+            <GradientStop Color="#FFc2db9b" Offset="0"/>
+            <GradientStop Color="#FF6fb12a" Offset="0.100"/>
+            <GradientStop Color="#FF47741b" Offset="0.200"/>
+            <GradientStop Color="#FF619a27" Offset="0.600"/>
+            <GradientStop Color="#FF79af25" Offset="1"/>
+        </LinearGradientBrush>
+
+        <!--Export button-->
+        <Style TargetType="Button" x:Key="ExportButton" BasedOn="{StaticResource BaseSquareButton}">
+            <Setter Property="Height" Value="25"></Setter>
+            <Setter Property="Width" Value="70"></Setter>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="{StaticResource ExportButtonBackground}" />
+        </Style>
+
+        <!--Print Button Background-->
+        <LinearGradientBrush x:Key="PrintButtonBackground" StartPoint="0.5,0" EndPoint="0.5,1">
+            <GradientStop Color="#FFd9d9d9" Offset="0"/>
+            <GradientStop Color="#FF909090" Offset="0.100"/>
+            <GradientStop Color="#FF3F3F3F" Offset="0.200"/>
+            <GradientStop Color="#FF696969" Offset="0.600"/>
+            <GradientStop Color="#FF898989" Offset="1"/>
+        </LinearGradientBrush>
+
+        <!--Print button-->
+        <Style TargetType="Button" x:Key="PrintButton" BasedOn="{StaticResource BaseSquareButton}">
+            <Setter Property="Height" Value="25"></Setter>
+            <Setter Property="Width" Value="70"></Setter>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="{StaticResource PrintButtonBackground}" />
+        </Style>
+
         <!--Windows-->
 
         <!--Main Window Brush-->
@@ -158,6 +192,11 @@
 
         <Style TargetType="UserControls:EntityListButtonBar">
             <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+        </Style>
+
+        <Style TargetType="UserControls:DataGridExportButtonBar">
+            <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="VerticalAlignment" Value="Bottom"/>
         </Style>
 

@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GeoUsersUI.Windows"
         mc:Ignorable="d"
-        Title="RubroList" Height="300" Width="400"
+        Title="RubroList" Height="300" MinWidth="550"
         Background="{StaticResource BaseWindowBackground}">
     <Grid Name="MainGrid"
           Style="{StaticResource FormGrid}"
@@ -35,16 +35,16 @@
                 </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <StackPanel VerticalAlignment="Bottom"
-                    HorizontalAlignment="Right"
-                    Grid.Row="1">
-            <UserControls:EntityListButtonBar
-                VerticalAlignment="Bottom"
-                OnCloseButtonClick="EntityListButtonBar_OnCloseButtonClick"
-                OnCreateButtonClick="EntityListButtonBar_OnCreateButtonClick"
-                OnDeleteButtonClick="EntityListButtonBar_OnDeleteButtonClick"
-                OnEditButtonClick="EntityListButtonBar_OnEditButtonClick">
-            </UserControls:EntityListButtonBar>
-        </StackPanel>
+        <UserControls:EntityListButtonBar
+                 Grid.Row="1"
+                 VerticalAlignment="Bottom"
+                 OnCloseButtonClick="EntityListButtonBar_OnCloseButtonClick"
+                 OnCreateButtonClick="EntityListButtonBar_OnCreateButtonClick"
+                 OnDeleteButtonClick="EntityListButtonBar_OnDeleteButtonClick"
+                 OnEditButtonClick="EntityListButtonBar_OnEditButtonClick"/>
+        <UserControls:DataGridExportButtonBar 
+                    Grid.Row="1"
+                    OnExportButtonClick="DataGridExportButtonBar_OnExportButtonClick"
+                    OnPrintButtonClick="DataGridExportButtonBar_OnPrintButtonClick"/>
     </Grid>
 </Window>

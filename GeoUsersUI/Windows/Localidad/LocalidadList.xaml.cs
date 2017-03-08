@@ -104,5 +104,15 @@ namespace GeoUsersUI.Windows
         {
             Close();
         }
+
+        private void DataGridExportButtonBar_OnExportButtonClick(object sender, RoutedEventArgs e)
+        {
+            ExcelExportUtils.ExportToExcel(LocalidadGrid);
+        }
+
+        private void DataGridExportButtonBar_OnPrintButtonClick(object sender, RoutedEventArgs e)
+        {
+            PrintUtils.PrintDataGrid(LocalidadGrid, "Localidades");
+        }
     }
 }
