@@ -151,7 +151,8 @@
     <Compile Include="ValidationRules\EmailInputValidationRule.cs" />
     <Compile Include="ValidationRules\NumericInputValidationRule.cs" />
     <Compile Include="Models\ViewModels\BaseSubmitViewModel.cs" />
-    <Compile Include="ValuleConverters\BooleanToYesNoConverter.cs" />
+    <Compile Include="ValueConverters\BooleanToYesNoConverter.cs" />
+    <Compile Include="ValueConverters\PathToBitmapImageConverter.cs" />
     <Compile Include="Windows\Localidad\LocalidadList.xaml.cs">
       <DependentUpon>LocalidadList.xaml</DependentUpon>
     </Compile>

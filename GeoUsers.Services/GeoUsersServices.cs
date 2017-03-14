@@ -1,5 +1,4 @@
 ﻿using Microsoft.Practices.Unity;
-using static GeoUsers.Services.SessionProvider;
 
 namespace GeoUsers.Services
 {
@@ -17,11 +16,6 @@ namespace GeoUsers.Services
             InjectionConfig.RegisterDependencies(container);
 
             SessionProvider = Container.Resolve<SessionProvider>();
-        }
-
-        public ContextSessionBlock GetContextSessionBlock()
-        {
-            return SessionProvider.GetSessionContextBlock();
         }
     }
 }

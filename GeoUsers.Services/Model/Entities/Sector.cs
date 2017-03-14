@@ -6,6 +6,8 @@ namespace GeoUsers.Services.Model.Entities
     {
         public virtual string Nombre { get; set; }
 
+        public virtual Archivo Icono { get; set; }
+
         public virtual ISet<Rubro> Rubros { get; set; }
 
         public override string ToString()

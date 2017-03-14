@@ -77,7 +77,19 @@ namespace GeoUsersUI.Models.ViewModels.Forms
 
                         var organizacionData = organizacionLogic.GetForEdition(organizacionId.Value);
 
-                        Organizacion.Update(organizacionData);
+                        Organizacion.ContactoCargo = organizacionData.ContactoCargo;
+                        Organizacion.Cuit = organizacionData.Cuit;
+                        Organizacion.Direccion = organizacionData.Direccion;
+                        Organizacion.Email = organizacionData.Email;
+                        Organizacion.Id = organizacionData.Id;
+                        Organizacion.LocalidadId = organizacionData.LocalidadId;
+                        Organizacion.Nombre = organizacionData.Nombre;
+                        Organizacion.Personal = organizacionData.Personal;
+                        Organizacion.RubroId = organizacionData.RubroId;
+                        Organizacion.Telefono = organizacionData.Telefono;
+                        Organizacion.TipoOrganizacionId = organizacionData.TipoOrganizacionId;
+                        Organizacion.UsuarioInti = organizacionData.UsuarioInti;
+                        Organizacion.Web = organizacionData.ContactoCargo;
                     }
                     else
                     {

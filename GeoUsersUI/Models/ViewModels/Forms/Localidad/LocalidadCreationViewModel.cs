@@ -41,9 +41,11 @@ namespace GeoUsersUI.Models.ViewModels.Forms
                 {
                     using (var sessionContext = GeoUsersServices.SessionProvider.GetSessionContextBlock())
                     {
-                        var sectorData = localidadLogic.GetForEdition(localidadId.Value);
+                        var localidadData = localidadLogic.GetForEdition(localidadId.Value);
 
-                        Localidad.Update(sectorData);
+                        Localidad.CodigoPostal = localidadData.CodigoPostal;
+                        Localidad.Nombre = localidadData.Nombre;
+                        Localidad.Id = localidadData.Id;
                     }
                 });
             }

@@ -13,8 +13,6 @@ namespace GeoUsers.Services
             public ContextSessionBlock(Action action, ISession session)
                 : base(action)
             {
-                //session.ThrowIfNull(nameof(session));
-
                 Session = session;
             }
         }
@@ -23,8 +21,6 @@ namespace GeoUsers.Services
 
         public SessionProvider(ISessionFactory sessionFactory)
         {
-            //sessionFactory.ThrowIfNull(nameof(sessionFactory));
-
             this.sessionFactory = sessionFactory;
         }
 

@@ -64,7 +64,9 @@ namespace GeoUsersUI.Models.ViewModels
 
                         var rubroData = rubroLogic.GetForEdition(rubroId.Value);
 
-                        Rubro.Update(rubroData);
+                        Rubro.Id = rubroData.Id;
+                        Rubro.Nombre = rubroData.Nombre;
+                        Rubro.SectorId = rubroData.SectorId;
                     }
                     else
                     {

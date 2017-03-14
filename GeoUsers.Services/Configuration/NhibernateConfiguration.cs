@@ -13,10 +13,11 @@ namespace GeoUsers.Services
         {
             var nhibernateConfiguration = new Configuration().Configure("hibernate.cfg.xml");
 
+            nhibernateConfiguration.SetProperty(Environment.ConnectionString, Properties.Settings.Default.ConnectionString);
+
             nhibernateConfiguration.CurrentSessionContext<ThreadStaticSessionContext>();
 
-            nhibernateConfiguration.SetProperty(Environment.SqlExceptionConverter,
-                                                typeof(SqlExceptionConverter).AssemblyQualifiedName);
+            nhibernateConfiguration.SetProperty(Environment.SqlExceptionConverter, typeof(SqlExceptionConverter).AssemblyQualifiedName);
 
             var mapper = new ModelMapper();
 

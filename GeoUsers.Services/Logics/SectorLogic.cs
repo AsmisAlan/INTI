@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
-using GeoUsers.Services.Model;
 using GeoUsers.Services.Model.DataTransfer;
 using GeoUsers.Services.Model.Entities;
-using GeoUsers.Services.SQLExceptions;
 using NHibernate;
 using System;
 using System.Collections.Generic;
@@ -12,9 +10,14 @@ namespace GeoUsers.Services.Logics
 {
     public class SectorLogic : BaseLogic
     {
+        private readonly ArchivoLogic archivoLogic;
+
         public SectorLogic(IMapper autoMapper,
-                           ISessionFactory sessionFactory) : base(autoMapper, sessionFactory)
-        { }
+                           ISessionFactory sessionFactory,
+                           ArchivoLogic archivoLogic) : base(autoMapper, sessionFactory)
+        {
+            this.archivoLogic = archivoLogic;
+        }
 
         public SectorEditionData GetForEdition(int sectorId)
         {
@@ -72,6 +75,11 @@ namespace GeoUsers.Services.Logics
                 Nombre = sectorData.Nombre
             };
 
+            if (sectorData.Icono != null)
+            {
+                sector.Icono = archivoLogic.AddArchivo(sectorData.Icono);
+            }
+
             Session.Save(sector);
 
             Session.Transaction.Commit();
@@ -87,6 +95,24 @@ namespace GeoUsers.Services.Logics
 
             sector.Nombre = sectorData.Nombre;
 
+            if (sectorData.Icono == null)
+            {
+                archivoLogic.DeleteArchivo(sector.Icono.Id);
+
+                sector.Icono = null;
+            }
+            else if (sectorData.Icono.Data != null)
+            {
+                if (sector.Icono == null)
+                {
+                    sector.Icono = archivoLogic.AddArchivo(sectorData.Icono);
+                }
+                else
+                {
+                    archivoLogic.EditArchivo(sectorData.Icono);
+                }
+            }
+
             Session.Save(sector);
 
             Session.Transaction.Commit();
@@ -99,6 +125,15 @@ namespace GeoUsers.Services.Logics
             var sector = Session.Get<Sector>(sectorId);
 
             if (sector == null) throw new Exception("Sector Invalido");
+
+            if (sector.Icono != null)
+            {
+                var archivoId = sector.Icono.Id;
+
+                sector.Icono = null;
+
+                archivoLogic.DeleteArchivo(archivoId);
+            }
 
             return Delete(sector);
         }

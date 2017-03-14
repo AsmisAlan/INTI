@@ -18,6 +18,12 @@ namespace GeoUsers.Services.Model.Mappings
 
             Property(x => x.Nombre, "NOMBRE");
 
+            ManyToOne(x => x.Icono, map =>
+            {
+                map.Column("IDICONO");
+                map.Cascade(Cascade.All | Cascade.DeleteOrphans);
+            });
+
             Set(x => x.Rubros, collectionMapping =>
             {
                 collectionMapping.Key(key =>

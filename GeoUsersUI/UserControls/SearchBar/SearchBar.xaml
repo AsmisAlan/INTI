@@ -19,7 +19,6 @@
                  TextChanged="SearchBox_TextChanged"
                  Height="30"/>
         <Button Grid.Column="1" 
-                
                 x:Name="SearchButton"
                 Click="SearchButton_Click"
                 Style="{StaticResource SearchButton}">

@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
 using GeoUsers.Services.Model.DataTransfer;
 using GeoUsers.Services.Model.Entities;
+using GeoUsers.Services.Properties;
+using GeoUsers.Services.Utils;
+using System.IO;
 
 namespace GeoUsers.Services.Automapper.Profiles
 {
@@ -44,6 +47,7 @@ namespace GeoUsers.Services.Automapper.Profiles
 
             CreateMap<Organizacion, OrganizacionHeaderData>()
                 .ForMember(x => x.IsActive, opt => opt.UseValue(true))
+                .ForMember(x => x.Icono, opt => opt.MapFrom(x => WebUtils.GetFileDataUri(x.Rubro.Sector.Icono)))
                 .ForMember(x => x.Direccion, opt => opt.MapFrom(x => $"{x.Direccion} {x.Localidad.Nombre}"));
 
             CreateMap<Organizacion, OrganizacionData>()
@@ -55,6 +59,9 @@ namespace GeoUsers.Services.Automapper.Profiles
                 .ForMember(x => x.LocalidadId, opt => opt.MapFrom(x => x.Localidad.Id))
                 .ForMember(x => x.RubroId, opt => opt.MapFrom(x => x.Rubro.Id))
                 .ForMember(x => x.TipoOrganizacionId, opt => opt.MapFrom(x => x.TipoOrganizacion.Id));
+
+            CreateMap<Archivo, ArchivoEditionData>()
+                .ForMember(x => x.Ruta, opt => opt.MapFrom(x => $"{Path.Combine(Settings.Default.AttachmentFolder, x.Ruta)}"));
         }
     }
 }

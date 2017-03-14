@@ -95,7 +95,9 @@
     <Compile Include="Configuration\Automapper\Profiles\EntitiesProfile.cs" />
     <Compile Include="Configuration\InjectionConfig.cs" />
     <Compile Include="IDisposable.cs" />
+    <Compile Include="Logics\ArchivoLogic.cs" />
     <Compile Include="Model\Coordinates.cs" />
+    <Compile Include="Model\DataTransfer\ArchivoEditionData.cs" />
     <Compile Include="Model\DataTransfer\BaseComparableNotifierEntity.cs" />
     <Compile Include="Model\DataTransfer\BaseNotifierEntity.cs" />
     <Compile Include="Model\DataTransfer\Filter.cs" />
@@ -111,6 +113,7 @@
     <Compile Include="Model\DataTransfer\Organizacion\OrganizacionEditionData.cs" />
     <Compile Include="Model\DataTransfer\Organizacion\OrganizacionHeaderData.cs" />
     <Compile Include="Model\DataTransfer\TipoOrganizacion\TipoOrganizacionHeaderData.cs" />
+    <Compile Include="Model\Entities\Archivo.cs" />
     <Compile Include="Model\Entities\BaseEntity.cs" />
     <Compile Include="Model\Entities\Localidad.cs" />
     <Compile Include="Model\Entities\TipoOrganizacion.cs" />
@@ -120,6 +123,7 @@
     <Compile Include="Model\DataTransfer\IdAndValue.cs" />
     <Compile Include="Model\Enums\UsuarioIntiStatus.cs" />
     <Compile Include="Model\Interfaces\IBaseIdentifier.cs" />
+    <Compile Include="Model\Mappings\ArchivoMap.cs" />
     <Compile Include="Model\Mappings\BaseClassMapping.cs" />
     <Compile Include="Model\Mappings\LocalidadMap.cs" />
     <Compile Include="Model\Mappings\TipoOrganizacionMap.cs" />
@@ -135,17 +139,28 @@
     <Compile Include="Logics\SectorLogic.cs" />
     <Compile Include="Logics\OrganizacionLogic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="SessionProvider.cs" />
     <Compile Include="SQLExceptions\ConstraintViolationException.cs" />
     <Compile Include="SQLExceptions\ReferencedEntityException.cs" />
     <Compile Include="Utils\EnumUtils.cs" />
     <Compile Include="SQLExceptions\SQLExceptionConverter.cs" />
+    <Compile Include="Utils\FileUtils.cs" />
     <Compile Include="Utils\GoogleMaps\GoogleGeoCodeResponse.cs" />
     <Compile Include="Utils\GoogleMaps\GoogleMapsManager.cs" />
     <Compile Include="Utils\WebUtils.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Database\Tables.sql" />

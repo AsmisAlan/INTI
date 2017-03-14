@@ -82,8 +82,8 @@ namespace GeoUsersUI
             newRubroButton.ButtonClick += NewRubroButton_ButtonClick;
             listRubroButton.ButtonClick += OpenRubroList;
 
-            rubroButtons.Add(MenuButton.Copy(newOrganizacionButton));
-            rubroButtons.Add(MenuButton.Copy(listOrganizacionButton));
+            rubroButtons.Add(newRubroButton);
+            rubroButtons.Add(listRubroButton);
 
             var sectorButtons = new ObservableCollection<MenuButton>();
 

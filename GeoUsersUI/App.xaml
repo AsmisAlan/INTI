@@ -5,6 +5,7 @@
              xmlns:ViewModels="clr-namespace:GeoUsersUI.Models.ViewModels" 
              xmlns:ValueConverters="clr-namespace:GeoUsersUI.ValueConverters" 
              xmlns:UserControls="clr-namespace:GeoUsersUI.UserControls"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
              x:Class="GeoUsersUI.App"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
@@ -47,6 +48,8 @@
 
         <!--Base square button-->
         <Style TargetType="{x:Type Button}" x:Key="BaseSquareButton" BasedOn="{StaticResource BaseMouseOverOverride}">
+            <Setter Property="Height" Value="25"></Setter>
+            <Setter Property="Width" Value="70"></Setter>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
@@ -70,8 +73,6 @@
 
         <!--Primary button-->
         <Style TargetType="Button" x:Key="PrimaryButton" BasedOn="{StaticResource BaseSquareButton}">
-            <Setter Property="Height" Value="25"></Setter>
-            <Setter Property="Width" Value="70"></Setter>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="Background" Value="{StaticResource PrimaryButtonBackground}" />
         </Style>
@@ -86,9 +87,7 @@
         </LinearGradientBrush>
 
         <!--Cancel button-->
-        <Style TargetType="Button" x:Key="CancelButton" BasedOn="{StaticResource BaseSquareButton}">
-            <Setter Property="Height" Value="25"></Setter>
-            <Setter Property="Width" Value="70"></Setter>
+        <Style TargetType="Button" x:Key="WarningButton" BasedOn="{StaticResource BaseSquareButton}">
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="Background" Value="{StaticResource CancelButtonBackground}" />
         </Style>
@@ -103,9 +102,7 @@
         </LinearGradientBrush>
 
         <!--New button-->
-        <Style TargetType="Button" x:Key="NewButton" BasedOn="{StaticResource BaseSquareButton}">
-            <Setter Property="Height" Value="25"></Setter>
-            <Setter Property="Width" Value="70"></Setter>
+        <Style TargetType="Button" x:Key="SuccessButton" BasedOn="{StaticResource BaseSquareButton}">
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="Background" Value="{StaticResource NewButtonBackground}" />
         </Style>
@@ -120,9 +117,7 @@
         </LinearGradientBrush>
 
         <!--Delete button-->
-        <Style TargetType="Button" x:Key="DeleteButton" BasedOn="{StaticResource BaseSquareButton}">
-            <Setter Property="Height" Value="25"></Setter>
-            <Setter Property="Width" Value="70"></Setter>
+        <Style TargetType="Button" x:Key="DangerButton" BasedOn="{StaticResource BaseSquareButton}">
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="Background" Value="{StaticResource DeleteButtonBackground}" />
         </Style>
@@ -138,13 +133,23 @@
 
         <!--Export button-->
         <Style TargetType="Button" x:Key="ExportButton" BasedOn="{StaticResource BaseSquareButton}">
-            <Setter Property="Height" Value="25"></Setter>
-            <Setter Property="Width" Value="70"></Setter>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="Background" Value="{StaticResource ExportButtonBackground}" />
+            <Setter Property="Content">
+                <Setter.Value>
+                    <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Left">
+                        <fa:FontAwesome Icon="FileExcelOutline" 
+                                        VerticalAlignment="Center"
+                                        TextAlignment="Right"/>
+                        <TextBlock Text="Exportar"
+                                   Margin="5 0 0 0"/>
+                    </StackPanel>
+                </Setter.Value>
+            </Setter>
         </Style>
 
-        <!--Print Button Background-->
+        <!--Default Button Background-->
         <LinearGradientBrush x:Key="PrintButtonBackground" StartPoint="0.5,0" EndPoint="0.5,1">
             <GradientStop Color="#FFd9d9d9" Offset="0"/>
             <GradientStop Color="#FF909090" Offset="0.100"/>
@@ -153,12 +158,135 @@
             <GradientStop Color="#FF898989" Offset="1"/>
         </LinearGradientBrush>
 
-        <!--Print button-->
-        <Style TargetType="Button" x:Key="PrintButton" BasedOn="{StaticResource BaseSquareButton}">
-            <Setter Property="Height" Value="25"></Setter>
-            <Setter Property="Width" Value="70"></Setter>
+        <!--Default button-->
+        <Style TargetType="Button" x:Key="DefaultButton" BasedOn="{StaticResource BaseSquareButton}">
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="Background" Value="{StaticResource PrintButtonBackground}" />
+        </Style>
+
+        <!--Print button-->
+        <Style TargetType="Button" x:Key="PrintButton" BasedOn="{StaticResource DefaultButton}">
+            <Setter Property="Content">
+                <Setter.Value>
+                    <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Left">
+                        <fa:FontAwesome Icon="Print" 
+                                        VerticalAlignment="Center"
+                                        TextAlignment="Right"/>
+                        <TextBlock Text="Imprimir"
+                                   Margin="5 0 0 0"/>
+                    </StackPanel>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!--File Explorer button-->
+        <Style TargetType="Button" x:Key="FileExplorerButton" BasedOn="{StaticResource DefaultButton}">
+            <Setter Property="Width" Value="Auto" />
+            <Setter Property="Content">
+                <Setter.Value>
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Left">
+                        <fa:FontAwesome Icon="FolderOpen" 
+                                        VerticalAlignment="Center"/>
+                        <TextBlock Text="Explorar"
+                                   Margin="5 0 0 0"
+                                   HorizontalAlignment="Left"/>
+                    </StackPanel>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+        </Style>
+
+        <!--Delete button-->
+        <Style TargetType="Button" x:Key="DeleteButton" BasedOn="{StaticResource DangerButton}">
+            <Setter Property="Content">
+                <Setter.Value>
+                    <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Left">
+                        <fa:FontAwesome Icon="Trash" 
+                                        VerticalAlignment="Center"
+                                        TextAlignment="Right"/>
+                        <TextBlock Text="Eliminar"
+                                   Margin="5 0 0 0"/>
+                    </StackPanel>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!--Edit button-->
+        <Style TargetType="Button" x:Key="EditButton" BasedOn="{StaticResource PrimaryButton}">
+            <Setter Property="Content">
+                <Setter.Value>
+                    <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Left">
+                        <fa:FontAwesome Icon="Pencil" 
+                                        VerticalAlignment="Center"
+                                        TextAlignment="Right"/>
+                        <TextBlock Text="Editar"
+                                   Margin="5 0 0 0"/>
+                    </StackPanel>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!--Close button-->
+        <Style TargetType="Button" x:Key="CancelButton" BasedOn="{StaticResource WarningButton}">
+            <Setter Property="Content">
+                <Setter.Value>
+                    <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Left">
+                        <fa:FontAwesome Icon="Times" 
+                                        VerticalAlignment="Center"
+                                        TextAlignment="Right"/>
+                        <TextBlock Text="Cancelar"
+                                   Margin="5 0 0 0"/>
+                    </StackPanel>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!--Save button-->
+        <Style TargetType="Button" x:Key="SaveButton" BasedOn="{StaticResource PrimaryButton}">
+            <Setter Property="Content">
+                <Setter.Value>
+                    <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Left">
+                        <fa:FontAwesome Icon="Save" 
+                                        VerticalAlignment="Center"
+                                        TextAlignment="Right"/>
+                        <TextBlock Text="Guardar"
+                                   Margin="5 0 0 0"/>
+                    </StackPanel>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!--New button-->
+        <Style TargetType="Button" x:Key="NewButton" BasedOn="{StaticResource SuccessButton}">
+            <Setter Property="Content">
+                <Setter.Value>
+                    <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Left">
+                        <fa:FontAwesome Icon="Plus" 
+                                        VerticalAlignment="Center"
+                                        TextAlignment="Right"/>
+                        <TextBlock Text="Nuevo"
+                                   Margin="5 0 0 0"/>
+                    </StackPanel>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!--Delete icon button-->
+        <Style TargetType="Button" x:Key="DeleteIconButton" BasedOn="{StaticResource DeleteButton}">
+            <Setter Property="Content">
+                <Setter.Value>
+                    <fa:FontAwesome Icon="Trash" 
+                                    VerticalAlignment="Center"
+                                    TextAlignment="Center"/>
+                </Setter.Value>
+            </Setter>
         </Style>
 
         <!--Windows-->
@@ -181,6 +309,7 @@
 
         <!--Bool to Yes No value converter-->
         <ValueConverters:BooleanToYesNoConverter x:Key="BooleanToYesNoConverter" />
+        <ValueConverters:PathToBitmapImageConverter x:Key="PathToBitmapImageConverter" />
 
         <!--User Controls-->
 

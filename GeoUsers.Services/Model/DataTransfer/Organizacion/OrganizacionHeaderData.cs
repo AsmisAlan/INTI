@@ -10,6 +10,10 @@
 
         protected string longitud { get; set; }
 
+        public string Icono { get; set; }
+
+        public string ContactoCargo { get; set; }
+
         public string Direccion
         {
             get

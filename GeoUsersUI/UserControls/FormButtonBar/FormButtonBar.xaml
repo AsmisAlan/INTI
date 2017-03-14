@@ -10,14 +10,12 @@
              Width="150">
     <StackPanel Orientation="Horizontal"
                 HorizontalAlignment="Right">
-        <Button Content="Aceptar"
-                Name="SubmitButton"
-                Style="{StaticResource PrimaryButton}"
+        <Button Name="SubmitButton"
+                Style="{StaticResource SaveButton}"
                 Margin="0 0 10 0"
                 Click="SubmitButton_Click">
         </Button>
-        <Button Content="Cancelar"
-                Name="CancelButton"
+        <Button Name="CancelButton"
                 Style="{StaticResource CancelButton}"
                 Click="CancelButton_Click">
         </Button>

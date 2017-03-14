@@ -8,14 +8,12 @@
              Height="30" Width="150">
     <StackPanel Orientation="Horizontal"
                 HorizontalAlignment="Right">
-        <Button Content="Imprimir"
-                Name="PrintButton"
+        <Button Name="PrintButton"
                 Style="{StaticResource PrintButton}"
                 Margin="0 0 10 0"
                 Click="PrintButton_Click">
         </Button>
-        <Button Content="Exportar"
-                Name="ExportButton"
+        <Button Name="ExportButton"
                 Style="{StaticResource ExportButton}"
                 Click="ExportButton_Click">
         </Button>

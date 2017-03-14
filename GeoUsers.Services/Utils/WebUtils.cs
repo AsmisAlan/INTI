@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using GeoUsers.Services.Model.Entities;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Net;
@@ -35,6 +36,13 @@ namespace GeoUsers.Services.Utils
                     lng = dirObjet.results[0].geometry.location.lng.ToString()
                 };
             }
+        }
+
+        public static string GetFileDataUri(Archivo file)
+        {
+            var dataUri = FileUtils.GetBase64EncodedFileBytes(file.Ruta);
+
+            return $"data:image/{file.Extension};base64,{dataUri}";
         }
     }
 }

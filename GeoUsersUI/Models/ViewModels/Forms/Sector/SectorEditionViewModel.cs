@@ -1,7 +1,6 @@
 ﻿using GeoUsers.Services;
 using GeoUsers.Services.Logics;
 using GeoUsers.Services.Model.DataTransfer;
-using GeoUsersUI.Utils;
 using System.Threading.Tasks;
 
 namespace GeoUsersUI.Models.ViewModels
@@ -29,6 +28,8 @@ namespace GeoUsersUI.Models.ViewModels
             };
 
             Sector = new SectorEditionData();
+
+            Sector.Icono = new ArchivoEditionData();
         }
 
         public async Task<bool> Initialize(int? sectorId)
@@ -43,7 +44,9 @@ namespace GeoUsersUI.Models.ViewModels
                     {
                         var sectorData = sectorLogic.GetForEdition(sectorId.Value);
 
-                        Sector.Update(sectorData);
+                        Sector.Id = sectorData.Id;
+                        Sector.Icono = sectorData.Icono;
+                        Sector.Nombre = sectorData.Nombre;
                     }
                 });
             }
@@ -53,6 +56,26 @@ namespace GeoUsersUI.Models.ViewModels
             }
 
             return true;
+        }
+
+        public void SetIconoData(string name, string path, byte[] data)
+        {
+            var extension = name.Substring(name.LastIndexOf('.') + 1);
+
+            if (Sector.Icono == null)
+            {
+                Sector.Icono = new ArchivoEditionData();
+            }
+
+            Sector.Icono.Extension = extension;
+            Sector.Icono.Nombre = name;
+            Sector.Icono.Data = data;
+            Sector.Icono.Ruta = path;
+        }
+
+        public void DeleteSectorIcono()
+        {
+            Sector.Icono = null;
         }
 
         private bool Save()

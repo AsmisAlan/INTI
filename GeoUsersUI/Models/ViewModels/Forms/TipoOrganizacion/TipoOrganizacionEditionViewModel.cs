@@ -43,7 +43,8 @@ namespace GeoUsersUI.Models.ViewModels
                     {
                         var tipoOrganizacionData = tipoOrganizacionLogic.GetForEdition(sectorId.Value);
 
-                        TipoOrganizacion.Update(tipoOrganizacionData);
+                        TipoOrganizacion.Id = tipoOrganizacionData.Id;
+                        TipoOrganizacion.Tipo = tipoOrganizacionData.Tipo;
                     }
                 });
             }
