@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using GeoUsers.Services.Model.DataTransfer;
 using GeoUsers.Services.Model.Entities;
+using GeoUsers.Services.SQLExceptions;
 using NHibernate;
 using System;
 using System.Collections.Generic;
@@ -123,7 +124,16 @@ namespace GeoUsers.Services.Logics
 
             if (rubro == null) throw new Exception("Rubro Invalido");
 
-            return Delete(rubro);
+            try
+            {
+                Session.Delete(rubro);
+            }
+            catch (ConstraintViolationException)
+            {
+                throw new Exception("El rubro que se desesa eliminar está siendo utilizado.");
+            }
+
+            return true;
         }
     }
 }

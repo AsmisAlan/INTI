@@ -27,12 +27,9 @@ namespace GeoUsersUI.Models.ViewModels.Forms
         {
             IEnumerable<SectorHeaderData> sectores = null;
 
-            await Task.Run(() =>
+            await RequestService.Execute(() =>
             {
-                using (var sessionContext = GeoUsersServices.SessionProvider.GetSessionContextBlock())
-                {
-                    sectores = sectorLogic.GetAll();
-                }
+                sectores = sectorLogic.GetAll();
             });
 
             Sectores.Update(sectores);
@@ -42,12 +39,9 @@ namespace GeoUsersUI.Models.ViewModels.Forms
 
         public async Task<bool> Delete(int sectorId)
         {
-            await Task.Run(() =>
+            await RequestService.Execute(() =>
             {
-                using (var sessionContext = GeoUsersServices.SessionProvider.GetSessionContextBlock())
-                {
-                    sectorLogic.Delete(sectorId);
-                }
+                sectorLogic.Delete(sectorId);
             });
 
             return true;

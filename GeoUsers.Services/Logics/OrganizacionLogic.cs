@@ -73,50 +73,18 @@ namespace GeoUsers.Services.Logics
             return Mapper.Map<IEnumerable<IdAndValue>>(organizaciones);
         }
 
-        public IEnumerable<OrganizacionHeaderData> GetByFilter(FilterData filter)
+        public IEnumerable<OrganizacionHeaderData> GetHeadersByFilter(FilterData filter)
         {
-            var organizacionesQuery = Session.QueryOver<Organizacion>();
-
-            if (((UsuarioIntiStatus)filter.UsuarioInti) == UsuarioIntiStatus.NoUsuarioInti)
-            {
-                organizacionesQuery.WhereNot(x => x.UsuarioInti);
-            }
-            else if (((UsuarioIntiStatus)filter.UsuarioInti) == UsuarioIntiStatus.UsuarioInti)
-            {
-                organizacionesQuery.Where(x => x.UsuarioInti);
-            }
-
-            if (filter.LocalidadIds != null && filter.LocalidadIds.Count > 0)
-            {
-                organizacionesQuery.WhereRestrictionOn(x => x.Localidad.Id)
-                                   .IsIn(filter.LocalidadIds.ToArray());
-            }
-
-            if (filter.SectorIds != null && filter.SectorIds.Count > 0)
-            {
-                Rubro rubroAlias = null;
-
-                organizacionesQuery.JoinAlias(x => x.Rubro, () => rubroAlias)
-                                   .WhereRestrictionOn(() => rubroAlias.Sector.Id)
-                                   .IsIn(filter.SectorIds.ToArray());
-            }
-
-            if (filter.RubroIds != null && filter.RubroIds.Count > 0)
-            {
-                organizacionesQuery.WhereRestrictionOn(x => x.Rubro.Id)
-                                   .IsIn(filter.RubroIds.ToArray());
-            }
-
-            if (filter.TipoOrganizacionIds != null && filter.TipoOrganizacionIds.Count > 0)
-            {
-                organizacionesQuery.WhereRestrictionOn(x => x.TipoOrganizacion.Id)
-                                   .IsIn(filter.TipoOrganizacionIds.ToArray());
-            }
-
-            var organizaciones = organizacionesQuery.List()
-                                                    .OrderBy(x => x.Nombre);
+            var organizaciones = GetByFilter(filter);
 
             return Mapper.Map<IEnumerable<OrganizacionHeaderData>>(organizaciones);
+        }
+
+        public IEnumerable<OrganizacionData> GetOrganizacionesByFilter(FilterData filter)
+        {
+            var organizaciones = GetByFilter(filter);
+
+            return Mapper.Map<IEnumerable<OrganizacionData>>(organizaciones);
         }
 
         public int Create(OrganizacionEditionData creationData)
@@ -210,6 +178,52 @@ namespace GeoUsers.Services.Logics
             Session.Delete(organizacion);
 
             return true;
+        }
+
+        private IEnumerable<Organizacion> GetByFilter(FilterData filter)
+        {
+            var organizacionesQuery = Session.QueryOver<Organizacion>();
+
+            if (((UsuarioIntiStatus)filter.UsuarioInti) == UsuarioIntiStatus.NoUsuarioInti)
+            {
+                organizacionesQuery.WhereNot(x => x.UsuarioInti);
+            }
+            else if (((UsuarioIntiStatus)filter.UsuarioInti) == UsuarioIntiStatus.UsuarioInti)
+            {
+                organizacionesQuery.Where(x => x.UsuarioInti);
+            }
+
+            if (filter.LocalidadIds != null && filter.LocalidadIds.Count > 0)
+            {
+                organizacionesQuery.WhereRestrictionOn(x => x.Localidad.Id)
+                                   .IsIn(filter.LocalidadIds.ToArray());
+            }
+
+            if (filter.SectorIds != null && filter.SectorIds.Count > 0)
+            {
+                Rubro rubroAlias = null;
+
+                organizacionesQuery.JoinAlias(x => x.Rubro, () => rubroAlias)
+                                   .WhereRestrictionOn(() => rubroAlias.Sector.Id)
+                                   .IsIn(filter.SectorIds.ToArray());
+            }
+
+            if (filter.RubroIds != null && filter.RubroIds.Count > 0)
+            {
+                organizacionesQuery.WhereRestrictionOn(x => x.Rubro.Id)
+                                   .IsIn(filter.RubroIds.ToArray());
+            }
+
+            if (filter.TipoOrganizacionIds != null && filter.TipoOrganizacionIds.Count > 0)
+            {
+                organizacionesQuery.WhereRestrictionOn(x => x.TipoOrganizacion.Id)
+                                   .IsIn(filter.TipoOrganizacionIds.ToArray());
+            }
+
+            var organizaciones = organizacionesQuery.List()
+                                                    .OrderBy(x => x.Nombre);
+
+            return organizaciones;
         }
     }
 }

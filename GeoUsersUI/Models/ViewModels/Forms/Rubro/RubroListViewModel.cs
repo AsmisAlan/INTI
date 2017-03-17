@@ -27,12 +27,9 @@ namespace GeoUsersUI.Models.ViewModels.Forms
         {
             IEnumerable<RubroHeaderData> rubros = null;
 
-            await Task.Run(() =>
+            await RequestService.Execute(() =>
             {
-                using (var sessionContext = GeoUsersServices.SessionProvider.GetSessionContextBlock())
-                {
-                    rubros = rubroLogic.GetAll();
-                }
+                rubros = rubroLogic.GetAll();
             });
 
             Rubros.Update(rubros);
@@ -42,12 +39,9 @@ namespace GeoUsersUI.Models.ViewModels.Forms
 
         public async Task<bool> Delete(int rubroId)
         {
-            await Task.Run(() =>
+            await RequestService.Execute(() =>
             {
-                using (var sessionContext = GeoUsersServices.SessionProvider.GetSessionContextBlock())
-                {
-                    rubroLogic.Delete(rubroId);
-                }
+                rubroLogic.Delete(rubroId);
             });
 
             return true;

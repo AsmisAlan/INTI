@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using GeoUsers.Services.Model.DataTransfer;
 using GeoUsers.Services.Model.Entities;
+using GeoUsers.Services.SQLExceptions;
 using NHibernate;
 using System;
 using System.Collections.Generic;
@@ -135,7 +136,16 @@ namespace GeoUsers.Services.Logics
                 archivoLogic.DeleteArchivo(archivoId);
             }
 
-            return Delete(sector);
+            try
+            {
+                Session.Delete(sector);
+            }
+            catch (ConstraintViolationException)
+            {
+                throw new Exception("El sector que se desesa eliminar esta siendo utilizado.");
+            }
+
+            return true;
         }
     }
 }

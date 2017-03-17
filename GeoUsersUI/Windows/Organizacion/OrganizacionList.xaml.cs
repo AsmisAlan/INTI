@@ -4,6 +4,7 @@ using Microsoft.Practices.Unity;
 using System.Windows;
 using GeoUsersUI.Models.ViewModels;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace GeoUsersUI.Windows
 {
@@ -42,7 +43,7 @@ namespace GeoUsersUI.Windows
                 return;
             }
 
-            var organizacion = (OrganizacionHeaderData)OrganizacionGrid.SelectedItem;
+            var organizacion = (OrganizacionData)OrganizacionGrid.SelectedItem;
 
             var form = new OrganizacionCreationEditionForm(organizacion.Id);
 
@@ -103,6 +104,83 @@ namespace GeoUsersUI.Windows
         private void DataGridExportButtonBar_OnPrintButtonClick(object sender, RoutedEventArgs e)
         {
             PrintUtils.PrintDataGrid(OrganizacionGrid, "Organizaciones");
+        }
+
+        private void RubroFilterButton_Click(object sender, RoutedEventArgs e)
+        {
+            var form = new SmartSelectWindow(() => { return ViewModel.GetRubros(); },
+                                             () => { return ViewModel.GetRubrosByIds(); },
+                                             ViewModel.OrganizacionesFilter.Filter.RubroIds,
+                                             "Rubros");
+            form.ShowDialog();
+
+            if (form.DialogResult.HasValue && form.DialogResult.Value)
+            {
+                ViewModel.OrganizacionesFilter.Filter.RubroIds = form.GetSelection().ToList();
+
+                ViewModel.OrganizacionesFilter.UpdateStatuses();
+            }
+        }
+
+        private void TipoOrganizacionFilterButton_Click(object sender, RoutedEventArgs e)
+        {
+            var currentIds = ViewModel.OrganizacionesFilter.Filter.TipoOrganizacionIds;
+
+            var form = new SmartSelectWindow(() => { return ViewModel.GetTipoOrganizaciones(); },
+                                             () => { return ViewModel.GetTipoOrganizacionesByIds(); },
+                                             currentIds,
+                                             "Tipos de Organizaciones");
+            form.ShowDialog();
+
+            if (form.DialogResult.HasValue && form.DialogResult.Value)
+            {
+                ViewModel.OrganizacionesFilter.Filter.TipoOrganizacionIds = form.GetSelection().ToList();
+
+                ViewModel.OrganizacionesFilter.UpdateStatuses();
+            }
+        }
+
+        private void LocalidadFilterButton_Click(object sender, RoutedEventArgs e)
+        {
+            var form = new SmartSelectWindow(() => { return ViewModel.GetLocalidades(); },
+                                             () => { return ViewModel.GetLocalidadesByIds(); },
+                                             ViewModel.OrganizacionesFilter.Filter.LocalidadIds,
+                                             "Localidades");
+            form.ShowDialog();
+
+            if (form.DialogResult.HasValue && form.DialogResult.Value)
+            {
+                ViewModel.OrganizacionesFilter.Filter.LocalidadIds = form.GetSelection().ToList();
+
+                ViewModel.OrganizacionesFilter.UpdateStatuses();
+            }
+        }
+
+        private void SectorFilterButton_Click(object sender, RoutedEventArgs e)
+        {
+            var form = new SmartSelectWindow(() => { return ViewModel.GetSectores(); },
+                                             () => { return ViewModel.GetSectoresByIds(); },
+                                             ViewModel.OrganizacionesFilter.Filter.SectorIds,
+                                             "Sectores");
+            form.ShowDialog();
+
+            if (form.DialogResult.HasValue && form.DialogResult.Value)
+            {
+                ViewModel.OrganizacionesFilter.Filter.SectorIds = form.GetSelection().ToList();
+
+                ViewModel.OrganizacionesFilter.UpdateStatuses();
+            }
+        }
+
+        private void FilterCollapseButton_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.FiltersVisibility = ViewModel.FiltersVisibility == Visibility.Collapsed ? Visibility.Visible :
+                                                                                                Visibility.Collapsed;
+        }
+
+        private async void FilterButton_Click(object sender, RoutedEventArgs e)
+        {
+            await ViewModel.LoadOrganizaciones();
         }
     }
 }

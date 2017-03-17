@@ -27,12 +27,9 @@ namespace GeoUsersUI.Models.ViewModels.Forms
         {
             IEnumerable<LocalidadHeaderData> localidades = null;
 
-            await Task.Run(() =>
+            await RequestService.Execute(() =>
             {
-                using (var sessionContext = GeoUsersServices.SessionProvider.GetSessionContextBlock())
-                {
-                    localidades = localidadLogic.GetAll();
-                }
+                localidades = localidadLogic.GetAll();
             });
 
             Localidades.Update(localidades);
@@ -42,13 +39,7 @@ namespace GeoUsersUI.Models.ViewModels.Forms
 
         public async Task<bool> Delete(int localidadId)
         {
-            await Task.Run(() =>
-            {
-                using (var sessionContext = GeoUsersServices.SessionProvider.GetSessionContextBlock())
-                {
-                    localidadLogic.Delete(localidadId);
-                }
-            });
+            await RequestService.Execute(() => localidadLogic.Delete(localidadId));
 
             return true;
         }

@@ -60,7 +60,7 @@
                     Width="30"
                     VerticalAlignment="Bottom"
                     Content="{Binding AddEntityButtonContent, Mode=OneTime}"
-                    Style="{StaticResource NewButton}"
+                    Style="{StaticResource DangerButton}"
                     Margin="0, 0, 0 ,2"
                     Click="RemoveEntityButton_Click"
                     x:Name="RemoveEntityButton"/>
@@ -69,7 +69,7 @@
                     Height="30"
                     Width="30"
                     VerticalAlignment="Top"
-                    Style="{StaticResource DangerButton}"
+                    Style="{StaticResource NewButton}"
                     Content="{Binding RemoveEntityButtonContent, Mode=OneTime}"
                     Margin="0, 2, 0, 0"
                     Click="AddEntityButton_Click"

@@ -1,6 +1,7 @@
 ﻿using GeoUsers.Services;
 using GeoUsers.Services.Logics;
 using GeoUsers.Services.Model.DataTransfer;
+using GeoUsersUI.Utils;
 using System.Threading.Tasks;
 
 namespace GeoUsersUI.Models.ViewModels
@@ -38,16 +39,13 @@ namespace GeoUsersUI.Models.ViewModels
             {
                 WindowTitle = "Modificar Sector";
 
-                await Task.Run(() =>
+                await RequestService.Execute(() =>
                 {
-                    using (var sessionContext = GeoUsersServices.SessionProvider.GetSessionContextBlock())
-                    {
-                        var sectorData = sectorLogic.GetForEdition(sectorId.Value);
+                    var sectorData = sectorLogic.GetForEdition(sectorId.Value);
 
-                        Sector.Id = sectorData.Id;
-                        Sector.Icono = sectorData.Icono;
-                        Sector.Nombre = sectorData.Nombre;
-                    }
+                    Sector.Id = sectorData.Id;
+                    Sector.Icono = sectorData.Icono;
+                    Sector.Nombre = sectorData.Nombre;
                 });
             }
             else

@@ -148,6 +148,7 @@
     </Compile>
     <Compile Include="Utils\ObjectExtensions.cs" />
     <Compile Include="Utils\PrintUtils.cs" />
+    <Compile Include="Utils\RequestService.cs" />
     <Compile Include="ValidationRules\EmailInputValidationRule.cs" />
     <Compile Include="ValidationRules\NumericInputValidationRule.cs" />
     <Compile Include="Models\ViewModels\BaseSubmitViewModel.cs" />

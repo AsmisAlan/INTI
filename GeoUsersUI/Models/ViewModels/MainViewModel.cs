@@ -108,7 +108,7 @@ namespace GeoUsersUI.Models.ViewModels
             {
                 using (var sessionBlock = GeoUsersServices.SessionProvider.GetSessionContextBlock())
                 {
-                    return organizacionLogic.GetByFilter(OrganizacionesFilter.Filter);
+                    return organizacionLogic.GetHeadersByFilter(OrganizacionesFilter.Filter);
                 }
             });
 

@@ -52,26 +52,23 @@ namespace GeoUsersUI.Models.ViewModels
         {
             IEnumerable<IdAndValue> sectores = null;
 
-            await Task.Run(() =>
+            await RequestService.Execute(() =>
             {
-                using (var sessionContext = GeoUsersServices.SessionProvider.GetSessionContextBlock())
+                sectores = sectorLogic.GetForSelection();
+
+                if (rubroId.HasValue)
                 {
-                    sectores = sectorLogic.GetForSelection();
+                    WindowTitle = "Modificar Rubro";
 
-                    if (rubroId.HasValue)
-                    {
-                        WindowTitle = "Modificar Rubro";
+                    var rubroData = rubroLogic.GetForEdition(rubroId.Value);
 
-                        var rubroData = rubroLogic.GetForEdition(rubroId.Value);
-
-                        Rubro.Id = rubroData.Id;
-                        Rubro.Nombre = rubroData.Nombre;
-                        Rubro.SectorId = rubroData.SectorId;
-                    }
-                    else
-                    {
-                        WindowTitle = "Crear Rubro";
-                    }
+                    Rubro.Id = rubroData.Id;
+                    Rubro.Nombre = rubroData.Nombre;
+                    Rubro.SectorId = rubroData.SectorId;
+                }
+                else
+                {
+                    WindowTitle = "Crear Rubro";
                 }
             });
 

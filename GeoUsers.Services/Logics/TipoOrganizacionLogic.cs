@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using GeoUsers.Services.Model.DataTransfer;
 using GeoUsers.Services.Model.Entities;
+using GeoUsers.Services.SQLExceptions;
 using NHibernate;
 using System;
 using System.Collections.Generic;
@@ -97,7 +98,16 @@ namespace GeoUsers.Services.Logics
 
             if (tipoOrganizacion == null) throw new Exception("Tipo de organizacion invalida");
 
-            return Delete(tipoOrganizacion);
+            try
+            {
+                Session.Delete(tipoOrganizacion);
+            }
+            catch (ConstraintViolationException)
+            {
+                throw new Exception("El tipo de organización que se desesa eliminar está siendo utilizado.");
+            }
+
+            return true;
         }
     }
 }

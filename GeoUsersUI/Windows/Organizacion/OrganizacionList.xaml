@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GeoUsersUI.Windows"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
         Title="OrganizacionList" Height="600" MinWidth="800"
         Background="{StaticResource BaseWindowBackground}">
@@ -11,14 +12,75 @@
           Style="{StaticResource FormGrid}"
           Grid.Column="1">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="10*"/>
             <RowDefinition Height="*" MaxHeight="100"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
+        <StackPanel Orientation="Vertical"
+                    Margin="0 0 0 5">
+            <StackPanel Orientation="Horizontal"
+                        Margin="0 0 0 5">
+                <Button Style="{StaticResource BaseFilterButton}"
+                        Width="30"
+                        x:Name="FilterCollapseButton"
+                        Height="30"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Click="FilterCollapseButton_Click">
+                    <fa:FontAwesome Icon="Filter" 
+                                VerticalAlignment="Center"
+                                TextAlignment="Right"/>
+                </Button>
+                <Button Width="70"
+                        Height="30"
+                        x:Name="FilterButton"
+                        HorizontalAlignment="Left"
+                        Margin="5 0 0 0"
+                        VerticalAlignment="Top"
+                        Click="FilterButton_Click"
+                        Style="{StaticResource BaseFilterButton}"
+                        Content="Filtrar"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal"
+                        Grid.Row="1"
+                        Visibility="{Binding Path=FiltersVisibility}">
+                <ComboBox  Grid.Row="1"
+                           ItemsSource="{StaticResource UsuarioIntiStatus}"
+                           SelectedValuePath="Id"
+                           DisplayMemberPath="Value"
+                           SelectedValue="{Binding Path=OrganizacionesFilter.Filter.UsuarioInti}"
+                           IsSynchronizedWithCurrentItem="True" 
+                           Height="26"
+                           Width="Auto"
+                           MinWidth="150"
+                           MaxWidth="250"/>
+                <Button Content="{Binding Path=OrganizacionesFilter.SectorStatus}"
+                        Style="{StaticResource ListFilterButton}"
+                        x:Name="SectorFilterButton"
+                        Click="SectorFilterButton_Click">
+                </Button>
+                <Button Content="{Binding Path=OrganizacionesFilter.RubroStatus}"
+                            Style="{StaticResource ListFilterButton}"
+                            x:Name="RubroFilterButton"
+                            Click="RubroFilterButton_Click">
+                </Button>
+                <Button Content="{Binding Path=OrganizacionesFilter.TipoOrganizacionStatus}"
+                            Style="{StaticResource ListFilterButton}"
+                            x:Name="TipoOrganizacionFilterButton"
+                            Click="TipoOrganizacionFilterButton_Click">
+                </Button>
+                <Button Content="{Binding Path=OrganizacionesFilter.LocalidadStatus}"
+                        Style="{StaticResource ListFilterButton}"
+                        x:Name="LocalidadFilterButton"
+                        Click="LocalidadFilterButton_Click">
+                </Button>
+            </StackPanel>
+        </StackPanel>
         <DataGrid ItemsSource="{Binding Path=Organizaciones, Mode=TwoWay}"
-                  Grid.Row="0"
+                  Grid.Row="1"
                   Grid.Column="1"
                   Name="OrganizacionGrid" 
                   MouseDoubleClick="OrganizacionGrid_MouseDoubleClick"
@@ -76,13 +138,13 @@
             </DataGrid.Columns>
         </DataGrid>
         <UserControls:EntityListButtonBar
-                Grid.Row="1"
+                Grid.Row="2"
                 OnCloseButtonClick="EntityListButtonBar_OnCloseButtonClick"
                 OnCreateButtonClick="EntityListButtonBar_OnCreateButtonClick"
                 OnDeleteButtonClick="EntityListButtonBar_OnDeleteButtonClick"
                 OnEditButtonClick="EntityListButtonBar_OnEditButtonClick"/>
         <UserControls:DataGridExportButtonBar 
-            Grid.Row="1"
+            Grid.Row="2"
             OnExportButtonClick="DataGridExportButtonBar_OnExportButtonClick"
             OnPrintButtonClick="DataGridExportButtonBar_OnPrintButtonClick"/>
     </Grid>

@@ -32,6 +32,7 @@
                    Style="{StaticResource FormLabel}"/>
             <TextBox Grid.Row="0"
                      Grid.Column="1"
+                     MaxLength="50"
                      x:Name="TextBoxNombre"
                      Text="{Binding Localidad.Nombre}"
                      Style="{StaticResource FormTextBox}">

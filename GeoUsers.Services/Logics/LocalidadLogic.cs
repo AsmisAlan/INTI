@@ -2,6 +2,7 @@
 using GeoUsers.Services.Model;
 using GeoUsers.Services.Model.DataTransfer;
 using GeoUsers.Services.Model.Entities;
+using GeoUsers.Services.SQLExceptions;
 using NHibernate;
 using System;
 using System.Collections.Generic;
@@ -99,7 +100,16 @@ namespace GeoUsers.Services.Logics
 
             if (localidad == null) throw new Exception("Localidad Invalida");
 
-            return Delete(localidad);
+            try
+            {
+                Session.Delete(localidad);
+            }
+            catch (ConstraintViolationException)
+            {
+                throw new Exception("La localidad que se desesa eliminar está siendo utilizada.");
+            }
+
+            return true;
         }
     }
 }

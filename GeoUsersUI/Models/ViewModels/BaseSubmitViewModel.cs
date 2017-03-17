@@ -38,31 +38,22 @@ namespace GeoUsersUI.Models.ViewModels
                 return Task.FromResult(false);
             }
 
-            return Task.Run(() =>
+            try
             {
-                try
-                {
-                    using (var sessionContext = GeoUsersServices.SessionProvider.GetSessionContextBlock())
-                    {
-                        SubmitFunction();
-                    }
+                return RequestService.Execute(() => SubmitFunction());
+            }
+            catch (InvalidOperationException e)
+            {
+                Console.Write(e);
+                // TODO. Logger implementation. Log exceptions.
+                MessageBox.Show("Operacion invalida");
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
 
-                    return true;
-                }
-                catch (InvalidOperationException e)
-                {
-                    Console.Write(e);
-                    // TODO. Logger implementation. Log exceptions.
-                    MessageBox.Show("Operacion invalida");
-                    return false;
-                }
-                catch (Exception e)
-                {
-                    MessageBox.Show(e.Message);
-
-                    return false;
-                }
-            });
+            return Task.FromResult(false);
         }
     }
 }

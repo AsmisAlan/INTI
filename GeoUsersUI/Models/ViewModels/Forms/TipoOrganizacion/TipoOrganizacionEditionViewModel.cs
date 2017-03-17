@@ -37,15 +37,12 @@ namespace GeoUsersUI.Models.ViewModels
             {
                 WindowTitle = "Modificar Tipo de Organizacion";
 
-                await Task.Run(() =>
+                await RequestService.Execute(() =>
                 {
-                    using (var sessionContext = GeoUsersServices.SessionProvider.GetSessionContextBlock())
-                    {
-                        var tipoOrganizacionData = tipoOrganizacionLogic.GetForEdition(sectorId.Value);
+                    var tipoOrganizacionData = tipoOrganizacionLogic.GetForEdition(sectorId.Value);
 
-                        TipoOrganizacion.Id = tipoOrganizacionData.Id;
-                        TipoOrganizacion.Tipo = tipoOrganizacionData.Tipo;
-                    }
+                    TipoOrganizacion.Id = tipoOrganizacionData.Id;
+                    TipoOrganizacion.Tipo = tipoOrganizacionData.Tipo;
                 });
             }
             else

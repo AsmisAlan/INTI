@@ -27,12 +27,9 @@ namespace GeoUsersUI.Models.ViewModels.Forms
         {
             IEnumerable<TipoOrganizacionHeaderData> tipoOrganizaciones = null;
 
-            await Task.Run(() =>
+            await RequestService.Execute(() =>
             {
-                using (var sessionContext = GeoUsersServices.SessionProvider.GetSessionContextBlock())
-                {
-                    tipoOrganizaciones = tipoOrganizacionLogic.GetAll();
-                }
+                tipoOrganizaciones = tipoOrganizacionLogic.GetAll();
             });
 
             TipoOrganizaciones.Update(tipoOrganizaciones);
@@ -42,12 +39,9 @@ namespace GeoUsersUI.Models.ViewModels.Forms
 
         public async Task<bool> Delete(int tipoOrganizacionId)
         {
-            await Task.Run(() =>
+            await RequestService.Execute(() =>
             {
-                using (var sessionContext = GeoUsersServices.SessionProvider.GetSessionContextBlock())
-                {
-                    tipoOrganizacionLogic.Delete(tipoOrganizacionId);
-                }
+                tipoOrganizacionLogic.Delete(tipoOrganizacionId);
             });
 
             return true;

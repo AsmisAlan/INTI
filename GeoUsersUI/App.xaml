@@ -6,9 +6,17 @@
              xmlns:ValueConverters="clr-namespace:GeoUsersUI.ValueConverters" 
              xmlns:UserControls="clr-namespace:GeoUsersUI.UserControls"
              xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:DataTransfer="clr-namespace:GeoUsers.Services.Model.DataTransfer;assembly=GeoUsers.Services"
+             xmlns:Enums="clr-namespace:GeoUsers.Services.Model.Enums;assembly=GeoUsers.Services"
              x:Class="GeoUsersUI.App"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
+        <!-- Usuario inti statuses -->
+        <x:Array x:Key="UsuarioIntiStatus" Type="{x:Type DataTransfer:IdAndValue}">
+            <DataTransfer:IdAndValue Id="0" Value="Usuario Inti"/>
+            <DataTransfer:IdAndValue Id="1" Value="No Usuario Inti"/>
+            <DataTransfer:IdAndValue Id="2" Value="Todos"/>
+        </x:Array>
         <!--Buttons-->
 
         <!--Override for button mouse over-->
@@ -528,14 +536,27 @@
             <Setter Property="VerticalAlignment" Value="Bottom"></Setter>
             <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
         </Style>
+        <!--Base Filter Button.-->
+        <Style TargetType="Button" x:Key="BaseFilterButton" BasedOn="{StaticResource BaseRoundedButton}">
+            <Setter Property="Background" Value="{StaticResource BaseMenuButtonBackground}"></Setter>
+            <Setter Property="BorderBrush" Value="{StaticResource BaseMenuButtonBorderBrush}"></Setter>
+            <Setter Property="Foreground" Value="White"></Setter>
+        </Style>
         <!--Filter Menu Button.-->
-        <Style TargetType="Button" x:Key="MenuFilterButton" BasedOn="{StaticResource BaseRoundedButton}">
+        <Style TargetType="Button" x:Key="MenuFilterButton" BasedOn="{StaticResource BaseFilterButton}">
             <Setter Property="Background" Value="{StaticResource BaseMenuButtonBackground}"></Setter>
             <Setter Property="BorderBrush" Value="{StaticResource BaseMenuButtonBorderBrush}"></Setter>
             <Setter Property="Height" Value="40"></Setter>
             <Setter Property="FontWeight" Value="Bold"></Setter>
             <Setter Property="Foreground" Value="White"></Setter>
             <Setter Property="Width" Value="220"></Setter>
+        </Style>
+        <!--Filter List Button.-->
+        <Style TargetType="Button" x:Key="ListFilterButton" BasedOn="{StaticResource BaseFilterButton}">
+            <Setter Property="Height" Value="30"></Setter>
+            <Setter Property="FontWeight" Value="Bold"></Setter>
+            <Setter Property="Width" Value="140"></Setter>
+            <Setter Property="Margin" Value="10 0 0 0"></Setter>
         </Style>
     </Application.Resources>
 </Application>

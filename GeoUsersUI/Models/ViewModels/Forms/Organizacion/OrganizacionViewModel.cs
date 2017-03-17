@@ -63,38 +63,35 @@ namespace GeoUsersUI.Models.ViewModels.Forms
             IEnumerable<IdAndValue> rubros = null;
             IEnumerable<IdAndValue> tipoOrganizaciones = null;
 
-            await Task.Run(() =>
+            await RequestService.Execute(() =>
             {
-                using (var sessionContext = GeoUsersServices.SessionProvider.GetSessionContextBlock())
+                localidades = localidadLogic.GetForSelection();
+                rubros = rubroLogic.GetForSelection();
+                tipoOrganizaciones = tipoOrganizacionLogic.GetForSelection();
+
+                if (organizacionId.HasValue)
                 {
-                    localidades = localidadLogic.GetForSelection();
-                    rubros = rubroLogic.GetForSelection();
-                    tipoOrganizaciones = tipoOrganizacionLogic.GetForSelection();
+                    WindowTitle = "Modificar Organizacion";
 
-                    if (organizacionId.HasValue)
-                    {
-                        WindowTitle = "Modificar Organizacion";
+                    var organizacionData = organizacionLogic.GetForEdition(organizacionId.Value);
 
-                        var organizacionData = organizacionLogic.GetForEdition(organizacionId.Value);
-
-                        Organizacion.ContactoCargo = organizacionData.ContactoCargo;
-                        Organizacion.Cuit = organizacionData.Cuit;
-                        Organizacion.Direccion = organizacionData.Direccion;
-                        Organizacion.Email = organizacionData.Email;
-                        Organizacion.Id = organizacionData.Id;
-                        Organizacion.LocalidadId = organizacionData.LocalidadId;
-                        Organizacion.Nombre = organizacionData.Nombre;
-                        Organizacion.Personal = organizacionData.Personal;
-                        Organizacion.RubroId = organizacionData.RubroId;
-                        Organizacion.Telefono = organizacionData.Telefono;
-                        Organizacion.TipoOrganizacionId = organizacionData.TipoOrganizacionId;
-                        Organizacion.UsuarioInti = organizacionData.UsuarioInti;
-                        Organizacion.Web = organizacionData.ContactoCargo;
-                    }
-                    else
-                    {
-                        WindowTitle = "Crear Organizacion";
-                    }
+                    Organizacion.ContactoCargo = organizacionData.ContactoCargo;
+                    Organizacion.Cuit = organizacionData.Cuit;
+                    Organizacion.Direccion = organizacionData.Direccion;
+                    Organizacion.Email = organizacionData.Email;
+                    Organizacion.Id = organizacionData.Id;
+                    Organizacion.LocalidadId = organizacionData.LocalidadId;
+                    Organizacion.Nombre = organizacionData.Nombre;
+                    Organizacion.Personal = organizacionData.Personal;
+                    Organizacion.RubroId = organizacionData.RubroId;
+                    Organizacion.Telefono = organizacionData.Telefono;
+                    Organizacion.TipoOrganizacionId = organizacionData.TipoOrganizacionId;
+                    Organizacion.UsuarioInti = organizacionData.UsuarioInti;
+                    Organizacion.Web = organizacionData.ContactoCargo;
+                }
+                else
+                {
+                    WindowTitle = "Crear Organizacion";
                 }
             });
 

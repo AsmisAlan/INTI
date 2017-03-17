@@ -10,10 +10,17 @@ namespace GeoUsers.Services
         {
             public ISession Session { get; protected set; }
 
-            public ContextSessionBlock(Action action, ISession session)
-                : base(action)
+            public bool ExceptionThrown { get; set; }
+
+            public ContextSessionBlock(ISession session)
+                : base()
             {
                 Session = session;
+            }
+
+            public void SetAction(Action action)
+            {
+                Action = action;
             }
         }
 
@@ -31,13 +38,18 @@ namespace GeoUsers.Services
             session.BeginTransaction();
             ThreadStaticSessionContext.Bind(session);
 
-            return new ContextSessionBlock(() => Unbind(), session);
+            var sessionBlock = new ContextSessionBlock(session);
+
+            sessionBlock.SetAction(() => Unbind(sessionBlock.ExceptionThrown));
+
+            return sessionBlock;
         }
 
         public void Unbind(bool exception = false)
         {
             //Unbind session from current context
             var session = ThreadStaticSessionContext.Unbind(sessionFactory);
+
             if (session == null) return;
 
             try

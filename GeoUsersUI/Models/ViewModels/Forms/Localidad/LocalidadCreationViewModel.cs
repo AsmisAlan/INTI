@@ -37,17 +37,14 @@ namespace GeoUsersUI.Models.ViewModels.Forms
             {
                 WindowTitle = "Modificar Localidad";
 
-                await Task.Run(() =>
-                {
-                    using (var sessionContext = GeoUsersServices.SessionProvider.GetSessionContextBlock())
+                await RequestService.Execute(() =>
                     {
                         var localidadData = localidadLogic.GetForEdition(localidadId.Value);
 
                         Localidad.CodigoPostal = localidadData.CodigoPostal;
                         Localidad.Nombre = localidadData.Nombre;
                         Localidad.Id = localidadData.Id;
-                    }
-                });
+                    });
             }
             else
             {

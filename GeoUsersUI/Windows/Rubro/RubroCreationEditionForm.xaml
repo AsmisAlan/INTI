@@ -34,6 +34,7 @@
             <TextBox Grid.Row="0"
                      Grid.Column="1"
                      x:Name="TextBoxNombre"
+                     MaxLength="50"
                      Text="{Binding Rubro.Nombre}"
                      Style="{StaticResource FormTextBox}"/>
             <Label Content="Sector :"

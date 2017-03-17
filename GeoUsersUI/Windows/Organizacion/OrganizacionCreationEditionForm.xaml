@@ -12,6 +12,7 @@
         MinHeight="400" 
         MaxHeight="800"
         MinWidth="400"
+        Width="500"
         MaxWidth="600"
         Background="{StaticResource BaseWindowBackground}">
     <Grid Style="{StaticResource ResourceKey=FormGrid}">
@@ -40,6 +41,7 @@
         <TextBox Grid.Row="0"
                  Grid.Column="1"
                  x:Name="TextBoxNombre"
+                 MaxLength="50"
                  Text="{Binding Organizacion.Nombre}"
                  Style="{StaticResource FormTextBox}">
         </TextBox>
@@ -48,6 +50,7 @@
                Style="{StaticResource FormLabel}"/>
         <TextBox Grid.Row="1"
                  Grid.Column="1"
+                 MaxLength="40"
                  x:Name="TextBoxDireccion"
                  Text="{Binding Organizacion.Direccion}"
                  Style="{StaticResource FormTextBox}">
@@ -57,6 +60,7 @@
                Style="{StaticResource FormLabel}"/>
         <TextBox Grid.Row="2"
                  Grid.Column="1"
+                 MaxLength="20"
                  x:Name="TextBoxTelefono"
                  Style="{StaticResource FormTextBox}"
                  Text="{Binding Organizacion.Telefono}">
@@ -66,6 +70,7 @@
                Style="{StaticResource FormLabel}"/>
         <TextBox Grid.Row="3"
                  Grid.Column="1"
+                 MaxLength="15"
                  x:Name="TextBoxContactoCargo"
                  Text="{Binding Organizacion.ContactoCargo}"
                  Style="{StaticResource FormTextBox}">
@@ -75,6 +80,7 @@
                Style="{StaticResource FormLabel}"/>
         <TextBox Grid.Row="4"
                  Grid.Column="1"
+                 MaxLength="25"
                  x:Name="TextBoxEmail"
                  Style="{StaticResource FormTextBox}">
             <TextBox.Text>
@@ -90,6 +96,7 @@
                Style="{StaticResource FormLabel}"/>
         <TextBox Grid.Row="5"
                  Grid.Column="1"
+                 MaxLength="25"
                  x:Name="TextBoxWeb"
                  Text="{Binding Organizacion.Web}"
                  Style="{StaticResource FormTextBox}">
