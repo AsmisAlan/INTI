@@ -139,6 +139,8 @@ namespace GeoUsers.Services.Logics
             try
             {
                 Session.Delete(sector);
+
+                Session.Transaction.Commit();
             }
             catch (ConstraintViolationException)
             {

@@ -1,5 +1,4 @@
-﻿using GeoUsers.Services;
-using GeoUsers.Services.Logics;
+﻿using GeoUsers.Services.Logics;
 using GeoUsers.Services.Model.DataTransfer;
 using GeoUsersUI.Utils;
 using System.Collections.Generic;
@@ -8,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GeoUsersUI.Models.ViewModels.Forms
 {
-    public class LocalidadListViewModel
+    public class LocalidadListViewModel : BaseListViewModel
     {
         private readonly LocalidadLogic localidadLogic;
 

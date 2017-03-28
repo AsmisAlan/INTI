@@ -17,6 +17,8 @@ namespace GeoUsersUI.Windows
         {
             InitializeComponent();
 
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
             DataContext = ViewModel = App.Container.Resolve<SectorEditionViewModel>();
 
             Initialize(sectorId);
@@ -36,10 +38,12 @@ namespace GeoUsersUI.Windows
 
         private async void ButtonSubmit_Click(object sender, RoutedEventArgs e)
         {
-            DialogResult = await ViewModel.Submit();
+            var result = await ViewModel.Submit();
 
-            if (DialogResult.HasValue && DialogResult.Value)
+            if (result)
             {
+                DialogResult = true;
+
                 Close();
             }
         }

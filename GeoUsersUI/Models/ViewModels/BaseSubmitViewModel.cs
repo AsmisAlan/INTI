@@ -1,5 +1,4 @@
-﻿using GeoUsers.Services;
-using GeoUsersUI.Utils;
+﻿using GeoUsersUI.Utils;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
@@ -8,6 +7,22 @@ namespace GeoUsersUI.Models.ViewModels
 {
     public abstract class BaseSubmitViewModel<T> : BaseWindowViewModel
     {
+        protected bool loading;
+
+        public bool Loading
+        {
+            get
+            {
+                return loading;
+            }
+            set
+            {
+                loading = value;
+
+                OnPropertyChanged(nameof(Loading));
+            }
+        }
+
         public T Result { get; set; }
 
         /// <summary>
@@ -29,31 +44,32 @@ namespace GeoUsersUI.Models.ViewModels
         /// </summary>
         /// <param name="submitFunction"></param>
         /// <returns></returns>
-        public Task<bool> Submit()
+        public async Task<bool> Submit()
         {
-            // TODO. implement notifypropertychanged together with a loading property to notify when the loading starts and finishes.
             if (!SubmitValidation())
             {
                 MessageBoxUtils.FormIncompleteError();
-                return Task.FromResult(false);
-            }
 
+                return false;
+            }
             try
             {
-                return RequestService.Execute(() => SubmitFunction());
-            }
-            catch (InvalidOperationException e)
-            {
-                Console.Write(e);
-                // TODO. Logger implementation. Log exceptions.
-                MessageBox.Show("Operacion invalida");
+                Loading = true;
+
+                var result = await RequestService.Execute(() => SubmitFunction());
+
+                Loading = false;
+
+                return result;
             }
             catch (Exception e)
             {
                 MessageBox.Show(e.Message);
+
+                Loading = false;
             }
 
-            return Task.FromResult(false);
+            return true;
         }
     }
 }

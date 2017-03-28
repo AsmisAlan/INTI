@@ -2,6 +2,7 @@
 using GeoUsers.Services.Model.DataTransfer;
 using GeoUsers.Services.Model.Entities;
 using GeoUsers.Services.Model.Enums;
+using GeoUsers.Services.SQLExceptions;
 using GeoUsers.Services.Utils;
 using NHibernate;
 using System;
@@ -108,7 +109,7 @@ namespace GeoUsers.Services.Logics
                 Cuit = creationData.Cuit,
                 Direccion = creationData.Direccion,
                 Email = creationData.Email,
-                Personal = creationData.Personal.Value,
+                Personal = creationData.Personal,
                 Telefono = creationData.Telefono,
                 Web = creationData.Web,
                 UsuarioInti = creationData.UsuarioInti,
@@ -156,15 +157,22 @@ namespace GeoUsers.Services.Logics
             organizacion.Localidad = localidad;
             organizacion.Nombre = organizacionData.Nombre;
             organizacion.TipoOrganizacion = tipoOrganizacion;
-            organizacion.Personal = organizacionData.Personal.Value;
+            organizacion.Personal = organizacionData.Personal;
             organizacion.Rubro = rubro;
             organizacion.Telefono = organizacionData.Telefono;
             organizacion.UsuarioInti = organizacionData.UsuarioInti;
             organizacion.Web = organizacionData.Web;
 
-            Session.Save(organizacion);
+            try
+            {
+                Session.Save(organizacion);
 
-            Session.Transaction.Commit();
+                Session.Transaction.Commit();
+            }
+            catch (UniqueIndexViolationException)
+            {
+                throw new Exception($"El cuit {organizacion.Cuit} ya fue registrado en otra organización");
+            }
 
             return organizacion.Id;
         }

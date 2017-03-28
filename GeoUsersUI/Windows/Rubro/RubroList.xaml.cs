@@ -19,6 +19,8 @@ namespace GeoUsersUI.Windows
         {
             InitializeComponent();
 
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
             DataContext = ViewModel = App.Container.Resolve<RubroListViewModel>();
 
             Initialize();
@@ -31,7 +33,11 @@ namespace GeoUsersUI.Windows
 
         private async Task<bool> UpdateRubros()
         {
+            ViewModel.StartLoadingTable();
+
             await ViewModel.LoadRubros();
+
+            ViewModel.StopLoadingTable();
 
             return true;
         }
@@ -89,11 +95,8 @@ namespace GeoUsersUI.Windows
                 {
                     await ViewModel.Delete(rubro.Id);
                 }
-                catch (ReferencedEntityException)
+                catch
                 {
-                    MessageBoxUtils.Error("El rubro que se intenta eliminar se encuentra en uso.");
-
-                    return;
                 }
 
                 await UpdateRubros();
@@ -107,7 +110,7 @@ namespace GeoUsersUI.Windows
 
         private void DataGridExportButtonBar_OnExportButtonClick(object sender, RoutedEventArgs e)
         {
-            ExcelExportUtils.ExportToExcel(RubroGrid);
+            ViewModel.Export(RubroGrid);
         }
 
         private void DataGridExportButtonBar_OnPrintButtonClick(object sender, RoutedEventArgs e)

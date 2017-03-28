@@ -5,8 +5,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GeoUsersUI.Windows"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
-        Title="RubroList" Height="300" MinWidth="550"
+        Title="RubroList" 
+        MinHeight="300" 
+        MinWidth="550"
         Background="{StaticResource BaseWindowBackground}">
     <Grid Name="MainGrid"
           Style="{StaticResource FormGrid}"
@@ -35,6 +38,9 @@
                 </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
+        <fa:FontAwesome x:Name="TableLoading"
+                        Style="{StaticResource LoadingTable}"
+                        Visibility="{Binding Path=LoadingTable}"/>
         <UserControls:EntityListButtonBar
                  Grid.Row="1"
                  VerticalAlignment="Bottom"

@@ -1,4 +1,5 @@
 ﻿using GeoUsers.Services;
+using GeoUsers.Services.Utils;
 using System;
 using System.Threading.Tasks;
 
@@ -8,7 +9,7 @@ namespace GeoUsersUI.Utils
     {
         public async static Task<bool> Execute(Action action)
         {
-            return await Task.Run(() =>
+            var result = await Task.Run(() =>
             {
                 using (var sessionContext = GeoUsersServices.SessionProvider.GetSessionContextBlock())
                 {
@@ -20,6 +21,8 @@ namespace GeoUsersUI.Utils
                     }
                     catch (Exception e)
                     {
+                        Logger.Log(e);
+
                         sessionContext.ExceptionThrown = true;
 
                         MessageBoxUtils.Error(e.Message);
@@ -28,6 +31,8 @@ namespace GeoUsersUI.Utils
                     }
                 }
             });
+
+            return result;
         }
     }
 }

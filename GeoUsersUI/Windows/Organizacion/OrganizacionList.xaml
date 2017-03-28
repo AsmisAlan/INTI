@@ -137,6 +137,9 @@
                 </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
+        <fa:FontAwesome x:Name="TableLoading"
+                        Style="{StaticResource LoadingTable}"
+                        Visibility="{Binding Path=LoadingTable}"/>
         <UserControls:EntityListButtonBar
                 Grid.Row="2"
                 OnCloseButtonClick="EntityListButtonBar_OnCloseButtonClick"

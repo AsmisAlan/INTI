@@ -105,6 +105,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Models\ViewModels\BaseWindowViewModel.cs" />
+    <Compile Include="Models\ViewModels\BaseListViewModel.cs" />
     <Compile Include="Models\ViewModels\Forms\Localidad\LocalidadListViewModel.cs" />
     <Compile Include="Models\ViewModels\Forms\Rubro\RubroListViewModel.cs" />
     <Compile Include="Models\ViewModels\Forms\Sector\SectorListViewModel.cs" />
@@ -152,7 +153,9 @@
     <Compile Include="ValidationRules\EmailInputValidationRule.cs" />
     <Compile Include="ValidationRules\NumericInputValidationRule.cs" />
     <Compile Include="Models\ViewModels\BaseSubmitViewModel.cs" />
+    <Compile Include="ValueConverters\BooleanToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\BooleanToYesNoConverter.cs" />
+    <Compile Include="ValueConverters\InvertBooleanConverter.cs" />
     <Compile Include="ValueConverters\PathToBitmapImageConverter.cs" />
     <Compile Include="Windows\Localidad\LocalidadList.xaml.cs">
       <DependentUpon>LocalidadList.xaml</DependentUpon>

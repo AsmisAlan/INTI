@@ -19,6 +19,8 @@ namespace GeoUsersUI.Windows
         {
             InitializeComponent();
 
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
             DataContext = ViewModel = App.Container.Resolve<OrganizacionListViewModel>();
 
             Initialize();
@@ -31,7 +33,11 @@ namespace GeoUsersUI.Windows
 
         private async Task<bool> UpdateOrganizaciones()
         {
+            ViewModel.StartLoadingTable();
+
             await ViewModel.LoadOrganizaciones();
+
+            ViewModel.StopLoadingTable();
 
             return true;
         }
@@ -83,7 +89,7 @@ namespace GeoUsersUI.Windows
 
             if (result == MessageBoxResult.Yes)
             {
-                var organizacion = (OrganizacionHeaderData)OrganizacionGrid.SelectedItem;
+                var organizacion = (OrganizacionData)OrganizacionGrid.SelectedItem;
 
                 await ViewModel.Delete(organizacion.Id);
 
@@ -98,7 +104,7 @@ namespace GeoUsersUI.Windows
 
         private void DataGridExportButtonBar_OnExportButtonClick(object sender, RoutedEventArgs e)
         {
-            ExcelExportUtils.ExportToExcel(OrganizacionGrid);
+            ViewModel.Export(OrganizacionGrid);
         }
 
         private void DataGridExportButtonBar_OnPrintButtonClick(object sender, RoutedEventArgs e)

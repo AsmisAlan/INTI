@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GeoUsersUI.Windows"
         xmlns:UserControls="clr-namespace:GeoUsersUI.UserControls"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
         Title="TipoOrganizacionList" Height="300" MinWidth="550"
         Background="{StaticResource BaseWindowBackground}">
@@ -31,6 +32,9 @@
                 </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
+        <fa:FontAwesome x:Name="TableLoading"
+                        Style="{StaticResource LoadingTable}"
+                        Visibility="{Binding Path=LoadingTable}"/>
         <UserControls:EntityListButtonBar
                 Grid.Row="1"
                 OnCloseButtonClick="EntityListButtonBar_OnCloseButtonClick"

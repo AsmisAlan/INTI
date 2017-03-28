@@ -29,6 +29,8 @@ namespace GeoUsersUI.Models.ViewModels.Forms
             {
                 return Localidad.CodigoPostal != null && !string.IsNullOrEmpty(Localidad.Nombre);
             };
+
+            Loading = false;
         }
 
         public async Task<bool> Initialize(int? localidadId)

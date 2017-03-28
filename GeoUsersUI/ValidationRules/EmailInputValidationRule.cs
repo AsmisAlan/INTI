@@ -1,5 +1,4 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Windows.Controls;
 
 namespace GeoUsersUI.ValidationRules
@@ -14,11 +13,11 @@ namespace GeoUsersUI.ValidationRules
         {
             var parsedValue = (string)value;
 
-            if (parsedValue.Contains("@") && parsedValue.Contains(".com"))
+            if (parsedValue.Contains("@"))
             {
                 return new ValidationResult(true, null);
             }
-            return new ValidationResult(false, "El mail es invalido.");
+            return new ValidationResult(false, "La dirección de email no es válida.");
         }
     }
 }

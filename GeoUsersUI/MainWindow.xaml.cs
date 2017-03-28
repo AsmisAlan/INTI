@@ -26,6 +26,8 @@ namespace GeoUsersUI
         {
             InitializeComponent();
 
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
             Browser.FrameLoadEnd += Browser_FrameLoadEnd;
 
             DataContext = ViewModel = App.Container.Resolve<MainViewModel>();
@@ -38,6 +40,8 @@ namespace GeoUsersUI
             InitializeMainMenu();
 
             await ViewModel.InitializationTask;
+
+            ViewModel.LoadingTable = Visibility.Hidden;
 
             var url = await GetMapUrl(ViewModel.Organizaciones);
 
@@ -154,8 +158,6 @@ namespace GeoUsersUI
             };
         }
 
-
-
         private async Task<string> GetMapUrl(IEnumerable<OrganizacionHeaderData> organizaciones)
         {
             return await Task.Run(() =>
@@ -178,8 +180,11 @@ namespace GeoUsersUI
         private async Task<bool> UpdateUI()
         {
             ViewModel.LoadingMap = Visibility.Visible;
+            ViewModel.LoadingTable = Visibility.Visible;
 
             await ViewModel.UpdateOrganizacionHeaders();
+
+            ViewModel.LoadingTable = Visibility.Hidden;
 
             return await UpdateMap();
         }

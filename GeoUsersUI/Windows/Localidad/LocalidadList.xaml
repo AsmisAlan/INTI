@@ -5,8 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GeoUsersUI.Windows"
         xmlns:UserControls="clr-namespace:GeoUsersUI.UserControls" 
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
-        Title="LocalidadList" Height="300" MinWidth="550"
+        Title="LocalidadList" 
+        MinHeight="300"
+        MinWidth="550"
         Background="{StaticResource BaseWindowBackground}">
     <Grid>
         <Grid Name="MainGrid"
@@ -47,6 +50,9 @@
                     Grid.Row="1"
                     OnExportButtonClick="DataGridExportButtonBar_OnExportButtonClick"
                     OnPrintButtonClick="DataGridExportButtonBar_OnPrintButtonClick"/>
+            <fa:FontAwesome x:Name="TableLoading"
+                            Style="{StaticResource LoadingTable}"
+                            Visibility="{Binding Path=LoadingTable}"/>
         </Grid>
     </Grid>
 </Window>

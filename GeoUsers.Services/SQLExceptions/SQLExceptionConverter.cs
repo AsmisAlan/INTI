@@ -16,6 +16,10 @@ namespace GeoUsers.Services.SQLExceptions
                 {
                     return new ConstraintViolationException(sqlException.Message, sqlException);
                 }
+                else if (sqlException.Number == 2601)
+                {
+                    return new UniqueIndexViolationException(sqlException.Message, sqlException);
+                }
             }
 
             return adoExceptionContextInfo.SqlException;

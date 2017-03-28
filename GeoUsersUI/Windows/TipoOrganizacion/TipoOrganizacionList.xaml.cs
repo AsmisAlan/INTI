@@ -3,6 +3,7 @@ using GeoUsers.Services.SQLExceptions;
 using GeoUsersUI.Models.ViewModels.Forms;
 using GeoUsersUI.Utils;
 using Microsoft.Practices.Unity;
+using System;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -19,6 +20,8 @@ namespace GeoUsersUI.Windows
         {
             InitializeComponent();
 
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
             DataContext = ViewModel = App.Container.Resolve<TipoOrganizacionListViewModel>();
 
             Initialize();
@@ -31,7 +34,11 @@ namespace GeoUsersUI.Windows
 
         private async Task<bool> UpdateTipoOrganizaciones()
         {
+            ViewModel.StartLoadingTable();
+
             await ViewModel.LoadTipoOrganizaciones();
+
+            ViewModel.StopLoadingTable();
 
             return true;
         }
@@ -89,11 +96,8 @@ namespace GeoUsersUI.Windows
                 {
                     await ViewModel.Delete(tipoOrganizacion.Id);
                 }
-                catch (ReferencedEntityException)
+                catch (Exception)
                 {
-                    MessageBoxUtils.Error("El tipo de organizacion que se intenta eliminar se encuentra en uso.");
-
-                    return;
                 }
 
 
@@ -108,7 +112,7 @@ namespace GeoUsersUI.Windows
 
         private void DataGridExportButtonBar_OnExportButtonClick(object sender, RoutedEventArgs e)
         {
-            ExcelExportUtils.ExportToExcel(TipoOrganizacionGrid);
+            ViewModel.Export(TipoOrganizacionGrid);
         }
 
         private void DataGridExportButtonBar_OnPrintButtonClick(object sender, RoutedEventArgs e)

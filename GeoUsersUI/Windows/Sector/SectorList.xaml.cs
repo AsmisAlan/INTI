@@ -3,6 +3,7 @@ using GeoUsers.Services.SQLExceptions;
 using GeoUsersUI.Models.ViewModels.Forms;
 using GeoUsersUI.Utils;
 using Microsoft.Practices.Unity;
+using System;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -19,6 +20,8 @@ namespace GeoUsersUI.Windows
         {
             InitializeComponent();
 
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
             DataContext = ViewModel = App.Container.Resolve<SectorListViewModel>();
 
             Initialize();
@@ -31,7 +34,11 @@ namespace GeoUsersUI.Windows
 
         private async Task<bool> UpdateSectores()
         {
+            ViewModel.StartLoadingTable();
+
             await ViewModel.LoadSectores();
+
+            ViewModel.StopLoadingTable();
 
             return true;
         }
@@ -85,16 +92,7 @@ namespace GeoUsersUI.Windows
             {
                 var sector = (SectorHeaderData)SectorGrid.SelectedItem;
 
-                try
-                {
-                    await ViewModel.Delete(sector.Id);
-                }
-                catch (ReferencedEntityException)
-                {
-                    MessageBoxUtils.Error("El sector que se intenta eliminar se encuentra en uso.");
-
-                    return;
-                }
+                await ViewModel.Delete(sector.Id);
 
                 await UpdateSectores();
             }
@@ -107,7 +105,7 @@ namespace GeoUsersUI.Windows
 
         private void DataGridExportButtonBar_OnExportButtonClick(object sender, RoutedEventArgs e)
         {
-            ExcelExportUtils.ExportToExcel(SectorGrid);
+            ViewModel.Export(SectorGrid);
         }
 
         private void DataGridExportButtonBar_OnPrintButtonClick(object sender, RoutedEventArgs e)

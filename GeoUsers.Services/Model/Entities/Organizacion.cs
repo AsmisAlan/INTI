@@ -10,7 +10,7 @@
 
         public virtual string ContactoCargo { get; set; }
 
-        public virtual int Personal { get; set; }
+        public virtual int? Personal { get; set; }
 
         public virtual string Email { get; set; }
 

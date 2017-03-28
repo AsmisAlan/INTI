@@ -24,6 +24,8 @@ namespace GeoUsersUI.Models.ViewModels
 
         private Visibility loadingMap { get; set; }
 
+        private Visibility loadingTable { get; set; }
+
         public ObservableCollection<OrganizacionHeaderData> Organizaciones { get; set; }
 
         public ObservableCollection<IdAndValue> UsuarioIntiStatuses { get; set; }
@@ -42,6 +44,20 @@ namespace GeoUsersUI.Models.ViewModels
 
         public FilterStatus OrganizacionesFilter { get; set; }
 
+        public Visibility LoadingTable
+        {
+            get
+            {
+                return loadingTable;
+            }
+            set
+            {
+                loadingTable = value;
+
+                OnPropertyChanged(nameof(LoadingTable));
+            }
+        }
+
         public Visibility LoadingMap
         {
             get
@@ -55,6 +71,7 @@ namespace GeoUsersUI.Models.ViewModels
                 OnPropertyChanged(nameof(LoadingMap));
             }
         }
+
         public MainViewModel()
         {
         }
@@ -191,19 +208,17 @@ namespace GeoUsersUI.Models.ViewModels
             return form.DialogResult;
         }
 
-        public void FilterOrganizaciones(string serchTerm)
+        public void FilterOrganizaciones(string searchTerm)
         {
-            if (serchTerm == "")
-            {
-                return;
-            }
+            searchTerm = searchTerm.Trim().ToLower();
 
             foreach (var organizacion in Organizaciones)
             {
-                organizacion.IsActive = organizacion.Nombre.Contains(serchTerm) ||
-                                        organizacion.Direccion.Contains(serchTerm) ||
-                                        organizacion.Email.Contains(serchTerm) ||
-                                        organizacion.Telefono.Contains(serchTerm);
+                organizacion.IsActive = string.IsNullOrEmpty(searchTerm) ||
+                                        organizacion.Nombre.ToLower().Contains(searchTerm) ||
+                                        organizacion.Direccion.ToLower().Contains(searchTerm) ||
+                                        organizacion.Email.ToLower().Contains(searchTerm) ||
+                                        organizacion.Telefono.ToLower().Contains(searchTerm);
             }
         }
     }

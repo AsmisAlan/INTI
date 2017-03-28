@@ -11,7 +11,7 @@ using System.Windows;
 
 namespace GeoUsersUI.Models.ViewModels
 {
-    public class OrganizacionListViewModel : BaseWindowViewModel
+    public class OrganizacionListViewModel : BaseListViewModel
     {
         private readonly OrganizacionLogic organizacionLogic;
         private readonly SectorLogic sectorLogic;

@@ -19,6 +19,8 @@ namespace GeoUsersUI.Windows
 
             DataContext = ViewModel = App.Container.Resolve<OrganizacionViewModel>();
 
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
             var initialized = Initialize(organizacionId);
         }
 
@@ -40,10 +42,12 @@ namespace GeoUsersUI.Windows
 
         private async void Submit(object sender, RoutedEventArgs e)
         {
-            DialogResult = await ViewModel.Submit();
+            var result = await ViewModel.Submit();
 
-            if (DialogResult.HasValue && DialogResult.Value)
+            if (result)
             {
+                DialogResult = true;
+
                 Close();
             }
         }

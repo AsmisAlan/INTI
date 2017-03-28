@@ -30,6 +30,8 @@ namespace GeoUsersUI.Windows
         public SmartSelectWindow()
         {
             InitializeComponent();
+
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
 
         public SmartSelectWindow(Func<IEnumerable<IdAndValue>> dataFunction,
@@ -40,6 +42,8 @@ namespace GeoUsersUI.Windows
             InitializeComponent();
 
             EntityListHeader = entityListHeader;
+
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
             DataContext = this;
 

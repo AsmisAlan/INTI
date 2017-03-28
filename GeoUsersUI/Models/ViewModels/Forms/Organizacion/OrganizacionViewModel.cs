@@ -50,8 +50,7 @@ namespace GeoUsersUI.Models.ViewModels.Forms
                        !string.IsNullOrEmpty(Organizacion.Email) &&
                        Organizacion.LocalidadId.HasValue &&
                        Organizacion.TipoOrganizacionId.HasValue &&
-                       Organizacion.RubroId.HasValue &&
-                       Organizacion.Personal.HasValue;
+                       Organizacion.RubroId.HasValue;
             };
 
             SubmitFunction = SubmitForm;

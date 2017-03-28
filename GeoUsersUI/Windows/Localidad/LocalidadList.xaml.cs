@@ -19,6 +19,8 @@ namespace GeoUsersUI.Windows
         {
             InitializeComponent();
 
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
             DataContext = ViewModel = App.Container.Resolve<LocalidadListViewModel>();
 
             Initialize();
@@ -31,7 +33,11 @@ namespace GeoUsersUI.Windows
 
         private async Task<bool> UpdateLocalidades()
         {
+            ViewModel.StartLoadingTable();
+
             await ViewModel.LoadLocalidades();
+
+            ViewModel.StopLoadingTable();
 
             return true;
         }
@@ -89,11 +95,8 @@ namespace GeoUsersUI.Windows
                 {
                     await ViewModel.Delete(localidad.Id);
                 }
-                catch (ReferencedEntityException)
+                catch
                 {
-                    MessageBoxUtils.Error("La localidad que se intenta eliminar se encuentra en uso");
-
-                    return;
                 }
 
                 await UpdateLocalidades();
@@ -107,7 +110,7 @@ namespace GeoUsersUI.Windows
 
         private void DataGridExportButtonBar_OnExportButtonClick(object sender, RoutedEventArgs e)
         {
-            ExcelExportUtils.ExportToExcel(LocalidadGrid);
+            ViewModel.Export(LocalidadGrid);
         }
 
         private void DataGridExportButtonBar_OnPrintButtonClick(object sender, RoutedEventArgs e)

@@ -1,4 +1,6 @@
-﻿using Microsoft.Practices.Unity;
+﻿using GeoUsers.Services.Utils;
+using Microsoft.Practices.Unity;
+using System;
 
 namespace GeoUsers.Services
 {
@@ -13,9 +15,16 @@ namespace GeoUsers.Services
             //Dependency Injection
             Container = container;
 
-            InjectionConfig.RegisterDependencies(container);
+            try
+            {
+                InjectionConfig.RegisterDependencies(container);
 
-            SessionProvider = Container.Resolve<SessionProvider>();
+                SessionProvider = Container.Resolve<SessionProvider>();
+            }
+            catch (Exception e)
+            {
+                Logger.Log(e);
+            }
         }
     }
 }

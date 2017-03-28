@@ -4,7 +4,7 @@ namespace GeoUsersUI.Models.ViewModels
 {
     public class BaseWindowViewModel : BaseNotifierEntity
     {
-        protected string windowTitle { get; set; }
+        protected string windowTitle = "";
 
         public string WindowTitle
         {

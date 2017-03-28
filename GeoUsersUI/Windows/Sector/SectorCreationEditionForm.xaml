@@ -67,6 +67,9 @@
                                 Converter={StaticResource PathToBitmapImageConverter}}"/>
         <UserControls:FormButtonBar Grid.Row="3"
                                     Grid.Column="1"
+                                    Loading="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                         AncestorType={x:Type Window}}, 
+                                                      Path=DataContext.Loading}"
                                     OnCancelButtonClick="ButtonDismiss_Click"
                                     OnSubmitButtonClick="ButtonSubmit_Click"/>
     </Grid>

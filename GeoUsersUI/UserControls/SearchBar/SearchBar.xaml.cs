@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -63,8 +62,6 @@ namespace GeoUsersUI.UserControls
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        private Timer Timer { get; set; }
 
         public SearchBar()
         {

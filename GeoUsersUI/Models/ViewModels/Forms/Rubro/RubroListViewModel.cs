@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GeoUsersUI.Models.ViewModels.Forms
 {
-    public class RubroListViewModel
+    public class RubroListViewModel : BaseListViewModel
     {
         private readonly RubroLogic rubroLogic;
 

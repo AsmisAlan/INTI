@@ -29,8 +29,6 @@ namespace GeoUsersUI.Models.ViewModels
             };
 
             Sector = new SectorEditionData();
-
-            Sector.Icono = new ArchivoEditionData();
         }
 
         public async Task<bool> Initialize(int? sectorId)

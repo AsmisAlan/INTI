@@ -25,6 +25,9 @@
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Opacity" Value="0.5"/>
                 </Trigger>
+                <Trigger Property="IsEnabled" Value="false">
+                    <Setter Property="Opacity" Value="0.3"/>
+                </Trigger>
             </Style.Triggers>
         </Style>
 
@@ -317,6 +320,8 @@
 
         <!--Bool to Yes No value converter-->
         <ValueConverters:BooleanToYesNoConverter x:Key="BooleanToYesNoConverter" />
+        <ValueConverters:InvertBooleanConverter x:Key="InvertBooleanConverter" />
+        <ValueConverters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <ValueConverters:PathToBitmapImageConverter x:Key="PathToBitmapImageConverter" />
 
         <!--User Controls-->
@@ -557,6 +562,20 @@
             <Setter Property="FontWeight" Value="Bold"></Setter>
             <Setter Property="Width" Value="140"></Setter>
             <Setter Property="Margin" Value="10 0 0 0"></Setter>
+        </Style>
+
+        <!--Loading-->
+
+        <Style TargetType="fa:FontAwesome" x:Key="BaseLoading">
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="Icon" Value="Spinner"></Setter>
+            <Setter Property="Spin" Value="True"></Setter>
+        </Style>
+
+        <Style TargetType="fa:FontAwesome" x:Key="LoadingTable" BasedOn="{StaticResource BaseLoading}">
+            <Setter Property="Height" Value="62"></Setter>
+            <Setter Property="Width" Value="62"></Setter>
+            <Setter Property="FontSize" Value="60"></Setter>
         </Style>
     </Application.Resources>
 </Application>

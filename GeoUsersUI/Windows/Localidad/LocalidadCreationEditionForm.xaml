@@ -8,9 +8,9 @@
         mc:Ignorable="d"
         Title="{Binding Path=WindowTitle}" 
         MinHeight="300" 
-        MaxHeight="400" 
-        MinWidth="300"
-        MaxWidth="500"
+        MaxHeight="350" 
+        MinWidth="420"
+        MaxWidth="600"
         Background="{StaticResource BaseWindowBackground}" >
     <Grid Name="MainGrid"
           Style="{StaticResource ResourceKey=FormGrid}">
@@ -27,7 +27,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="3*"/>
             </Grid.ColumnDefinitions>
-            <Label Content="Nombre :"
+            <Label Content="* Nombre :"
                    Grid.Row="0"
                    Style="{StaticResource FormLabel}"/>
             <TextBox Grid.Row="0"
@@ -37,7 +37,7 @@
                      Text="{Binding Localidad.Nombre}"
                      Style="{StaticResource FormTextBox}">
             </TextBox>
-            <Label Content="Código Postal :"
+            <Label Content="* Código Postal :"
                    Grid.Row="1"
                    Style="{StaticResource FormLabel}"/>
             <TextBox Grid.Row="1"
@@ -49,6 +49,9 @@
         </Grid>
         <UserControls:FormButtonBar Grid.Row="1"
                                     Grid.Column="1"
+                                    Loading="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                         AncestorType={x:Type Window}}, 
+                                                      Path=DataContext.Loading}"
                                     OnCancelButtonClick="ButtonDismiss_Click"
                                     OnSubmitButtonClick="ButtonSubmit_Click"/>
     </Grid>

@@ -7,8 +7,8 @@
         xmlns:UserControls="clr-namespace:GeoUsersUI.UserControls"
         mc:Ignorable="d"
         Title="{Binding Path=WindowTitle}" 
-        MinHeight="100" 
-        MaxHeight="200" 
+        MinHeight="300" 
+        MaxHeight="400" 
         MinWidth="300"
         MaxWidth="500"
         Background="{StaticResource BaseWindowBackground}">
@@ -39,6 +39,9 @@
         </Grid>
         <UserControls:FormButtonBar Grid.Row="1"
                                     Grid.Column="1"
+                                    Loading="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                         AncestorType={x:Type Window}}, 
+                                                      Path=DataContext.Loading}"
                                     OnCancelButtonClick="ButtonDismiss_Click"
                                     OnSubmitButtonClick="ButtonSubmit_Click"/>
     </Grid>

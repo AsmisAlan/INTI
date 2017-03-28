@@ -13,15 +13,15 @@ namespace GeoUsersUI.GoogleMaps
             {
                 var defaultIcon = "https://cdn2.iconfinder.com/data/icons/connectivity/32/navigation-128.png";
 
-                var marker = $"{{name: '{organizacion.Nombre}'," +
-                             $" contacto: '{organizacion.ContactoCargo}'," +
-                             $" email: '{organizacion.Email}'," +
-                             $" tel: '{organizacion.Telefono}'," +
-                             $" lat: '{organizacion.Latitud}'," +
-                             $" lng: '{organizacion.Longitud}'," +
-                             $" direc: '{organizacion.Direccion}'," +
-                             $" icon: '{(string.IsNullOrEmpty(organizacion.Icono) ? defaultIcon : organizacion.Icono)}'," +
-                             $" isInti: '{organizacion.UsuarioInti.ToString()}' " +
+                var marker = $"{{\"name\": \"{organizacion.Nombre}\"," +
+                             $" \"contacto\": \"{organizacion.ContactoCargo}\"," +
+                             $" \"email\": \"{organizacion.Email}\"," +
+                             $" \"tel\": \"{organizacion.Telefono}\"," +
+                             $" \"lat\": \"{organizacion.Latitud}\"," +
+                             $" \"lng\": \"{organizacion.Longitud}\"," +
+                             $" \"direc\": \"{organizacion.Direccion}\"," +
+                             $" \"icon\": \"{(string.IsNullOrEmpty(organizacion.Icono) ? defaultIcon : organizacion.Icono)}\"," +
+                             $" \"isInti\": {organizacion.UsuarioInti.ToString().ToLower()} " +
                              $"}}";
 
                 if (markers.Length == 0)
@@ -30,7 +30,7 @@ namespace GeoUsersUI.GoogleMaps
                 }
                 else
                 {
-                    markers = $"{markers},{marker}";
+                    markers = $"{markers}, {marker}";
                 }
             }
 

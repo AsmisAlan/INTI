@@ -191,16 +191,14 @@
             </DataGrid>
             <cefSharp:ChromiumWebBrowser x:Name="Browser"
                                          Grid.Row="2"/>
-            <fa:FontAwesome Icon="Spinner"
-                            Spin="True"
-                            VerticalAlignment="Center"
-                            TextAlignment="Right"
-                            x:Name="MapLoading"
-                            FontSize="60"
-                            Width="62"
-                            Height="62"
+            <fa:FontAwesome x:Name="MapLoading"
+                            Style="{StaticResource LoadingTable}"
                             Grid.Row="2"
                             Visibility="{Binding Path=LoadingMap}"/>
+            <fa:FontAwesome x:Name="TableLoading"
+                            Style="{StaticResource LoadingTable}"
+                            Grid.Row="1"
+                            Visibility="{Binding Path=LoadingTable}"/>
         </Grid>
     </Grid>
 </Window>

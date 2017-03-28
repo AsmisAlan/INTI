@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GeoUsersUI.Models.ViewModels.Forms
 {
-    class SectorListViewModel
+    class SectorListViewModel : BaseListViewModel
     {
         private readonly SectorLogic sectorLogic;
 

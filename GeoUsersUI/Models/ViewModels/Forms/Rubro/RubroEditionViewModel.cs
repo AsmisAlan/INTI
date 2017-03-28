@@ -1,5 +1,4 @@
-﻿using GeoUsers.Services;
-using GeoUsers.Services.Logics;
+﻿using GeoUsers.Services.Logics;
 using GeoUsers.Services.Model.DataTransfer;
 using GeoUsersUI.Utils;
 using System.Collections.Generic;
