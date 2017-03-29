@@ -43,6 +43,9 @@
                 OnEditButtonClick="EntityListButtonBar_OnEditButtonClick"/>
         <UserControls:DataGridExportButtonBar 
                     Grid.Row="1"
+                    Loading="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                     AncestorType={x:Type Window}}, 
+                                      Path=DataContext.IsExporting}"
                     OnExportButtonClick="DataGridExportButtonBar_OnExportButtonClick"
                     OnPrintButtonClick="DataGridExportButtonBar_OnPrintButtonClick"/>
     </Grid>

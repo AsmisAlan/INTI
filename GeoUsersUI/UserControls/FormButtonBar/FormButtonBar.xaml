@@ -14,7 +14,7 @@
                     HorizontalAlignment="Right"
                     Visibility="{Binding Path=Loading,
                                          Converter={StaticResource BooleanToVisibilityConverter}}">
-            <fa:FontAwesome x:Name="TableLoading"
+            <fa:FontAwesome x:Name="OperationLoading"
                             Style="{StaticResource BaseLoading}"
                             FontSize="26"
                             Width="30"

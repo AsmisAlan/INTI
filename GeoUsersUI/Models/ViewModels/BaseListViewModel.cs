@@ -1,5 +1,8 @@
 ﻿using GeoUsers.Services.Model.DataTransfer;
 using GeoUsersUI.Utils;
+using Microsoft.Win32;
+using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -9,7 +12,21 @@ namespace GeoUsersUI.Models.ViewModels
     {
         private Visibility loadingTable;
 
-        protected bool IsExporting { get; set; }
+        protected bool isExporting;
+
+        public bool IsExporting
+        {
+            get
+            {
+                return isExporting;
+            }
+            set
+            {
+                isExporting = value;
+
+                OnPropertyChanged(nameof(IsExporting));
+            }
+        }
 
         public Visibility LoadingTable
         {
@@ -29,21 +46,31 @@ namespace GeoUsersUI.Models.ViewModels
 
         public void Export(DataGrid grid)
         {
-            if (!IsExporting)
-            {
-                IsExporting = true;
+            IsExporting = true;
 
-                try
+            try
+            {
+                var saveFileDialog = new SaveFileDialog();
+
+                saveFileDialog.InitialDirectory = "C:";
+                saveFileDialog.Title = "Guardar";
+                saveFileDialog.FileName = "reporte";
+                saveFileDialog.DefaultExt = "xlsx";
+                saveFileDialog.Filter = "Excel Files|*.xls;*.xlsx;*.xlsm";
+
+                if (saveFileDialog.ShowDialog().Value)
                 {
-                    ExcelExportUtils.ExportToExcel(grid);
+                    ExcelExportUtils.ExportToExcel(grid,
+                                                   saveFileDialog.FileName);
                 }
-                catch
-                {
-                }
-                finally
-                {
-                    IsExporting = false;
-                }
+            }
+            catch (Exception e)
+            {
+                MessageBoxUtils.Error(e.Message);
+            }
+            finally
+            {
+                IsExporting = false;
             }
         }
 

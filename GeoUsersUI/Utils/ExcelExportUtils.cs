@@ -1,5 +1,4 @@
 ﻿using Microsoft.Office.Interop.Excel;
-using Microsoft.Win32;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -9,7 +8,7 @@ namespace GeoUsersUI.Utils
 {
     public static class ExcelExportUtils
     {
-        public static void ExportToExcel(DataGrid dataGrid)
+        public static void ExportToExcel(DataGrid dataGrid, string fileName)
         {
             var i = 0;
             var columnIndex = 1;
@@ -25,43 +24,34 @@ namespace GeoUsersUI.Utils
 
             var excelSheet = (Worksheet)excelBook.ActiveSheet;
 
-            for (i = 1; i <= dataGrid.Columns.Count; i++)
+            try
             {
-                excelSheet.Cells[1, i] = dataGrid.Columns[i - 1].Header.ToString();
-            }
-
-            foreach (var row in rows)
-            {
-                foreach (var column in dataGrid.Columns)
+                for (i = 1; i <= dataGrid.Columns.Count; i++)
                 {
-                    if (column.GetCellContent(row) is TextBlock)
-                    {
-                        var cellContent = column.GetCellContent(row) as TextBlock;
-
-                        excelSheet.Cells[rowIndex + 1, columnIndex] = cellContent.Text.Trim();
-
-                        columnIndex++;
-                    }
+                    excelSheet.Cells[1, i] = dataGrid.Columns[i - 1].Header.ToString();
                 }
 
-                columnIndex = 1;
-                rowIndex++;
-            }
+                foreach (var row in rows)
+                {
+                    foreach (var column in dataGrid.Columns)
+                    {
+                        if (column.GetCellContent(row) is TextBlock)
+                        {
+                            var cellContent = column.GetCellContent(row) as TextBlock;
 
-            excelApp.Visible = false;
+                            excelSheet.Cells[rowIndex + 1, columnIndex] = cellContent.Text.Trim();
 
-            var saveFileDialog = new SaveFileDialog();
+                            columnIndex++;
+                        }
+                    }
 
-            saveFileDialog.InitialDirectory = "C:";
-            saveFileDialog.Title = "Guardar";
-            saveFileDialog.FileName = "reporte";
-            saveFileDialog.DefaultExt = "xlsx";
-            saveFileDialog.Filter = "Excel Files|*.xls;*.xlsx;*.xlsm";
+                    columnIndex = 1;
+                    rowIndex++;
+                }
 
-            if (saveFileDialog.ShowDialog().Value)
-            {
+                excelApp.Visible = false;
 
-                excelBook.SaveAs(saveFileDialog.FileName,
+                excelBook.SaveAs(fileName,
                                  XlFileFormat.xlOpenXMLWorkbook,
                                  Missing.Value,
                                  Missing.Value,
@@ -73,14 +63,16 @@ namespace GeoUsersUI.Utils
                                  Missing.Value,
                                  Missing.Value,
                                  Missing.Value);
+
+                excelBook.Close(false, fileName, Missing.Value);
             }
-
-            excelBook.Close(false, saveFileDialog.FileName, Missing.Value);
-
-            Marshal.FinalReleaseComObject(excelWorkBooks);
-            Marshal.FinalReleaseComObject(excelSheet);
-            Marshal.FinalReleaseComObject(excelBook);
-            Marshal.FinalReleaseComObject(excelApp);
+            finally
+            {
+                Marshal.FinalReleaseComObject(excelWorkBooks);
+                Marshal.FinalReleaseComObject(excelSheet);
+                Marshal.FinalReleaseComObject(excelBook);
+                Marshal.FinalReleaseComObject(excelApp);
+            }
         }
 
         private static IEnumerable<DataGridRow> GetDataGridRows(DataGrid grid)

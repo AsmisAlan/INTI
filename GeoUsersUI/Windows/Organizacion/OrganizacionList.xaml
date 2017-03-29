@@ -139,6 +139,7 @@
         </DataGrid>
         <fa:FontAwesome x:Name="TableLoading"
                         Style="{StaticResource LoadingTable}"
+                        Grid.Row="1"
                         Visibility="{Binding Path=LoadingTable}"/>
         <UserControls:EntityListButtonBar
                 Grid.Row="2"
@@ -148,6 +149,9 @@
                 OnEditButtonClick="EntityListButtonBar_OnEditButtonClick"/>
         <UserControls:DataGridExportButtonBar 
             Grid.Row="2"
+            Loading="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                             AncestorType={x:Type Window}}, 
+                              Path=DataContext.IsExporting}"
             OnExportButtonClick="DataGridExportButtonBar_OnExportButtonClick"
             OnPrintButtonClick="DataGridExportButtonBar_OnPrintButtonClick"/>
     </Grid>
