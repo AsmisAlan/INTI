@@ -107,6 +107,7 @@
     <Compile Include="Models\ViewModels\BaseWindowViewModel.cs" />
     <Compile Include="Models\ViewModels\BaseListViewModel.cs" />
     <Compile Include="Models\ViewModels\Forms\Localidad\LocalidadListViewModel.cs" />
+    <Compile Include="Models\ViewModels\Forms\LoginFormViewModel.cs" />
     <Compile Include="Models\ViewModels\Forms\Rubro\RubroListViewModel.cs" />
     <Compile Include="Models\ViewModels\Forms\Sector\SectorListViewModel.cs" />
     <Compile Include="Models\ViewModels\Forms\TipoOrganizacion\TipoOrganizacionListViewModel.cs" />
@@ -162,6 +163,9 @@
     </Compile>
     <Compile Include="Windows\Localidad\LocalidadCreationEditionForm.xaml.cs">
       <DependentUpon>LocalidadCreationEditionForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\LoginForm.xaml.cs">
+      <DependentUpon>LoginForm.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\Organizacion\OrganizacionList.xaml.cs">
       <DependentUpon>OrganizacionList.xaml</DependentUpon>
@@ -231,6 +235,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\Localidad\LocalidadCreationEditionForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\LoginForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -335,6 +343,9 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <SplashScreen Include="Resources\splash.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\cef.redist.x64.3.2883.1552\build\cef.redist.x64.targets" Condition="Exists('..\packages\cef.redist.x64.3.2883.1552\build\cef.redist.x64.targets')" />

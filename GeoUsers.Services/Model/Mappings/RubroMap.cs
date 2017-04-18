@@ -11,7 +11,7 @@ namespace GeoUsers.Services.Model.Mappings
 
             Id<int>(x => x.Id, x =>
             {
-                x.Column("IDRUBRO");
+                x.Column("ID");
                 x.Generator(new IdentityGeneratorDef());
                 x.UnsavedValue(0);
             });

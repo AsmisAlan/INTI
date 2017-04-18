@@ -96,6 +96,7 @@
     <Compile Include="Configuration\InjectionConfig.cs" />
     <Compile Include="IDisposable.cs" />
     <Compile Include="Logics\ArchivoLogic.cs" />
+    <Compile Include="Logics\UsuarioLogic.cs" />
     <Compile Include="Model\Coordinates.cs" />
     <Compile Include="Model\DataTransfer\ArchivoEditionData.cs" />
     <Compile Include="Model\DataTransfer\BaseComparableNotifierEntity.cs" />
@@ -121,6 +122,7 @@
     <Compile Include="Model\Entities\Sector.cs" />
     <Compile Include="Model\Entities\Organizacion.cs" />
     <Compile Include="Model\DataTransfer\IdAndValue.cs" />
+    <Compile Include="Model\Entities\Usuario.cs" />
     <Compile Include="Model\Enums\UsuarioIntiStatus.cs" />
     <Compile Include="Model\Interfaces\IBaseIdentifier.cs" />
     <Compile Include="Model\Mappings\ArchivoMap.cs" />
@@ -138,6 +140,7 @@
     <Compile Include="Logics\RubroLogic.cs" />
     <Compile Include="Logics\SectorLogic.cs" />
     <Compile Include="Logics\OrganizacionLogic.cs" />
+    <Compile Include="Model\Mappings\UsuarioMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -148,6 +151,7 @@
     <Compile Include="SQLExceptions\ConstraintViolationException.cs" />
     <Compile Include="SQLExceptions\ReferencedEntityException.cs" />
     <Compile Include="SQLExceptions\UniqueIndexViolationException.cs" />
+    <Compile Include="Utils\DataEncriptionUtils.cs" />
     <Compile Include="Utils\EnumUtils.cs" />
     <Compile Include="SQLExceptions\SQLExceptionConverter.cs" />
     <Compile Include="Utils\FileUtils.cs" />
@@ -166,9 +170,13 @@
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Database\MySQL\Initial Data.sql" />
+    <Content Include="Database\MySQL\Tables.sql" />
+    <Content Include="Database\MySQL\User Grants.sql" />
     <Content Include="Database\Tables.sql" />
     <Content Include="hibernate.cfg.xml">
       <SubType>Designer</SubType>

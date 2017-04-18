@@ -25,21 +25,20 @@ namespace GeoUsers.Services.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("\nServer=DESKTOP-ONP1CIN\\SQLEXPRESS;initial catalog=INTIDB;User Id=GEOUSER001;Pass" +
-            "word=admin\n        ")]
-        public string ConnectionString {
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\GeoUsers")]
+        public string AttachmentFolder {
             get {
-                return ((string)(this["ConnectionString"]));
+                return ((string)(this["AttachmentFolder"]));
             }
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\GeoUsers")]
-        public string AttachmentFolder {
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("\nServer=localhost;Database=SGU;User Id=SGUADMIN;Password=SGUADMIN001\n")]
+        public string ConnectionString {
             get {
-                return ((string)(this["AttachmentFolder"]));
+                return ((string)(this["ConnectionString"]));
             }
         }
     }

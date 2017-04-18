@@ -3,11 +3,11 @@ using NHibernate.Mapping.ByCode;
 
 namespace GeoUsers.Services.Model.Mappings
 {
-    public class LocalidadMap : BaseClassMapping<Localidad>
+    public class UsuarioMap : BaseClassMapping<Usuario>
     {
-        public LocalidadMap()
+        public UsuarioMap()
         {
-            Table("LOCALIDAD");
+            Table("USUARIO");
 
             Id<int>(x => x.Id, x =>
             {
@@ -16,8 +16,8 @@ namespace GeoUsers.Services.Model.Mappings
                 x.UnsavedValue(0);
             });
 
-            Property(x => x.Nombre, "NOMBRE");
-            Property(x => x.CodigoPostal, "CODIGOPOSTAL");
+            Property(x => x.LoginId, "LOGINID");
+            Property(x => x.Password, "PASSWORD");
         }
     }
 }

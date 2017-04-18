@@ -1,4 +1,5 @@
 ﻿using GeoUsers.Services;
+using GeoUsers.Services.Utils;
 using Microsoft.Practices.Unity;
 using System;
 using System.Collections.Generic;
