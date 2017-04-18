@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using GeoUsersUI.Models.ViewModels;
+using Microsoft.Practices.Unity;
+using System.Windows;
 
 namespace GeoUsersUI.Windows
 {
@@ -7,19 +9,34 @@ namespace GeoUsersUI.Windows
     /// </summary>
     public partial class LoginForm : Window
     {
+        private LoginFormViewModel ViewModel { get; set; }
+
         public LoginForm()
         {
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
             InitializeComponent();
+
+            DataContext = ViewModel = App.Container.Resolve<LoginFormViewModel>();
         }
 
-        private void LoginGuestButton_Click(object sender, RoutedEventArgs e)
+        private async void LoginGuestButton_Click(object sender, RoutedEventArgs e)
         {
+            var loginResult = await ViewModel.LogIn(passwordBox.Password);
 
+            if (loginResult)
+            {
+                DialogResult = true;
+
+                Close();
+            }
         }
 
         private void LoginAuthenticatedButton_Click(object sender, RoutedEventArgs e)
         {
+            DialogResult = false;
 
+            Close();
         }
     }
 }

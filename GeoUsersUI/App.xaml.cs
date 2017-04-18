@@ -1,5 +1,6 @@
 ﻿using GeoUsers.Services;
 using GeoUsers.Services.Utils;
+using GeoUsersUI.Windows;
 using Microsoft.Practices.Unity;
 using System;
 using System.Collections.Generic;
@@ -18,11 +19,26 @@ namespace GeoUsersUI
     {
         public static IUnityContainer Container { get; set; }
 
+        public bool IsUserAuthenticated { get; set; }
+
         public App()
         {
+            ShutdownMode = ShutdownMode.OnExplicitShutdown;
+
             Container = new UnityContainer();
 
             GeoUsersServices.Initialize(Container);
+        }
+
+        private void Application_Startup(object sender, StartupEventArgs e)
+        {
+            var loginForm = new LoginForm();
+
+            var loginResult = loginForm.ShowDialog();
+
+            IsUserAuthenticated = loginResult.HasValue && loginResult.Value;
+
+            ShutdownMode = ShutdownMode.OnLastWindowClose;
         }
     }
 }

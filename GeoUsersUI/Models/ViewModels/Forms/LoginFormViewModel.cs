@@ -1,12 +1,15 @@
-﻿using GeoUsers.Services.Model.DataTransfer;
+﻿using GeoUsers.Services.Logics;
+using GeoUsers.Services.Model.DataTransfer;
+using GeoUsersUI.Utils;
+using System.Threading.Tasks;
 
-namespace GeoUsersUI.Models.ViewModels.Forms
+namespace GeoUsersUI.Models.ViewModels
 {
     public class LoginFormViewModel : BaseNotifierEntity
     {
-        private string loginId;
+        private readonly UsuarioLogic usuarioLogic;
 
-        private string password;
+        private string loginId;
 
         public string LoginId
         {
@@ -23,21 +26,21 @@ namespace GeoUsersUI.Models.ViewModels.Forms
             }
         }
 
-        public string Password
+        public LoginFormViewModel(UsuarioLogic usuarioLogic)
         {
-            get
-            {
-                return password;
-            }
-
-            set
-            {
-                password = value;
-
-                OnPropertyChanged(nameof(Password));
-            }
+            this.usuarioLogic = usuarioLogic;
         }
 
-        //public LoginFormViewModel()
+        public async Task<bool> LogIn(string password)
+        {
+            var success = false;
+
+            await RequestService.Execute(() =>
+            {
+                success = usuarioLogic.LogIn(LoginId, password);
+            });
+
+            return success;
+        }
     }
 }

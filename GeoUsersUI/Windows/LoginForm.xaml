@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:GeoUsersUI.Windows"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
-        Title="Login" Height="300" Width="300"
+        Title="Login" Height="500" Width="500"
         Background="{StaticResource BaseWindowBackground}">
     <Grid>
         <Grid.RowDefinitions>
@@ -54,19 +54,13 @@
                        Style="{StaticResource FormLabel}"
                        Margin="5 0 0 0"/>
             </StackPanel>
-            <TextBox Grid.Column="1"
-                     Grid.Row="1"
-                     MaxLength="50"
-                     x:Name="TextBoxPassword"
-                     Text="{Binding Password}"
-                     Style="{StaticResource FormTextBox}"/>
             <StackPanel Orientation="Horizontal"
                         Grid.Row="2"
                         Grid.ColumnSpan="2"
                         HorizontalAlignment="Right">
                 <Button Name="LoginGuestButton"
                         Style="{StaticResource PrimaryButton}"
-                        Width="70"
+                        Width="90"
                         IsEnabled="{Binding Path=Loading,
                                             Converter={StaticResource InvertBooleanConverter}}"
                         Margin="0 0 10 0"
@@ -88,7 +82,7 @@
                 </Button>
                 <Button Name="LoginAuthenticatedButton"
                         Style="{StaticResource PrimaryButton}"
-                        Width="165"
+                        Width="185"
                         IsEnabled="{Binding Path=Loading,
                                             Converter={StaticResource InvertBooleanConverter}}"
                         Margin="0 0 10 0"
@@ -109,6 +103,11 @@
                     </StackPanel>
                 </Button>
             </StackPanel>
+            <PasswordBox Grid.Row="1"
+                         Name="passwordBox"
+                         Grid.Column="1"
+                         Height="30"
+                         Margin="0, 0, 10, 0"/>
         </Grid>
     </Grid>
 </Window>
