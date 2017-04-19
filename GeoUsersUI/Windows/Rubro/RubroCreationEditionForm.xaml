@@ -35,6 +35,8 @@
                      Grid.Column="1"
                      x:Name="TextBoxNombre"
                      MaxLength="50"
+                     IsEnabled="{Binding IsReadonly, 
+                                     Converter={StaticResource InvertBooleanConverter}}"
                      Text="{Binding Rubro.Nombre}"
                      Style="{StaticResource FormTextBox}"/>
             <Label Content="Sector :"
@@ -48,6 +50,8 @@
                       SelectedValue="{Binding Rubro.SectorId}"
                       IsSynchronizedWithCurrentItem="True"
                       ItemsSource="{Binding Path=Sectores}"
+                      IsEnabled="{Binding IsReadonly, 
+                                     Converter={StaticResource InvertBooleanConverter}}"
                       Style="{StaticResource FormComboBox}"/>
         </Grid>
         <UserControls:FormButtonBar Grid.Row="1"

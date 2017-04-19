@@ -9,6 +9,13 @@ namespace GeoUsersUI.Models.ViewModels
     {
         protected bool loading;
 
+        protected bool isReadonly;
+
+        public BaseSubmitViewModel()
+        {
+            IsReadonly = !App.IsUserAuthenticated;
+        }
+
         public bool Loading
         {
             get
@@ -20,6 +27,20 @@ namespace GeoUsersUI.Models.ViewModels
                 loading = value;
 
                 OnPropertyChanged(nameof(Loading));
+            }
+        }
+
+        public bool IsReadonly
+        {
+            get
+            {
+                return isReadonly;
+            }
+            set
+            {
+                isReadonly = value;
+
+                OnPropertyChanged(nameof(IsReadonly));
             }
         }
 

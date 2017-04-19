@@ -33,6 +33,8 @@
                      Grid.Column="1"
                      MaxLength="50"
                      x:Name="TextBoxNombre"
+                     IsEnabled="{Binding IsReadonly, 
+                                         Converter={StaticResource InvertBooleanConverter}}"
                      Text="{Binding TipoOrganizacion.Tipo}"
                      Style="{StaticResource FormTextBox}">
             </TextBox>

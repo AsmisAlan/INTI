@@ -33,6 +33,8 @@
             <TextBox Grid.Row="0"
                      Grid.Column="1"
                      MaxLength="50"
+                     IsEnabled="{Binding IsReadonly, 
+                                         Converter={StaticResource InvertBooleanConverter}}"
                      x:Name="TextBoxNombre"
                      Text="{Binding Localidad.Nombre}"
                      Style="{StaticResource FormTextBox}">
@@ -44,6 +46,8 @@
                      Grid.Column="1"
                      x:Name="TextBoxCodigoPostal"
                      Text="{Binding Localidad.CodigoPostal}"
+                     IsEnabled="{Binding IsReadonly, 
+                                         Converter={StaticResource InvertBooleanConverter}}"
                      Style="{StaticResource NumericTextBox}">
             </TextBox>
         </Grid>

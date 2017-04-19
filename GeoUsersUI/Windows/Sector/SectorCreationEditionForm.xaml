@@ -33,6 +33,8 @@
                  Grid.Column="1"
                  MaxLength="50"
                  x:Name="TextBoxNombre"
+                 IsEnabled="{Binding IsReadonly, 
+                                     Converter={StaticResource InvertBooleanConverter}}"
                  Text="{Binding Sector.Nombre}"
                  Style="{StaticResource FormTextBox}">
         </TextBox>
@@ -50,6 +52,8 @@
                 Height="25"
                 Width="Auto"
                 Margin="0 0 10 0"
+                IsEnabled="{Binding IsReadonly, 
+                                    Converter={StaticResource InvertBooleanConverter}}"
                 Style="{StaticResource FileExplorerButton}"
                 Click="ButtonIcono_Click"/>
             <Button Grid.Row="1"
@@ -57,6 +61,8 @@
                     x:Name="ButtonRemoveIcono" 
                     Height="25"
                     Width="25"
+                    IsEnabled="{Binding IsReadonly, 
+                                        Converter={StaticResource InvertBooleanConverter}}"
                     Style="{StaticResource DeleteIconButton}"
                     Click="ButtonRemoveIcono_Click"/>
         </Grid>

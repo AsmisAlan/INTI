@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace GeoUsersUI.UserControls
@@ -6,8 +7,31 @@ namespace GeoUsersUI.UserControls
     /// <summary>
     /// Interaction logic for EntityListButtonBar.xaml
     /// </summary>
-    public partial class EntityListButtonBar : UserControl
+    public partial class EntityListButtonBar : UserControl, INotifyPropertyChanged
     {
+        private bool allowOperations;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string name)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+
+        public bool AllowOperations
+        {
+            get
+            {
+                return allowOperations;
+            }
+            set
+            {
+                allowOperations = value;
+
+                OnPropertyChanged(nameof(AllowOperations));
+            }
+        }
+
         // Create event.
         public static readonly RoutedEvent OnCreateButtonClickEvent = EventManager.RegisterRoutedEvent(
             "OnCreateButtonClick",
@@ -87,6 +111,10 @@ namespace GeoUsersUI.UserControls
         public EntityListButtonBar()
         {
             InitializeComponent();
+
+            DataContext = this;
+
+            AllowOperations = App.IsUserAuthenticated;
         }
 
         private void EditButton_Click(object sender, RoutedEventArgs e)

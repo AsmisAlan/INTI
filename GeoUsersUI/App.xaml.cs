@@ -19,7 +19,7 @@ namespace GeoUsersUI
     {
         public static IUnityContainer Container { get; set; }
 
-        public bool IsUserAuthenticated { get; set; }
+        public static bool IsUserAuthenticated { get; set; }
 
         public App()
         {

@@ -57,14 +57,6 @@ namespace GeoUsersUI
 
         private void InitializeMainMenu()
         {
-            var newOrganizacionButton = new MenuButton()
-            {
-                Name = "Nuevo",
-                ButtonVisibility = Visibility.Collapsed
-            };
-
-            newOrganizacionButton.ButtonClick += NewOrganizacionButton_ButtonClick;
-
             var listOrganizacionButton = new MenuButton()
             {
                 Name = "Listado",
@@ -75,52 +67,76 @@ namespace GeoUsersUI
 
             var organizacionButtons = new ObservableCollection<MenuButton>();
 
-            organizacionButtons.Add(newOrganizacionButton);
             organizacionButtons.Add(listOrganizacionButton);
 
             var rubroButtons = new ObservableCollection<MenuButton>();
 
-            var newRubroButton = MenuButton.Copy(newOrganizacionButton);
             var listRubroButton = MenuButton.Copy(listOrganizacionButton);
 
-            newRubroButton.ButtonClick += NewRubroButton_ButtonClick;
             listRubroButton.ButtonClick += OpenRubroList;
 
-            rubroButtons.Add(newRubroButton);
             rubroButtons.Add(listRubroButton);
 
             var sectorButtons = new ObservableCollection<MenuButton>();
 
-            var newSectorButton = MenuButton.Copy(newOrganizacionButton);
             var listSectorButton = MenuButton.Copy(listOrganizacionButton);
 
-            newSectorButton.ButtonClick += NewSectorButton_ButtonClick; ;
             listSectorButton.ButtonClick += OpenSectorList;
 
-            sectorButtons.Add(newSectorButton);
             sectorButtons.Add(listSectorButton);
 
             var tipoOrganizacionButtons = new ObservableCollection<MenuButton>();
 
-            var newTipoOrganizacionButton = MenuButton.Copy(newOrganizacionButton);
             var listTipoOrganizacionButton = MenuButton.Copy(listOrganizacionButton);
 
-            newTipoOrganizacionButton.ButtonClick += NewTipoOrganizacionButton_ButtonClick;
             listTipoOrganizacionButton.ButtonClick += OpenTipoOrganizacionList;
 
-            tipoOrganizacionButtons.Add(newTipoOrganizacionButton);
             tipoOrganizacionButtons.Add(listTipoOrganizacionButton);
 
             var localidadButtons = new ObservableCollection<MenuButton>();
 
-            var newLocalidadButton = MenuButton.Copy(newOrganizacionButton);
             var localidadListButton = MenuButton.Copy(listOrganizacionButton);
 
-            newLocalidadButton.ButtonClick += NewLocalidadButton_ButtonClick;
             localidadListButton.ButtonClick += OpenLocalidadList;
 
-            localidadButtons.Add(newLocalidadButton);
             localidadButtons.Add(localidadListButton);
+
+            if (App.IsUserAuthenticated)
+            {
+                var newOrganizacionButton = new MenuButton()
+                {
+                    Name = "Nuevo",
+                    ButtonVisibility = Visibility.Collapsed
+                };
+
+                newOrganizacionButton.ButtonClick += NewOrganizacionButton_ButtonClick;
+
+                organizacionButtons.Add(newOrganizacionButton);
+
+                var newRubroButton = MenuButton.Copy(newOrganizacionButton);
+
+                newRubroButton.ButtonClick += NewRubroButton_ButtonClick;
+
+                rubroButtons.Add(newRubroButton);
+
+                var newSectorButton = MenuButton.Copy(newOrganizacionButton);
+
+                newSectorButton.ButtonClick += NewSectorButton_ButtonClick;
+
+                sectorButtons.Add(newSectorButton);
+
+                var newTipoOrganizacionButton = MenuButton.Copy(newOrganizacionButton);
+
+                newTipoOrganizacionButton.ButtonClick += NewTipoOrganizacionButton_ButtonClick;
+
+                tipoOrganizacionButtons.Add(newTipoOrganizacionButton);
+
+                var newLocalidadButton = MenuButton.Copy(newOrganizacionButton);
+
+                newLocalidadButton.ButtonClick += NewLocalidadButton_ButtonClick;
+
+                localidadButtons.Add(newLocalidadButton);
+            }
 
             ViewModel.OrganizacionMenuContainer = new MenuContainer()
             {

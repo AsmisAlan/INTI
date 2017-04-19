@@ -11,6 +11,8 @@ namespace GeoUsersUI.UserControls
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
+        private bool allowOperations;
+
         public bool Loading
         {
             get
@@ -22,6 +24,20 @@ namespace GeoUsersUI.UserControls
                 SetValue(LoadingProperty, value);
 
                 OnPropertyChanged(nameof(Loading));
+            }
+        }
+
+        public bool AllowOperations
+        {
+            get
+            {
+                return allowOperations;
+            }
+            set
+            {
+                allowOperations = value;
+
+                OnPropertyChanged(nameof(AllowOperations));
             }
         }
 

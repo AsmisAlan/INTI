@@ -31,6 +31,8 @@
                 Style="{StaticResource SaveButton}"
                 IsEnabled="{Binding Path=Loading,
                                     Converter={StaticResource InvertBooleanConverter}}"
+                Visibility="{Binding AllowOperations,
+                                     Converter={StaticResource BooleanToVisibilityConverter}}"
                 Margin="0 0 10 0"
                 Click="SubmitButton_Click">
         </Button>

@@ -10,15 +10,21 @@
         <Button Name="CreateButton"
                 Style="{StaticResource NewButton}"
                 Margin="0 0 10 0"
+                Visibility="{Binding AllowOperations, 
+                                     Converter={StaticResource BooleanToVisibilityConverter}}"
                 Click="CreateButton_Click">
         </Button>
         <Button Name="EditButton"
                 Style="{StaticResource EditButton}"
+                 Visibility="{Binding AllowOperations, 
+                                      Converter={StaticResource BooleanToVisibilityConverter}}"
                 Margin="0 0 10 0"
                 Click="EditButton_Click">
         </Button>
         <Button Name="DeleteButton"
                 Style="{StaticResource DeleteButton}"
+                 Visibility="{Binding AllowOperations, 
+                                      Converter={StaticResource BooleanToVisibilityConverter}}"
                 Margin="0 0 10 0"
                 Click="DeleteButton_Click">
         </Button>

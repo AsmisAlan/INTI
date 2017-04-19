@@ -42,6 +42,8 @@
                  Grid.Column="1"
                  x:Name="TextBoxNombre"
                  MaxLength="50"
+                 IsEnabled="{Binding IsReadonly, 
+                                     Converter={StaticResource InvertBooleanConverter}}"
                  Text="{Binding Organizacion.Nombre}"
                  Style="{StaticResource FormTextBox}">
         </TextBox>
@@ -51,6 +53,8 @@
         <TextBox Grid.Row="1"
                  Grid.Column="1"
                  MaxLength="40"
+                 IsEnabled="{Binding IsReadonly, 
+                                     Converter={StaticResource InvertBooleanConverter}}"
                  x:Name="TextBoxDireccion"
                  Text="{Binding Organizacion.Direccion}"
                  Style="{StaticResource FormTextBox}">
@@ -62,6 +66,8 @@
                  Grid.Column="1"
                  MaxLength="20"
                  x:Name="TextBoxTelefono"
+                 IsEnabled="{Binding IsReadonly, 
+                                     Converter={StaticResource InvertBooleanConverter}}"
                  Style="{StaticResource FormTextBox}"
                  Text="{Binding Organizacion.Telefono}">
         </TextBox>
@@ -72,6 +78,8 @@
                  Grid.Column="1"
                  MaxLength="15"
                  x:Name="TextBoxContactoCargo"
+                 IsEnabled="{Binding IsReadonly, 
+                                     Converter={StaticResource InvertBooleanConverter}}"
                  Text="{Binding Organizacion.ContactoCargo}"
                  Style="{StaticResource FormTextBox}">
         </TextBox>
@@ -81,6 +89,8 @@
         <TextBox Grid.Row="4"
                  Grid.Column="1"
                  MaxLength="25"
+                 IsEnabled="{Binding IsReadonly, 
+                                     Converter={StaticResource InvertBooleanConverter}}"
                  x:Name="TextBoxEmail"
                  Style="{StaticResource FormTextBox}">
             <TextBox.Text>
@@ -98,6 +108,8 @@
                  Grid.Column="1"
                  MaxLength="25"
                  x:Name="TextBoxWeb"
+                 IsEnabled="{Binding IsReadonly, 
+                                     Converter={StaticResource InvertBooleanConverter}}"
                  Text="{Binding Organizacion.Web}"
                  Style="{StaticResource FormTextBox}">
         </TextBox>
@@ -107,6 +119,8 @@
         <TextBox Grid.Row="6"
                  Grid.Column="1"
                  x:Name="TextBoxCuit"
+                 IsEnabled="{Binding IsReadonly, 
+                                     Converter={StaticResource InvertBooleanConverter}}"
                  Style="{StaticResource NumericTextBox}">
             <TextBox.Text>
                 <Binding Path="Organizacion.Cuit">
@@ -123,6 +137,8 @@
                  Grid.Column="1"
                  x:Name="TextBoxPersonal"
                  Style="{StaticResource FormTextBox}"
+                 IsEnabled="{Binding IsReadonly, 
+                                     Converter={StaticResource InvertBooleanConverter}}"
                  Text="{Binding Path=Organizacion.Personal}">
         </TextBox>
         <Label Content="Organizacion Inti :"
@@ -132,6 +148,8 @@
                   Grid.Column="1"
                   x:Name="CheckUsuarioInti"
                   VerticalAlignment="Center"
+                  IsEnabled="{Binding IsReadonly, 
+                                     Converter={StaticResource InvertBooleanConverter}}"
                   IsChecked="{Binding Path=Organizacion.UsuarioInti}"
                   Margin="0,0,0,3"/>
         <Label Content="* Localidad :"
@@ -145,6 +163,8 @@
                   DisplayMemberPath="Value"
                   SelectedValue="{Binding Organizacion.LocalidadId}"
                   IsSynchronizedWithCurrentItem="True"
+                  IsEnabled="{Binding IsReadonly, 
+                                     Converter={StaticResource InvertBooleanConverter}}"
                   Style="{StaticResource FormComboBox}"/>
         <Label Content="* Organizacion :"
                Grid.Row="10"
@@ -157,6 +177,8 @@
                   IsSynchronizedWithCurrentItem="True"
                   ItemsSource="{Binding Path=TipoOrganizaciones, NotifyOnSourceUpdated=True}"
                   x:Name="ComboOrganizacion"
+                  IsEnabled="{Binding IsReadonly, 
+                                     Converter={StaticResource InvertBooleanConverter}}"
                   Style="{StaticResource FormComboBox}"/>
         <Label Content="* Rubro :"
                Grid.Row="11"
@@ -169,6 +191,8 @@
                   DisplayMemberPath="Value"
                   SelectedValue="{Binding Organizacion.RubroId}"
                   IsSynchronizedWithCurrentItem="True"
+                  IsEnabled="{Binding IsReadonly, 
+                                     Converter={StaticResource InvertBooleanConverter}}"
                   Style="{StaticResource FormComboBox}"/>
         <UserControls:FormButtonBar Grid.Row="12"
                                     Grid.Column="1"
