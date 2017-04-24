@@ -81,6 +81,8 @@ namespace GeoUsersUI.UserControls
             InitializeComponent();
 
             DataContext = this;
+
+            AllowOperations = App.IsUserAuthenticated;
         }
 
         private void SubmitButton_Click(object sender, RoutedEventArgs e)

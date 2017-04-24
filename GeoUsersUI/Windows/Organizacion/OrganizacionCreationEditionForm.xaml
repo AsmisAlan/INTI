@@ -11,9 +11,7 @@
         Title="{Binding Path=WindowTitle}" 
         MinHeight="400" 
         MaxHeight="800"
-        MinWidth="400"
-        Width="500"
-        MaxWidth="600"
+        MinWidth="700"
         Background="{StaticResource BaseWindowBackground}">
     <Grid Style="{StaticResource ResourceKey=FormGrid}">
         <Grid.RowDefinitions>
@@ -26,12 +24,10 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
@@ -81,8 +77,7 @@
                  IsEnabled="{Binding IsReadonly, 
                                      Converter={StaticResource InvertBooleanConverter}}"
                  Text="{Binding Organizacion.ContactoCargo}"
-                 Style="{StaticResource FormTextBox}">
-        </TextBox>
+                 Style="{StaticResource FormTextBox}" />
         <Label Content="* Email :"
                Grid.Row="4"
                Style="{StaticResource FormLabel}"/>
@@ -142,10 +137,11 @@
                  Text="{Binding Path=Organizacion.Personal}">
         </TextBox>
         <Label Content="Organizacion Inti :"
-               Grid.Row="8"
+               Grid.Row="0"
+               Grid.Column="2"
                Style="{StaticResource FormLabel}"/>
-        <CheckBox Grid.Row="8"
-                  Grid.Column="1"
+        <CheckBox Grid.Row="0"
+                  Grid.Column="3"
                   x:Name="CheckUsuarioInti"
                   VerticalAlignment="Center"
                   IsEnabled="{Binding IsReadonly, 
@@ -153,10 +149,11 @@
                   IsChecked="{Binding Path=Organizacion.UsuarioInti}"
                   Margin="0,0,0,3"/>
         <Label Content="* Localidad :"
-               Grid.Row="9"
+               Grid.Row="1"
+               Grid.Column="2"
                Style="{StaticResource FormLabel}"/>
-        <ComboBox Grid.Row="9"
-                  Grid.Column="1"
+        <ComboBox Grid.Row="1"
+                  Grid.Column="3"
                   x:Name="ComboLocalidad"
                   SelectedValuePath="Id"
                   ItemsSource="{Binding Path=Localidades}"
@@ -167,10 +164,11 @@
                                      Converter={StaticResource InvertBooleanConverter}}"
                   Style="{StaticResource FormComboBox}"/>
         <Label Content="* Organizacion :"
-               Grid.Row="10"
+               Grid.Row="2"
+               Grid.Column="2"
                Style="{StaticResource FormLabel}"/>
-        <ComboBox Grid.Row="10"
-                  Grid.Column="1"
+        <ComboBox Grid.Row="2"
+                  Grid.Column="3"
                   SelectedValuePath="Id"
                   DisplayMemberPath="Value"
                   SelectedValue="{Binding Organizacion.TipoOrganizacionId}"
@@ -181,10 +179,11 @@
                                      Converter={StaticResource InvertBooleanConverter}}"
                   Style="{StaticResource FormComboBox}"/>
         <Label Content="* Rubro :"
-               Grid.Row="11"
+               Grid.Row="3"
+               Grid.Column="2"
                Style="{StaticResource FormLabel}"/>
-        <ComboBox Grid.Row="11"
-                  Grid.Column="1"
+        <ComboBox Grid.Row="3"
+                  Grid.Column="3"
                   x:Name="ComboRubro"
                   ItemsSource="{Binding Path=Rubros}"
                   SelectedValuePath="Id"
@@ -194,8 +193,51 @@
                   IsEnabled="{Binding IsReadonly, 
                                      Converter={StaticResource InvertBooleanConverter}}"
                   Style="{StaticResource FormComboBox}"/>
+        <CheckBox Grid.Row="4"
+                  Grid.Column="3"
+                  Content="Detectar coordenadas"
+                  Foreground="White"
+                  x:Name="CheckAutoGenerateCoordinates"
+                  VerticalAlignment="Center"
+                  IsEnabled="{Binding IsReadonly, 
+                                     Converter={StaticResource InvertBooleanConverter}}"
+                  IsChecked="{Binding Path=Organizacion.AutoDetectCoordinates}"
+                  Margin="0,0,0,3"/>
+        <Label Content="* Latitud :"
+               Grid.Row="5"
+               Grid.Column="2"
+               Visibility="{Binding Organizacion.AutoDetectCoordinates,
+                                    Converter={StaticResource InvertBooleanToVisibilityConverter}}"
+               Style="{StaticResource FormLabel}"/>
+        <TextBox Grid.Row="5"
+                 Grid.Column="3"
+                 MaxLength="15"
+                 x:Name="TextBoxLatitud"
+                 IsEnabled="{Binding IsReadonly, 
+                                     Converter={StaticResource InvertBooleanConverter}}"
+                 Text="{Binding Organizacion.Latitud}"
+                 Visibility="{Binding Organizacion.AutoDetectCoordinates,
+                                    Converter={StaticResource InvertBooleanToVisibilityConverter}}"
+                 Style="{StaticResource FormTextBox}" />
+        <Label Content="* Longitud :"
+               Grid.Row="6"
+               Grid.Column="2"
+               Style="{StaticResource FormLabel}"
+               Visibility="{Binding Organizacion.AutoDetectCoordinates,
+                                    Converter={StaticResource InvertBooleanToVisibilityConverter}}"/>
+        <TextBox Grid.Row="6"
+                 Grid.Column="3"
+                 MaxLength="15"
+                 x:Name="TextBoxLongitud"
+                 IsEnabled="{Binding IsReadonly, 
+                                     Converter={StaticResource InvertBooleanConverter}}"
+                 Text="{Binding Organizacion.Longitud}"
+                 Visibility="{Binding Organizacion.AutoDetectCoordinates,
+                                      Converter={StaticResource InvertBooleanToVisibilityConverter}}"
+                 Style="{StaticResource FormTextBox}"/>
         <UserControls:FormButtonBar Grid.Row="12"
                                     Grid.Column="1"
+                                    Grid.ColumnSpan="4"
                                     Loading="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
                                                                          AncestorType={x:Type Window}}, 
                                                       Path=DataContext.Loading}"

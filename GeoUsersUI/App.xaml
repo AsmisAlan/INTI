@@ -258,6 +258,22 @@
             </Setter>
         </Style>
 
+        <!--Close button-->
+        <Style TargetType="Button" x:Key="ListButtonBarCancelButton" BasedOn="{StaticResource WarningButton}">
+            <Setter Property="Content">
+                <Setter.Value>
+                    <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Left">
+                        <fa:FontAwesome Icon="Times" 
+                                        VerticalAlignment="Center"
+                                        TextAlignment="Right"/>
+                        <TextBlock Text="Cancelar"
+                                   Margin="5 0 0 0"/>
+                    </StackPanel>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <!--Save button-->
         <Style TargetType="Button" x:Key="SaveButton" BasedOn="{StaticResource PrimaryButton}">
             <Setter Property="Content">
@@ -324,6 +340,7 @@
         <ValueConverters:InvertBooleanConverter x:Key="InvertBooleanConverter" />
         <ValueConverters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <ValueConverters:PathToBitmapImageConverter x:Key="PathToBitmapImageConverter" />
+        <ValueConverters:InvertBooleanToVisibilityConverter x:Key="InvertBooleanToVisibilityConverter" />
 
         <!--User Controls-->
 

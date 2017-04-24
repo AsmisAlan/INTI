@@ -29,7 +29,7 @@
                 Click="DeleteButton_Click">
         </Button>
         <Button Name="CloseButton"
-                Style="{StaticResource CancelButton}"
+                Style="{StaticResource ListButtonBarCancelButton}"
                 Click="CloseButton_Click">
         </Button>
     </StackPanel>

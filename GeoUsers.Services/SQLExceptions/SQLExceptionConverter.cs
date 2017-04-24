@@ -1,6 +1,6 @@
-﻿using NHibernate.Exceptions;
+﻿using MySql.Data.MySqlClient;
+using NHibernate.Exceptions;
 using System;
-using System.Data.SqlClient;
 
 namespace GeoUsers.Services.SQLExceptions
 {
@@ -8,17 +8,13 @@ namespace GeoUsers.Services.SQLExceptions
     {
         public Exception Convert(AdoExceptionContextInfo adoExceptionContextInfo)
         {
-            var sqlException = adoExceptionContextInfo.SqlException as SqlException;
+            var sqlException = adoExceptionContextInfo.SqlException as MySqlException;
 
             if (sqlException != null)
             {
-                if (sqlException.Number == 547)
+                if (sqlException.Number == 1062)
                 {
-                    return new ConstraintViolationException(sqlException.Message, sqlException);
-                }
-                else if (sqlException.Number == 2601)
-                {
-                    return new UniqueIndexViolationException(sqlException.Message, sqlException);
+                    return new UniqueConstraintViolationException(sqlException.Message, sqlException);
                 }
             }
 

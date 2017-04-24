@@ -12,19 +12,25 @@
 
         protected string contactoCargo { get; set; }
 
-        protected virtual int? personal { get; set; }
+        protected int? personal { get; set; }
 
-        protected virtual string web { get; set; }
+        protected string web { get; set; }
 
-        protected virtual long? cuit { get; set; }
+        protected long? cuit { get; set; }
 
-        protected virtual bool usuarioInti { get; set; }
+        protected bool usuarioInti { get; set; }
 
         protected string nombre { get; set; }
 
         protected string telefono { get; set; }
 
         protected string email { get; set; }
+
+        protected string latitud { get; set; }
+
+        protected string longitud { get; set; }
+
+        protected bool autoDetectCoordinates;
 
         public int? Id { get; set; }
 
@@ -37,8 +43,6 @@
                 OnPropertyChanged(nameof(Nombre));
             }
         }
-
-
 
         public string Email
         {
@@ -147,6 +151,48 @@
             {
                 rubroId = value;
                 OnPropertyChanged(nameof(RubroId));
+            }
+        }
+
+        public string Latitud
+        {
+            get
+            {
+                return latitud;
+            }
+            set
+            {
+                latitud = value;
+
+                OnPropertyChanged(nameof(Latitud));
+            }
+        }
+
+        public string Longitud
+        {
+            get
+            {
+                return longitud;
+            }
+            set
+            {
+                longitud = value;
+
+                OnPropertyChanged(nameof(Longitud));
+            }
+        }
+
+        public bool AutoDetectCoordinates
+        {
+            get
+            {
+                return autoDetectCoordinates;
+            }
+            set
+            {
+                autoDetectCoordinates = value;
+
+                OnPropertyChanged(nameof(AutoDetectCoordinates));
             }
         }
     }

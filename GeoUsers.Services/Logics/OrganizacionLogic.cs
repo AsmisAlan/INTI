@@ -90,53 +90,23 @@ namespace GeoUsers.Services.Logics
 
         public int Create(OrganizacionEditionData creationData)
         {
-            var rubro = rubroLogic.GetRubro(creationData.RubroId.Value);
-
-            if (rubro == null) throw new Exception("Rubro Invalido");
-
-            var tipoOrganizacion = tipoOrganizacionLogic.Get(creationData.TipoOrganizacionId.Value);
-
-            if (tipoOrganizacion == null) throw new Exception("Organizacion Invalida");
-
-            var localidad = localidadLogic.Get(creationData.LocalidadId.Value);
-
-            if (localidad == null) throw new Exception("Localidad Invalida");
-
-            var organizacion = new Organizacion()
-            {
-                Nombre = creationData.Nombre,
-                ContactoCargo = creationData.ContactoCargo,
-                Cuit = creationData.Cuit,
-                Direccion = creationData.Direccion,
-                Email = creationData.Email,
-                Personal = creationData.Personal,
-                Telefono = creationData.Telefono,
-                Web = creationData.Web,
-                UsuarioInti = creationData.UsuarioInti,
-                Localidad = localidad,
-                TipoOrganizacion = tipoOrganizacion,
-                Rubro = rubro
-            };
-
-            var address = $"{organizacion.Direccion} {organizacion.Localidad.Nombre}";
-
-            var coordinates = WebUtils.GetCoordinates(address);
-
-            organizacion.Latitud = coordinates.lat;
-            organizacion.Longitud = coordinates.lng;
-
-            var organizacionId = (int)Session.Save(organizacion);
-
-            Session.Transaction.Commit();
-
-            return organizacionId;
+            return Edit(creationData);
         }
 
         public int Edit(OrganizacionEditionData organizacionData)
         {
-            var organizacion = Session.Get<Organizacion>(organizacionData.Id);
+            Organizacion organizacion;
 
-            if (organizacion == null) throw new Exception("Organizacion Invalido");
+            if (organizacionData.Id.HasValue)
+            {
+                organizacion = Session.Get<Organizacion>(organizacionData.Id);
+
+                if (organizacion == null) throw new Exception("Organizacion Invalido");
+            }
+            else
+            {
+                organizacion = new Organizacion();
+            }
 
             var rubro = rubroLogic.GetRubro(organizacionData.RubroId.Value);
 
@@ -149,6 +119,13 @@ namespace GeoUsers.Services.Logics
             var localidad = localidadLogic.Get(organizacionData.LocalidadId.Value);
 
             if (localidad == null) throw new Exception("Localidad Invalida");
+
+            if (!organizacionData.AutoDetectCoordinates &&
+                string.IsNullOrEmpty(organizacionData.Latitud) &&
+                string.IsNullOrEmpty(organizacionData.Longitud))
+            {
+                throw new Exception("Debe especificar latitud y longitud.");
+            }
 
             organizacion.ContactoCargo = organizacionData.ContactoCargo;
             organizacion.Cuit = organizacionData.Cuit;
@@ -163,13 +140,39 @@ namespace GeoUsers.Services.Logics
             organizacion.UsuarioInti = organizacionData.UsuarioInti;
             organizacion.Web = organizacionData.Web;
 
+            if (organizacionData.AutoDetectCoordinates)
+            {
+                var address = $"{organizacion.Direccion} {organizacion.Localidad.Nombre}";
+
+                var coordinates = WebUtils.GetCoordinates(address);
+
+                organizacion.Latitud = coordinates.lat;
+                organizacion.Longitud = coordinates.lng;
+            }
+            else
+            {
+
+                if (string.IsNullOrEmpty(organizacionData.Latitud))
+                {
+                    throw new Exception("El campo latitud no puede estar vacío.");
+                }
+
+                if (string.IsNullOrEmpty(organizacionData.Longitud))
+                {
+                    throw new Exception("El campo longitud no puede estar vacío.");
+                }
+
+                organizacion.Latitud = organizacionData.Latitud;
+                organizacion.Longitud = organizacionData.Longitud;
+            }
+
             try
             {
                 Session.Save(organizacion);
 
                 Session.Transaction.Commit();
             }
-            catch (UniqueIndexViolationException)
+            catch (UniqueConstraintViolationException)
             {
                 throw new Exception($"El cuit {organizacion.Cuit} ya fue registrado en otra organización");
             }

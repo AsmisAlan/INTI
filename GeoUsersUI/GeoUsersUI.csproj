@@ -157,6 +157,7 @@
     <Compile Include="ValueConverters\BooleanToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\BooleanToYesNoConverter.cs" />
     <Compile Include="ValueConverters\InvertBooleanConverter.cs" />
+    <Compile Include="ValueConverters\InvertBooleanToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\PathToBitmapImageConverter.cs" />
     <Compile Include="Windows\Localidad\LocalidadList.xaml.cs">
       <DependentUpon>LocalidadList.xaml</DependentUpon>

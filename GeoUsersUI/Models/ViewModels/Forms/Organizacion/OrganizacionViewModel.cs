@@ -36,6 +36,8 @@ namespace GeoUsersUI.Models.ViewModels.Forms
 
             Organizacion = new OrganizacionEditionData();
 
+            Organizacion.AutoDetectCoordinates = true;
+
             Localidades = new ObservableCollection<IdAndValue>();
             Rubros = new ObservableCollection<IdAndValue>();
             TipoOrganizaciones = new ObservableCollection<IdAndValue>();
@@ -50,7 +52,11 @@ namespace GeoUsersUI.Models.ViewModels.Forms
                        !string.IsNullOrEmpty(Organizacion.Email) &&
                        Organizacion.LocalidadId.HasValue &&
                        Organizacion.TipoOrganizacionId.HasValue &&
-                       Organizacion.RubroId.HasValue;
+                       Organizacion.RubroId.HasValue &&
+                       (Organizacion.AutoDetectCoordinates ||
+                        !Organizacion.AutoDetectCoordinates &&
+                        !string.IsNullOrEmpty(Organizacion.Longitud) &&
+                        !string.IsNullOrEmpty(Organizacion.Latitud));
             };
 
             SubmitFunction = SubmitForm;
@@ -86,7 +92,10 @@ namespace GeoUsersUI.Models.ViewModels.Forms
                     Organizacion.Telefono = organizacionData.Telefono;
                     Organizacion.TipoOrganizacionId = organizacionData.TipoOrganizacionId;
                     Organizacion.UsuarioInti = organizacionData.UsuarioInti;
-                    Organizacion.Web = organizacionData.ContactoCargo;
+                    Organizacion.Web = organizacionData.Web;
+                    Organizacion.Latitud = organizacionData.Latitud;
+                    Organizacion.Longitud = organizacionData.Longitud;
+                    Organizacion.AutoDetectCoordinates = false;
                 }
                 else
                 {
