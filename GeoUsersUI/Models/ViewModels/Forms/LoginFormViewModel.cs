@@ -1,6 +1,8 @@
 ﻿using GeoUsers.Services.Logics;
 using GeoUsers.Services.Model.DataTransfer;
 using GeoUsersUI.Utils;
+using System;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace GeoUsersUI.Models.ViewModels
@@ -10,6 +12,23 @@ namespace GeoUsersUI.Models.ViewModels
         private readonly UsuarioLogic usuarioLogic;
 
         private string loginId;
+
+        private bool loading;
+
+        public bool Loading
+        {
+            get
+            {
+                return loading;
+            }
+
+            set
+            {
+                loading = value;
+
+                OnPropertyChanged(nameof(Loading));
+            }
+        }
 
         public string LoginId
         {
@@ -33,12 +52,16 @@ namespace GeoUsersUI.Models.ViewModels
 
         public async Task<bool> LogIn(string password)
         {
+            Loading = true;
+
             var success = false;
 
             await RequestService.Execute(() =>
             {
                 success = usuarioLogic.LogIn(LoginId, password);
             });
+
+            Loading = false;
 
             return success;
         }

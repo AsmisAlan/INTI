@@ -17,6 +17,13 @@
             <RowDefinition Height="80"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        <Image HorizontalAlignment="Center">
+            <Image.Source>
+                <BitmapImage DecodePixelWidth="300" UriSource="/Resources/logo.png" />
+            </Image.Source>
+        </Image>
+        <Image HorizontalAlignment="Left"
+               Source="/Resources/inti.png"/>
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"></RowDefinition>
