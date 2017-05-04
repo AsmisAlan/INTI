@@ -73,6 +73,7 @@ namespace GeoUsersUI.GoogleMaps
 
                                  "var locations = [ " +
                                  markers +
+
                                  "];" +
 
                                  "var mapDiv = document.getElementById('map');" +
