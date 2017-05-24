@@ -4,7 +4,9 @@ using GeoUsers.Services.Model.DataTransfer;
 using GeoUsersUI.Utils;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace GeoUsersUI.Models.ViewModels.Forms
 {
@@ -19,6 +21,7 @@ namespace GeoUsersUI.Models.ViewModels.Forms
         public ObservableCollection<IdAndValue> Localidades { get; set; }
         public ObservableCollection<IdAndValue> TipoOrganizaciones { get; set; }
         public ObservableCollection<IdAndValue> Rubros { get; set; }
+
 
         public OrganizacionViewModel()
         {
@@ -44,19 +47,7 @@ namespace GeoUsersUI.Models.ViewModels.Forms
 
             SubmitValidation = () =>
             {
-                return Organizacion != null &&
-                       !string.IsNullOrEmpty(Organizacion.Nombre) &&
-                       !string.IsNullOrEmpty(Organizacion.Telefono) &&
-                       !string.IsNullOrEmpty(Organizacion.ContactoCargo) &&
-                       !string.IsNullOrEmpty(Organizacion.Direccion) &&
-                       !string.IsNullOrEmpty(Organizacion.Email) &&
-                       Organizacion.LocalidadId.HasValue &&
-                       Organizacion.TipoOrganizacionId.HasValue &&
-                       Organizacion.RubroId.HasValue &&
-                       (Organizacion.AutoDetectCoordinates ||
-                        !Organizacion.AutoDetectCoordinates &&
-                        !string.IsNullOrEmpty(Organizacion.Longitud) &&
-                        !string.IsNullOrEmpty(Organizacion.Latitud));
+                return Validate();
             };
 
             SubmitFunction = SubmitForm;
@@ -110,6 +101,19 @@ namespace GeoUsersUI.Models.ViewModels.Forms
             return true;
         }
 
+        public void AddError(ValidationError error)
+        {
+            if (!Errors.Contains(error))
+            {
+                Errors.Add(error);
+            }
+        }
+
+        public void RemoveError(ValidationError error)
+        {
+            Errors.Remove(error);
+        }
+
         private OrganizacionHeaderData SubmitForm()
         {
             var result = Organizacion.Id.HasValue ? organizacionLogic.Edit(Organizacion) : organizacionLogic.Create(Organizacion);
@@ -123,6 +127,25 @@ namespace GeoUsersUI.Models.ViewModels.Forms
             };
 
             return Result;
+        }
+
+        private bool Validate()
+        {
+            var mandatoryValidation = Organizacion != null &&
+                                      !string.IsNullOrEmpty(Organizacion.Nombre) &&
+                                      !string.IsNullOrEmpty(Organizacion.Telefono) &&
+                                      !string.IsNullOrEmpty(Organizacion.ContactoCargo) &&
+                                      !string.IsNullOrEmpty(Organizacion.Direccion) &&
+                                      !string.IsNullOrEmpty(Organizacion.Email) &&
+                                      Organizacion.LocalidadId.HasValue &&
+                                      Organizacion.TipoOrganizacionId.HasValue &&
+                                      Organizacion.RubroId.HasValue &&
+                                      (Organizacion.AutoDetectCoordinates ||
+                                      !Organizacion.AutoDetectCoordinates &&
+                                      !string.IsNullOrEmpty(Organizacion.Longitud) &&
+                                      !string.IsNullOrEmpty(Organizacion.Latitud));
+
+            return mandatoryValidation;
         }
     }
 }

@@ -37,7 +37,7 @@
         <TextBox Grid.Row="0"
                  Grid.Column="1"
                  x:Name="TextBoxNombre"
-                 MaxLength="50"
+                 MaxLength="100"
                  IsEnabled="{Binding IsReadonly, 
                                      Converter={StaticResource InvertBooleanConverter}}"
                  Text="{Binding Organizacion.Nombre}"
@@ -48,7 +48,7 @@
                Style="{StaticResource FormLabel}"/>
         <TextBox Grid.Row="1"
                  Grid.Column="1"
-                 MaxLength="40"
+                 MaxLength="100"
                  IsEnabled="{Binding IsReadonly, 
                                      Converter={StaticResource InvertBooleanConverter}}"
                  x:Name="TextBoxDireccion"
@@ -60,7 +60,7 @@
                Style="{StaticResource FormLabel}"/>
         <TextBox Grid.Row="2"
                  Grid.Column="1"
-                 MaxLength="20"
+                 MaxLength="100"
                  x:Name="TextBoxTelefono"
                  IsEnabled="{Binding IsReadonly, 
                                      Converter={StaticResource InvertBooleanConverter}}"
@@ -72,7 +72,7 @@
                Style="{StaticResource FormLabel}"/>
         <TextBox Grid.Row="3"
                  Grid.Column="1"
-                 MaxLength="15"
+                 MaxLength="100"
                  x:Name="TextBoxContactoCargo"
                  IsEnabled="{Binding IsReadonly, 
                                      Converter={StaticResource InvertBooleanConverter}}"
@@ -83,13 +83,16 @@
                Style="{StaticResource FormLabel}"/>
         <TextBox Grid.Row="4"
                  Grid.Column="1"
-                 MaxLength="25"
+                 MaxLength="100"
                  IsEnabled="{Binding IsReadonly, 
                                      Converter={StaticResource InvertBooleanConverter}}"
                  x:Name="TextBoxEmail"
-                 Style="{StaticResource FormTextBox}">
+                 Style="{StaticResource FormTextBox}"
+                 Validation.Error="TextBoxCuit_Error">
             <TextBox.Text>
-                <Binding Path="Organizacion.Email">
+                <Binding Path="Organizacion.Email"
+                         NotifyOnValidationError="True"
+                         ValidatesOnDataErrors="True">
                     <Binding.ValidationRules>
                         <ValidationRules:EmailInputValidationRule/>
                     </Binding.ValidationRules>
@@ -101,7 +104,7 @@
                Style="{StaticResource FormLabel}"/>
         <TextBox Grid.Row="5"
                  Grid.Column="1"
-                 MaxLength="25"
+                 MaxLength="100"
                  x:Name="TextBoxWeb"
                  IsEnabled="{Binding IsReadonly, 
                                      Converter={StaticResource InvertBooleanConverter}}"
@@ -116,14 +119,10 @@
                  x:Name="TextBoxCuit"
                  IsEnabled="{Binding IsReadonly, 
                                      Converter={StaticResource InvertBooleanConverter}}"
-                 Style="{StaticResource NumericTextBox}">
-            <TextBox.Text>
-                <Binding Path="Organizacion.Cuit">
-                    <Binding.ValidationRules>
-                        <ValidationRules:NumericInputValidationRule/>
-                    </Binding.ValidationRules>
-                </Binding>
-            </TextBox.Text>
+                 Style="{StaticResource NumericTextBox}"
+                 Text="{Binding Path=Organizacion.Cuit}"
+                 Validation.Error="TextBoxCuit_Error"
+                 PreviewTextInput="CuitValidationTextBox">
         </TextBox>
         <Label Content="Personal :"
                Grid.Row="7"
@@ -211,7 +210,7 @@
                Style="{StaticResource FormLabel}"/>
         <TextBox Grid.Row="5"
                  Grid.Column="3"
-                 MaxLength="15"
+                 MaxLength="50"
                  x:Name="TextBoxLatitud"
                  IsEnabled="{Binding IsReadonly, 
                                      Converter={StaticResource InvertBooleanConverter}}"
@@ -227,7 +226,7 @@
                                     Converter={StaticResource InvertBooleanToVisibilityConverter}}"/>
         <TextBox Grid.Row="6"
                  Grid.Column="3"
-                 MaxLength="15"
+                 MaxLength="50"
                  x:Name="TextBoxLongitud"
                  IsEnabled="{Binding IsReadonly, 
                                      Converter={StaticResource InvertBooleanConverter}}"

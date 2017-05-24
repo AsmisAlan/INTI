@@ -133,14 +133,6 @@ namespace GeoUsersUI.GoogleMaps
 
                                        "google.maps.event.addListener(marker, 'click', (function(marker, i) {" +
                                        "return function() {" +
-                                       //locations[i].isInti? 'RE soy inti' : 'no soy'
-
-                                       //"if (marker.getAnimation() !== null){" +
-                                       //"   marker.setAnimation(null);" +
-                                       //"}else{" +
-                                       //"    marker.setAnimation( google.maps.Animation.DROP);" +
-                                       //"}"+
-
                                        "infowindow.setContent(getInfoWindows(locations[i]));" +
                                        "infowindow.open(map, marker);}" +
                                       "})(marker, i));" +
@@ -149,7 +141,7 @@ namespace GeoUsersUI.GoogleMaps
                                   "map.fitBounds(bounds);" +
                               "}" +
                               "</script>" +
-                              "<script async defer src = \"https://maps.googleapis.com/maps/api/js?key=AIzaSyBGw_Saj9-jiCl382ENV3fkrA2aeYqIBuI&callback=initMap \" >" +
+                              "<script async defer src = \"https://maps.googleapis.com/maps/api/js?key=AIzaSyC0R2S8BI5otvzqP8E7xY4iHubEee_lz8Y&callback=initMap \" >" +
                               "</script>" +
                               "</body>" +
                               "</html>";

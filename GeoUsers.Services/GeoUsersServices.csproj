@@ -98,6 +98,7 @@
     <Compile Include="Configuration\Automapper\AutoMapperConfiguration.cs" />
     <Compile Include="Configuration\Automapper\Profiles\EntitiesProfile.cs" />
     <Compile Include="Configuration\InjectionConfig.cs" />
+    <Compile Include="Exceptions\BusinessException.cs" />
     <Compile Include="IDisposable.cs" />
     <Compile Include="Logics\ArchivoLogic.cs" />
     <Compile Include="Logics\UsuarioLogic.cs" />

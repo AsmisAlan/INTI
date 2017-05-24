@@ -1,7 +1,10 @@
 ﻿using GeoUsersUI.Utils;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace GeoUsersUI.Models.ViewModels
 {
@@ -11,9 +14,13 @@ namespace GeoUsersUI.Models.ViewModels
 
         protected bool isReadonly;
 
+        protected readonly IList<ValidationError> Errors;
+
         public BaseSubmitViewModel()
         {
             IsReadonly = !App.IsUserAuthenticated;
+
+            Errors = new List<ValidationError>();
         }
 
         public bool Loading
@@ -67,12 +74,22 @@ namespace GeoUsersUI.Models.ViewModels
         /// <returns></returns>
         public async Task<bool> Submit()
         {
+            var error = Errors.FirstOrDefault();
+
+            if (error != null)
+            {
+                MessageBoxUtils.Error((string)error.ErrorContent);
+
+                return false;
+            }
+
             if (!SubmitValidation())
             {
                 MessageBoxUtils.FormIncompleteError();
 
                 return false;
             }
+
             try
             {
                 Loading = true;

@@ -1,4 +1,6 @@
-﻿using GeoUsers.Services.Utils;
+﻿using GeoUsers.Services.Exceptions;
+using GeoUsers.Services.Properties;
+using GeoUsers.Services.Utils;
 using Microsoft.Practices.Unity;
 using System;
 
@@ -24,6 +26,8 @@ namespace GeoUsers.Services
             catch (Exception e)
             {
                 Logger.Log(e);
+
+                throw new BusinessException($"No se ha podido establecer una conexion con la base de datos.", e);
             }
         }
     }

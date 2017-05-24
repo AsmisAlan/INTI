@@ -3,6 +3,10 @@ using System.Windows;
 using Microsoft.Practices.Unity;
 using System.Threading.Tasks;
 using GeoUsers.Services.Model.DataTransfer;
+using System.Text.RegularExpressions;
+using System.Windows.Input;
+using System;
+using System.Windows.Controls;
 
 namespace GeoUsersUI.Windows
 {
@@ -12,7 +16,7 @@ namespace GeoUsersUI.Windows
     public partial class OrganizacionCreationEditionForm : Window
     {
         private OrganizacionViewModel ViewModel { get; set; }
-
+        ValidationError error;
         public OrganizacionCreationEditionForm(int? organizacionId = null)
         {
             InitializeComponent();
@@ -56,6 +60,25 @@ namespace GeoUsersUI.Windows
         {
             DialogResult = false;
             Close();
+        }
+
+        private void TextBoxCuit_Error(object sender, ValidationErrorEventArgs e)
+        {
+            if (e.Action == ValidationErrorEventAction.Added)
+            {
+                ViewModel.AddError(e.Error);
+            }
+            else
+            {
+                ViewModel.RemoveError(e.Error);
+            }
+        }
+
+        private void CuitValidationTextBox(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+
+            e.Handled = regex.IsMatch(e.Text) || TextBoxCuit.Text.Length > 11;
         }
     }
 }
