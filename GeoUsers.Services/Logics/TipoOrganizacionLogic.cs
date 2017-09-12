@@ -2,6 +2,7 @@
 using GeoUsers.Services.Model.DataTransfer;
 using GeoUsers.Services.Model.Entities;
 using GeoUsers.Services.SQLExceptions;
+using GeoUsers.Services.Utils;
 using NHibernate;
 using System;
 using System.Collections.Generic;
@@ -22,10 +23,7 @@ namespace GeoUsers.Services.Logics
 
         public IEnumerable<TipoOrganizacionHeaderData> GetAll()
         {
-            var tipoOrganizaciones = Session.QueryOver<TipoOrganizacion>()
-                                            .OrderBy(x => x.Tipo)
-                                            .Asc
-                                            .List();
+            var tipoOrganizaciones = GetTipoOrganizaciones();
 
             return Mapper.Map<IEnumerable<TipoOrganizacionHeaderData>>(tipoOrganizaciones);
         }
@@ -56,6 +54,13 @@ namespace GeoUsers.Services.Logics
                                             .List();
 
             return Mapper.Map<IEnumerable<IdAndValue>>(tipoOrganizaciones);
+        }
+
+        public void ExportToExcel(string filePath)
+        {
+            var tipoOrganizaciones = GetTipoOrganizaciones();
+
+            ExcelUtils.ExportTipoOrganizacionesTable(tipoOrganizaciones, filePath);
         }
 
         public bool Save(TipoOrganizacionEditionData organizacionData)
@@ -108,6 +113,16 @@ namespace GeoUsers.Services.Logics
             }
 
             return true;
+        }
+
+        private IEnumerable<TipoOrganizacion> GetTipoOrganizaciones()
+        {
+            var tipoOrganizaciones = Session.QueryOver<TipoOrganizacion>()
+                                            .OrderBy(x => x.Tipo)
+                                            .Asc
+                                            .List();
+
+            return tipoOrganizaciones;
         }
     }
 }

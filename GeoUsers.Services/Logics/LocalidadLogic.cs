@@ -3,6 +3,7 @@ using GeoUsers.Services.Model;
 using GeoUsers.Services.Model.DataTransfer;
 using GeoUsers.Services.Model.Entities;
 using GeoUsers.Services.SQLExceptions;
+using GeoUsers.Services.Utils;
 using NHibernate;
 using System;
 using System.Collections.Generic;
@@ -30,9 +31,7 @@ namespace GeoUsers.Services.Logics
 
         public IEnumerable<LocalidadHeaderData> GetAll()
         {
-            var localidades = Session.QueryOver<Localidad>()
-                                     .List()
-                                     .OrderBy(x => x.Nombre);
+            var localidades = GetLocalidades();
 
             return Mapper.Map<IEnumerable<LocalidadHeaderData>>(localidades);
         }
@@ -56,6 +55,13 @@ namespace GeoUsers.Services.Logics
                                      .List();
 
             return Mapper.Map<IEnumerable<IdAndValue>>(localidades);
+        }
+
+        public void ExportToExcel(string filePath)
+        {
+            var localidades = GetLocalidades();
+
+            ExcelUtils.ExportLocalidadesTable(localidades, filePath);
         }
 
         public bool Save(LocalidadEditionData localidadData)
@@ -110,6 +116,15 @@ namespace GeoUsers.Services.Logics
             }
 
             return true;
+        }
+
+        private IEnumerable<Localidad> GetLocalidades()
+        {
+            var localidades = Session.QueryOver<Localidad>()
+                                     .List()
+                                     .OrderBy(x => x.Nombre);
+
+            return localidades;
         }
     }
 }

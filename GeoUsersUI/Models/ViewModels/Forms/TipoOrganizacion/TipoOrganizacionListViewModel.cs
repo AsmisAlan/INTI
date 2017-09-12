@@ -46,5 +46,10 @@ namespace GeoUsersUI.Models.ViewModels.Forms
 
             return true;
         }
+
+        protected override void Export(string filePath)
+        {
+            tipoOrganizacionLogic.ExportToExcel(filePath);
+        }
     }
 }

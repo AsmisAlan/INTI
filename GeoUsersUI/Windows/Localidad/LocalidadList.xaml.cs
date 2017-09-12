@@ -108,9 +108,9 @@ namespace GeoUsersUI.Windows
             Close();
         }
 
-        private void DataGridExportButtonBar_OnExportButtonClick(object sender, RoutedEventArgs e)
+        private async void DataGridExportButtonBar_OnExportButtonClick(object sender, RoutedEventArgs e)
         {
-            ViewModel.Export(LocalidadGrid);
+            await ViewModel.ExportToExcel();
         }
 
         private void DataGridExportButtonBar_OnPrintButtonClick(object sender, RoutedEventArgs e)

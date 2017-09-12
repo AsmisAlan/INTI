@@ -2,6 +2,7 @@
 using GeoUsers.Services.Model.DataTransfer;
 using GeoUsers.Services.Model.Entities;
 using GeoUsers.Services.SQLExceptions;
+using GeoUsers.Services.Utils;
 using NHibernate;
 using System;
 using System.Collections.Generic;
@@ -29,10 +30,7 @@ namespace GeoUsers.Services.Logics
 
         public IEnumerable<SectorHeaderData> GetAll()
         {
-            var sectores = Session.QueryOver<Sector>()
-                                  .OrderBy(x => x.Nombre)
-                                  .Asc
-                                  .List();
+            var sectores = GetSectores();
 
             return Mapper.Map<IEnumerable<SectorHeaderData>>(sectores);
         }
@@ -55,6 +53,13 @@ namespace GeoUsers.Services.Logics
                                        .List();
 
             return Mapper.Map<IEnumerable<IdAndValue>>(sectores);
+        }
+
+        public void ExportToExcel(string filePath)
+        {
+            var sectores = GetSectores();
+
+            ExcelUtils.ExportSectoresTable(sectores, filePath);
         }
 
         public bool Save(SectorEditionData sectorData)
@@ -148,6 +153,16 @@ namespace GeoUsers.Services.Logics
             }
 
             return true;
+        }
+
+        private IEnumerable<Sector> GetSectores()
+        {
+            var sectores = Session.QueryOver<Sector>()
+                                  .OrderBy(x => x.Nombre)
+                                  .Asc
+                                  .List();
+
+            return sectores;
         }
     }
 }

@@ -125,5 +125,10 @@ namespace GeoUsersUI.Models.ViewModels
         {
             return tipoOrganizacionLogic.GetByIds(OrganizacionesFilter.Filter.TipoOrganizacionIds);
         }
+
+        protected override void Export(string filePath)
+        {
+            organizacionLogic.ExportDataTable(OrganizacionesFilter.Filter, filePath);
+        }
     }
 }

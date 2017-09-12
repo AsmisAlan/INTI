@@ -4,11 +4,10 @@ using Microsoft.Win32;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace GeoUsersUI.Models.ViewModels
 {
-    public class BaseListViewModel : BaseNotifierEntity
+    public abstract class BaseListViewModel : BaseNotifierEntity
     {
         private Visibility loadingTable;
 
@@ -44,33 +43,35 @@ namespace GeoUsersUI.Models.ViewModels
 
         public BaseListViewModel() { }
 
-        public void Export(DataGrid grid)
+        public async Task ExportToExcel()
         {
             IsExporting = true;
 
-            try
+            var saveFileDialog = new SaveFileDialog();
+
+            saveFileDialog.InitialDirectory = "C:";
+            saveFileDialog.Title = "Guardar";
+            saveFileDialog.FileName = "reporte";
+            saveFileDialog.DefaultExt = "xls";
+            saveFileDialog.Filter = "Excel Files|*.xls";
+
+            if (saveFileDialog.ShowDialog().Value)
             {
-                var saveFileDialog = new SaveFileDialog();
-
-                saveFileDialog.InitialDirectory = "C:";
-                saveFileDialog.Title = "Guardar";
-                saveFileDialog.FileName = "reporte";
-                saveFileDialog.DefaultExt = "xlsx";
-                saveFileDialog.Filter = "Excel Files|*.xls;*.xlsx;*.xlsm";
-
-                if (saveFileDialog.ShowDialog().Value)
+                try
                 {
-                    ExcelExportUtils.ExportToExcel(grid,
-                                                   saveFileDialog.FileName);
+                    await RequestService.Execute(() =>
+                    {
+                        Export(saveFileDialog.FileName);
+                    });
                 }
-            }
-            catch (Exception e)
-            {
-                MessageBoxUtils.Error(e.Message);
-            }
-            finally
-            {
-                IsExporting = false;
+                catch (Exception e)
+                {
+                    MessageBoxUtils.Error(e.Message);
+                }
+                finally
+                {
+                    IsExporting = false;
+                }
             }
         }
 
@@ -83,5 +84,7 @@ namespace GeoUsersUI.Models.ViewModels
         {
             LoadingTable = Visibility.Hidden;
         }
+
+        protected abstract void Export(string filePath);
     }
 }

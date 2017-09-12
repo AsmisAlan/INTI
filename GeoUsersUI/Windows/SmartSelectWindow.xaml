@@ -26,9 +26,21 @@
                                   EntityListHeader="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
                                                                                             AncestorType={x:Type Window}}, 
                                                              Path=EntityListHeader}"/>
-        <UserControls:FormButtonBar Grid.Row="1"
-                                    Grid.Column="1"
-                                    OnCancelButtonClick="ButtonDismiss_Click"
-                                    OnSubmitButtonClick="ButtonAccept_Click"/>
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    Margin="0 0 10 10"
+                    Grid.Row="1"
+                    Grid.Column="1">
+            <Button Name="SubmitButton"
+                Style="{StaticResource SaveButton}"
+                Margin="0 0 10 0"
+                Click="ButtonAccept_Click">
+            </Button>
+            <Button Name="CancelButton"
+                    Style="{StaticResource CancelButton}"
+                    Click="ButtonDismiss_Click">
+            </Button>
+        </StackPanel>
     </Grid>
 </Window>

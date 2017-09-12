@@ -16,7 +16,7 @@ namespace GeoUsersUI.Windows
     public partial class OrganizacionCreationEditionForm : Window
     {
         private OrganizacionViewModel ViewModel { get; set; }
-        ValidationError error;
+
         public OrganizacionCreationEditionForm(int? organizacionId = null)
         {
             InitializeComponent();

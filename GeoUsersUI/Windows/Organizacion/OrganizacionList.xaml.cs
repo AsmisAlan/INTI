@@ -102,9 +102,9 @@ namespace GeoUsersUI.Windows
             OpenEditionForm();
         }
 
-        private void DataGridExportButtonBar_OnExportButtonClick(object sender, RoutedEventArgs e)
+        private async void DataGridExportButtonBar_OnExportButtonClick(object sender, RoutedEventArgs e)
         {
-            ViewModel.Export(OrganizacionGrid);
+            await ViewModel.ExportToExcel();
         }
 
         private void DataGridExportButtonBar_OnPrintButtonClick(object sender, RoutedEventArgs e)

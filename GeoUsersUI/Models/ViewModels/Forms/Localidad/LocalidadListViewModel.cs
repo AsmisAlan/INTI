@@ -42,5 +42,10 @@ namespace GeoUsersUI.Models.ViewModels.Forms
 
             return true;
         }
+
+        protected override void Export(string filePath)
+        {
+            localidadLogic.ExportToExcel(filePath);
+        }
     }
 }

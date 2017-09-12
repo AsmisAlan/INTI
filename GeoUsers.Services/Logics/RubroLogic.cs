@@ -2,6 +2,7 @@
 using GeoUsers.Services.Model.DataTransfer;
 using GeoUsers.Services.Model.Entities;
 using GeoUsers.Services.SQLExceptions;
+using GeoUsers.Services.Utils;
 using NHibernate;
 using System;
 using System.Collections.Generic;
@@ -27,10 +28,7 @@ namespace GeoUsers.Services.Logics
 
         public IEnumerable<RubroHeaderData> GetAll()
         {
-            var rubros = Session.QueryOver<Rubro>()
-                                .OrderBy(x => x.Nombre)
-                                .Asc
-                                .List();
+            var rubros = GetRubros();
 
             return Mapper.Map<IEnumerable<RubroHeaderData>>(rubros);
         }
@@ -67,6 +65,13 @@ namespace GeoUsers.Services.Logics
                           .List();
 
             return Mapper.Map<IEnumerable<IdAndValue>>(rubros);
+        }
+
+        public void ExportToExcel(string filePath)
+        {
+            var rubros = GetRubros();
+
+            ExcelUtils.ExportRubrosTable(rubros, filePath);
         }
 
         public bool Save(RubroEditionData rubroData)
@@ -134,6 +139,16 @@ namespace GeoUsers.Services.Logics
             }
 
             return true;
+        }
+
+        private IEnumerable<Rubro> GetRubros()
+        {
+            var rubros = Session.QueryOver<Rubro>()
+                               .OrderBy(x => x.Nombre)
+                               .Asc
+                               .List();
+
+            return rubros;
         }
     }
 }

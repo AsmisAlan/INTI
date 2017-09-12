@@ -88,6 +88,13 @@ namespace GeoUsers.Services.Logics
             return Mapper.Map<IEnumerable<OrganizacionData>>(organizaciones);
         }
 
+        public void ExportDataTable(FilterData filter, string filePath)
+        {
+            var organizaciones = GetByFilter(filter);
+
+            ExcelUtils.ExportOrganizacionesTable(organizaciones, filePath);
+        }
+
         public int Create(OrganizacionEditionData creationData)
         {
             return Edit(creationData);
