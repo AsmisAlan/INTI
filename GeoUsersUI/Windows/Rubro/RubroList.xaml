@@ -26,7 +26,9 @@
                   Grid.Column="1"
                   Name="RubroGrid" 
                   MouseDoubleClick="RubroGrid_MouseDoubleClick"
-                  Style="{StaticResource ListDataGrid}">
+                  Style="{StaticResource ListDataGrid}"
+                  Visibility="{Binding Path=LoadingTable,
+                                       Converter={StaticResource InvertBooleanToVisibilityConverter}}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Nombre"
                                     Width="*"
@@ -40,7 +42,8 @@
         </DataGrid>
         <fa:FontAwesome x:Name="TableLoading"
                         Style="{StaticResource LoadingTable}"
-                        Visibility="{Binding Path=LoadingTable}"/>
+                        Visibility="{Binding Path=LoadingTable,
+                                             Converter={StaticResource BooleanToVisibilityConverter}}"/>
         <UserControls:EntityListButtonBar
                  Grid.Row="1"
                  VerticalAlignment="Bottom"

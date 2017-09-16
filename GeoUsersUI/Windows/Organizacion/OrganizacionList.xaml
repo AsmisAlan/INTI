@@ -84,7 +84,9 @@
                   Grid.Column="1"
                   Name="OrganizacionGrid" 
                   MouseDoubleClick="OrganizacionGrid_MouseDoubleClick"
-                  Style="{StaticResource ListDataGrid}">
+                  Style="{StaticResource ListDataGrid}"
+                  Visibility="{Binding Path=LoadingTable,
+                                       Converter={StaticResource InvertBooleanToVisibilityConverter}}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Nombre"
                                     Width="*"
@@ -140,7 +142,8 @@
         <fa:FontAwesome x:Name="TableLoading"
                         Style="{StaticResource LoadingTable}"
                         Grid.Row="1"
-                        Visibility="{Binding Path=LoadingTable}"/>
+                        Visibility="{Binding Path=LoadingTable,
+                                             Converter={StaticResource BooleanToVisibilityConverter}}"/>
         <UserControls:EntityListButtonBar
                 Grid.Row="2"
                 OnCloseButtonClick="EntityListButtonBar_OnCloseButtonClick"

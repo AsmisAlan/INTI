@@ -34,11 +34,11 @@ namespace GeoUsersUI.Windows
 
         private async Task<bool> UpdateTipoOrganizaciones()
         {
-            ViewModel.StartLoadingTable();
+            ViewModel.SetLoading(true);
 
             await ViewModel.LoadTipoOrganizaciones();
 
-            ViewModel.StopLoadingTable();
+            ViewModel.SetLoading(false);
 
             return true;
         }

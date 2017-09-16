@@ -33,11 +33,11 @@ namespace GeoUsersUI.Windows
 
         private async Task<bool> UpdateOrganizaciones()
         {
-            ViewModel.StartLoadingTable();
+            ViewModel.SetLoading(true);
 
             await ViewModel.LoadOrganizaciones();
 
-            ViewModel.StopLoadingTable();
+            ViewModel.SetLoading(false);
 
             return true;
         }
@@ -186,7 +186,7 @@ namespace GeoUsersUI.Windows
 
         private async void FilterButton_Click(object sender, RoutedEventArgs e)
         {
-            await ViewModel.LoadOrganizaciones();
+            await UpdateOrganizaciones();
         }
     }
 }

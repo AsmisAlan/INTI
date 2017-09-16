@@ -24,7 +24,9 @@
                   Grid.Column="1"
                   Name="TipoOrganizacionGrid" 
                   MouseDoubleClick="TipoOrganizacionGrid_MouseDoubleClick"
-                  Style="{StaticResource ListDataGrid}">
+                  Style="{StaticResource ListDataGrid}"
+                  Visibility="{Binding Path=LoadingTable,
+                                       Converter={StaticResource InvertBooleanToVisibilityConverter}}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Tipo"
                                     Width="*"
@@ -34,7 +36,8 @@
         </DataGrid>
         <fa:FontAwesome x:Name="TableLoading"
                         Style="{StaticResource LoadingTable}"
-                        Visibility="{Binding Path=LoadingTable}"/>
+                        Visibility="{Binding Path=LoadingTable,
+                                             Converter={StaticResource BooleanToVisibilityConverter}}"/>
         <UserControls:EntityListButtonBar
                 Grid.Row="1"
                 OnCloseButtonClick="EntityListButtonBar_OnCloseButtonClick"

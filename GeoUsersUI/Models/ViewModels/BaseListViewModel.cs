@@ -9,7 +9,7 @@ namespace GeoUsersUI.Models.ViewModels
 {
     public abstract class BaseListViewModel : BaseNotifierEntity
     {
-        private Visibility loadingTable;
+        private bool loadingTable;
 
         protected bool isExporting;
 
@@ -27,7 +27,7 @@ namespace GeoUsersUI.Models.ViewModels
             }
         }
 
-        public Visibility LoadingTable
+        public bool LoadingTable
         {
             get
             {
@@ -75,14 +75,9 @@ namespace GeoUsersUI.Models.ViewModels
             }
         }
 
-        public void StartLoadingTable()
+        public void SetLoading(bool loading)
         {
-            LoadingTable = Visibility.Visible;
-        }
-
-        public void StopLoadingTable()
-        {
-            LoadingTable = Visibility.Hidden;
+            LoadingTable = loading;
         }
 
         protected abstract void Export(string filePath);

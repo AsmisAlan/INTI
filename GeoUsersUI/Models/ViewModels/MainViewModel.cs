@@ -22,9 +22,9 @@ namespace GeoUsersUI.Models.ViewModels
         private readonly LocalidadLogic localidadLogic;
         private readonly TipoOrganizacionLogic tipoOrganizacionLogic;
 
-        private Visibility loadingMap { get; set; }
+        private bool loadingMap { get; set; }
 
-        private Visibility loadingTable { get; set; }
+        private bool loadingTable { get; set; }
 
         public ObservableCollection<OrganizacionHeaderData> Organizaciones { get; set; }
 
@@ -44,7 +44,7 @@ namespace GeoUsersUI.Models.ViewModels
 
         public FilterStatus OrganizacionesFilter { get; set; }
 
-        public Visibility LoadingTable
+        public bool LoadingTable
         {
             get
             {
@@ -58,7 +58,7 @@ namespace GeoUsersUI.Models.ViewModels
             }
         }
 
-        public Visibility LoadingMap
+        public bool LoadingMap
         {
             get
             {

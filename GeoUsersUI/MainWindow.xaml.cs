@@ -42,7 +42,7 @@ namespace GeoUsersUI
 
             await ViewModel.InitializationTask;
 
-            ViewModel.LoadingTable = Visibility.Hidden;
+            ViewModel.LoadingTable = false;
 
             var url = await GetMapUrl(ViewModel.Organizaciones);
 
@@ -196,12 +196,12 @@ namespace GeoUsersUI
 
         private async Task<bool> UpdateUI()
         {
-            ViewModel.LoadingMap = Visibility.Visible;
-            ViewModel.LoadingTable = Visibility.Visible;
+            ViewModel.LoadingMap = true;
+            ViewModel.LoadingTable = true;
 
             await ViewModel.UpdateOrganizacionHeaders();
 
-            ViewModel.LoadingTable = Visibility.Hidden;
+            ViewModel.LoadingTable = false;
 
             return await UpdateMap();
         }
@@ -379,7 +379,7 @@ namespace GeoUsersUI
 
         private void Browser_FrameLoadEnd(object sender, FrameLoadEndEventArgs e)
         {
-            ViewModel.LoadingMap = Visibility.Hidden;
+            ViewModel.LoadingMap = false;
         }
     }
 }

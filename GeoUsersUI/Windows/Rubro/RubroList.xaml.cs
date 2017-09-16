@@ -33,11 +33,11 @@ namespace GeoUsersUI.Windows
 
         private async Task<bool> UpdateRubros()
         {
-            ViewModel.StartLoadingTable();
+            ViewModel.SetLoading(true);
 
             await ViewModel.LoadRubros();
 
-            ViewModel.StopLoadingTable();
+            ViewModel.SetLoading(false);
 
             return true;
         }

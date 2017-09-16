@@ -34,11 +34,11 @@ namespace GeoUsersUI.Windows
 
         private async Task<bool> UpdateSectores()
         {
-            ViewModel.StartLoadingTable();
+            ViewModel.SetLoading(true);
 
             await ViewModel.LoadSectores();
 
-            ViewModel.StopLoadingTable();
+            ViewModel.SetLoading(false);
 
             return true;
         }

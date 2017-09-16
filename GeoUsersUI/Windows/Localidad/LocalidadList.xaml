@@ -27,7 +27,9 @@
                       Grid.Column="1"
                       Name="LocalidadGrid" 
                       MouseDoubleClick="LocalidadGrid_MouseDoubleClick"
-                      Style="{StaticResource ListDataGrid}">
+                      Style="{StaticResource ListDataGrid}"
+                      Visibility="{Binding Path=LoadingTable,
+                                           Converter={StaticResource InvertBooleanToVisibilityConverter}}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Nombre"
                                     Width="*"
@@ -55,7 +57,8 @@
                     OnPrintButtonClick="DataGridExportButtonBar_OnPrintButtonClick"/>
             <fa:FontAwesome x:Name="TableLoading"
                             Style="{StaticResource LoadingTable}"
-                            Visibility="{Binding Path=LoadingTable}"/>
+                            Visibility="{Binding Path=LoadingTable,
+                                                 Converter={StaticResource BooleanToVisibilityConverter}}"/>
         </Grid>
     </Grid>
 </Window>

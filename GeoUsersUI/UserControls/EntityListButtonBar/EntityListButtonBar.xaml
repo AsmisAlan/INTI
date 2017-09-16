@@ -23,8 +23,8 @@
         </Button>
         <Button Name="DeleteButton"
                 Style="{StaticResource DeleteButton}"
-                 Visibility="{Binding AllowOperations, 
-                                      Converter={StaticResource BooleanToVisibilityConverter}}"
+                Visibility="{Binding AllowOperations, 
+                                     Converter={StaticResource BooleanToVisibilityConverter}}"
                 Margin="0 0 10 0"
                 Click="DeleteButton_Click">
         </Button>
