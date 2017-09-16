@@ -76,7 +76,11 @@ namespace GeoUsers.Services.Logics
 
         public IEnumerable<OrganizacionHeaderData> GetHeadersByFilter(FilterData filter)
         {
-            var organizaciones = GetByFilter(filter);
+            var query = GetOrganizacionesQueryByFilter(filter);
+
+            var organizaciones = query.Fetch(x => x.Rubro.Sector).Eager
+                                      .Fetch(x => x.Rubro.Sector.Icono).Eager
+                                      .List();
 
             return Mapper.Map<IEnumerable<OrganizacionHeaderData>>(organizaciones);
         }
@@ -200,6 +204,11 @@ namespace GeoUsers.Services.Logics
 
         private IEnumerable<Organizacion> GetByFilter(FilterData filter)
         {
+            return GetOrganizacionesQueryByFilter(filter).List();
+        }
+
+        private IQueryOver<Organizacion, Organizacion> GetOrganizacionesQueryByFilter(FilterData filter)
+        {
             var organizacionesQuery = Session.QueryOver<Organizacion>();
 
             if (((UsuarioIntiStatus)filter.UsuarioInti) == UsuarioIntiStatus.NoUsuarioInti)
@@ -238,10 +247,12 @@ namespace GeoUsers.Services.Logics
                                    .IsIn(filter.TipoOrganizacionIds.ToArray());
             }
 
-            var organizaciones = organizacionesQuery.List()
-                                                    .OrderBy(x => x.Nombre);
+            organizacionesQuery.Fetch(x => x.Localidad).Eager
+                               .Fetch(x => x.TipoOrganizacion).Eager
+                               .Fetch(x => x.Rubro).Eager
+                               .OrderBy(x => x.Nombre);
 
-            return organizaciones;
+            return organizacionesQuery;
         }
     }
 }

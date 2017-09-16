@@ -47,7 +47,7 @@ namespace GeoUsers.Services.Automapper.Profiles
 
             CreateMap<Organizacion, OrganizacionHeaderData>()
                 .ForMember(x => x.IsActive, opt => opt.UseValue(true))
-                .ForMember(x => x.Icono, opt => opt.MapFrom(x => WebUtils.GetFileDataUri(x.Rubro.Sector.Icono)))
+                .ForMember(x => x.Icono, opt => opt.MapFrom(x => GetIcono(x)))
                 .ForMember(x => x.Direccion, opt => opt.MapFrom(x => $"{x.Direccion} {x.Localidad.Nombre}"));
 
             CreateMap<Organizacion, OrganizacionData>()
@@ -62,6 +62,13 @@ namespace GeoUsers.Services.Automapper.Profiles
 
             CreateMap<Archivo, ArchivoEditionData>()
                 .ForMember(x => x.Ruta, opt => opt.MapFrom(x => $"{Path.Combine(Settings.Default.AttachmentFolder, x.Ruta)}"));
+        }
+
+        private static string GetIcono(Organizacion organizacion)
+        {
+            if (organizacion.Rubro.Sector.Icono == null) return null;
+
+            return WebUtils.GetFileDataUri(organizacion.Rubro.Sector.Icono);
         }
     }
 }

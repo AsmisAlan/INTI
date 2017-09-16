@@ -10,7 +10,7 @@
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         x:Class="GeoUsersUI.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" MinHeight="600" MinWidth="950"
+        Title="SGU" MinHeight="600" MinWidth="950"
         Background="{StaticResource MainWindowBorderBrush}">
     <Grid Margin="10,10,10,10"
           Name="Container">

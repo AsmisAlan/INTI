@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using System.IO;
 using System.Net;
 
 namespace GeoUsers.Services.Utils
@@ -40,6 +41,8 @@ namespace GeoUsers.Services.Utils
 
         public static string GetFileDataUri(Archivo file)
         {
+            if (!File.Exists(file.Ruta)) return null;
+
             var dataUri = FileUtils.GetBase64EncodedFileBytes(file.Ruta);
 
             return $"data:image/{file.Extension};base64,{dataUri}";

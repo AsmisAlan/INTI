@@ -12,6 +12,7 @@ using GeoUsersUI.Models.ViewModels.UserControls;
 using CefSharp;
 using GeoUsersUI.UserControls;
 using System;
+using System.Linq;
 
 namespace GeoUsersUI
 {
@@ -180,7 +181,7 @@ namespace GeoUsersUI
             {
                 var mapManager = new GoogleMapsManager();
 
-                return mapManager.GetHtmlString(organizaciones);
+                return mapManager.GetHtmlString(organizaciones.ToList());
             });
         }
 
