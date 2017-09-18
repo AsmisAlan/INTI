@@ -6,7 +6,9 @@
         xmlns:local="clr-namespace:GeoUsersUI.Windows"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
-        Title="OrganizacionList" Height="600" MinWidth="800"
+        Title="{Binding Path=WindowTitle}" 
+        Height="600" 
+        MinWidth="800"
         Background="{StaticResource BaseWindowBackground}">
     <Grid Name="MainGrid"
           Style="{StaticResource FormGrid}"
@@ -85,56 +87,47 @@
                   Name="OrganizacionGrid" 
                   MouseDoubleClick="OrganizacionGrid_MouseDoubleClick"
                   Style="{StaticResource ListDataGrid}"
+                  ScrollViewer.CanContentScroll="True"
+                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                  ColumnWidth="Auto"
                   Visibility="{Binding Path=LoadingTable,
                                        Converter={StaticResource InvertBooleanToVisibilityConverter}}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Nombre"
-                                    Width="*"
                                     Binding="{Binding Path=Nombre}">
                 </DataGridTextColumn>
                 <DataGridTextColumn Header="Direccion"
-                                    Width="*"
                                     Binding="{Binding Path=Direccion}">
                 </DataGridTextColumn>
                 <DataGridTextColumn Header="Localidad"
-                                    Width="*"
                                     Binding="{Binding Path=Localidad}">
                 </DataGridTextColumn>
                 <DataGridTextColumn Header="Email"
-                                    Width="*"
                                     Binding="{Binding Path=Email}">
                 </DataGridTextColumn>
                 <DataGridTextColumn Header="Web"
-                                    Width="*"
                                     Binding="{Binding Path=Web}">
                 </DataGridTextColumn>
                 <DataGridTextColumn Header="Telefono"
-                                    Width="*"
                                     Binding="{Binding Path=Telefono}">
                 </DataGridTextColumn>
                 <DataGridTextColumn Header="Cuit"
-                                    Width="*"
                                     Binding="{Binding Path=Cuit}">
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="ContactoCargo"
-                                    Width="*"
+                <DataGridTextColumn Header="Contacto/Cargo"
                                     Binding="{Binding Path=ContactoCargo}">
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Personal"
-                                    Width="*"
+                <DataGridTextColumn Header=" Personal "
                                     Binding="{Binding Path=Personal}">
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="UsuarioInti"
-                                    Width="*"
+                <DataGridTextColumn Header=" Usuario Inti "
                                     Binding="{Binding Path=UsuarioInti,
                                                       Converter={StaticResource BooleanToYesNoConverter}}">
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="TipoOrganizacion"
-                                    Width="*"
+                <DataGridTextColumn Header="Tipo Organizacion"
                                     Binding="{Binding Path=TipoOrganizacion}">
                 </DataGridTextColumn>
                 <DataGridTextColumn Header="Rubro"
-                                    Width="*"
                                     Binding="{Binding Path=Rubro}">
                 </DataGridTextColumn>
             </DataGrid.Columns>

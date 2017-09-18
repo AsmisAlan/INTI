@@ -488,6 +488,9 @@
             <Setter Property="SelectionUnit" Value="FullRow" />
             <Setter Property="ColumnHeaderStyle" Value="{StaticResource DataGridColumnHeaderStyle}"/>
             <Setter Property="RowStyle" Value="{StaticResource HideableRow}"/>
+            <Setter Property="ColumnWidth" Value="Auto"/>
+            <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
         </Style>
 
         <!--Validation templates-->

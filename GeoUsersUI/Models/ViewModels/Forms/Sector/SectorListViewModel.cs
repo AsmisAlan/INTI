@@ -21,6 +21,7 @@ namespace GeoUsersUI.Models.ViewModels.Forms
             this.sectorLogic = sectorLogic;
 
             Sectores = new ObservableCollection<SectorHeaderData>();
+            WindowTitle = "Sectores";
         }
 
         public async Task<bool> LoadSectores()

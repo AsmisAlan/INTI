@@ -54,12 +54,11 @@ namespace GeoUsersUI.Models.ViewModels
             this.tipoOrganizacionLogic = tipoOrganizacionLogic;
 
             OrganizacionesFilter = new FilterStatus();
-
             OrganizacionesFilter.Filter.UsuarioInti = (int)UsuarioIntiStatus.Todos;
 
             Organizaciones = new ObservableCollection<OrganizacionData>();
-
             FiltersVisibility = Visibility.Visible;
+            WindowTitle = "Organizaciones";
         }
 
         public async Task<bool> LoadOrganizaciones()

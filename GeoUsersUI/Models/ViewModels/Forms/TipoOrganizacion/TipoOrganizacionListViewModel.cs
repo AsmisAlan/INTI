@@ -21,6 +21,7 @@ namespace GeoUsersUI.Models.ViewModels.Forms
             this.tipoOrganizacionLogic = tipoOrganizacionLogic;
 
             TipoOrganizaciones = new ObservableCollection<TipoOrganizacionHeaderData>();
+            WindowTitle = "Tipos de Organizaciones";
         }
 
         public async Task<bool> LoadTipoOrganizaciones()

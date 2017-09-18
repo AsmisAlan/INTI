@@ -201,9 +201,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Database\MySQL\Initial Data.sql" />
-    <Content Include="Database\MySQL\Tables.sql" />
-    <Content Include="Database\MySQL\User Grants.sql" />
+    <Content Include="Database\MySQL\3 - Initial Data.sql" />
+    <Content Include="Database\MySQL\2 - Tables.sql" />
+    <Content Include="Database\MySQL\1 - User Grants.sql" />
     <Content Include="Database\Tables.sql" />
     <Content Include="hibernate.cfg.xml">
       <SubType>Designer</SubType>

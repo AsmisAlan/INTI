@@ -21,6 +21,7 @@ namespace GeoUsersUI.Models.ViewModels.Forms
             this.rubroLogic = rubroLogic;
 
             Rubros = new ObservableCollection<RubroHeaderData>();
+            windowTitle = "Rubros";
         }
 
         public async Task<bool> LoadRubros()

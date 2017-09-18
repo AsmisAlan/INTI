@@ -7,7 +7,9 @@
         xmlns:UserControls="clr-namespace:GeoUsersUI.UserControls"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
-        Title="TipoOrganizacionList" Height="300" MinWidth="550"
+        Title="{Binding Path=WindowTitle}" 
+        Height="300" 
+        MinWidth="550"
         Background="{StaticResource BaseWindowBackground}">
     <Grid Name="MainGrid"
           Style="{StaticResource FormGrid}"

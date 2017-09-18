@@ -9,7 +9,7 @@ namespace GeoUsers.Services.Model.Mappings
         {
             Table("RUBRO");
 
-            Id<int>(x => x.Id, x =>
+            Id(x => x.Id, x =>
             {
                 x.Column("ID");
                 x.Generator(new IdentityGeneratorDef());

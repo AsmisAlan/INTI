@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Input;
 using System;
 using System.Windows.Controls;
+using GeoUsersUI.Utils;
 
 namespace GeoUsersUI.Windows
 {
@@ -46,6 +47,19 @@ namespace GeoUsersUI.Windows
 
         private async void Submit(object sender, RoutedEventArgs e)
         {
+            var hasValidCoordinates = true;
+
+            if (!string.IsNullOrEmpty(ViewModel.Organizacion.Latitud))
+            {
+                hasValidCoordinates = ValidationUtils.ValidateCoordinates(ViewModel.Organizacion.Latitud);
+            }
+            else if (!string.IsNullOrEmpty(ViewModel.Organizacion.Longitud))
+            {
+                hasValidCoordinates = ValidationUtils.ValidateCoordinates(ViewModel.Organizacion.Longitud);
+            }
+
+            if (!hasValidCoordinates) return;
+
             var result = await ViewModel.Submit();
 
             if (result)

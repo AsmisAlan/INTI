@@ -1,13 +1,11 @@
-﻿using GeoUsers.Services.Model.DataTransfer;
-using GeoUsersUI.Utils;
+﻿using GeoUsersUI.Utils;
 using Microsoft.Win32;
 using System;
 using System.Threading.Tasks;
-using System.Windows;
 
 namespace GeoUsersUI.Models.ViewModels
 {
-    public abstract class BaseListViewModel : BaseNotifierEntity
+    public abstract class BaseListViewModel : BaseWindowViewModel
     {
         private bool loadingTable;
 

@@ -19,6 +19,7 @@ namespace GeoUsersUI.Models.ViewModels.Forms
         {
             this.localidadLogic = localidadLogic;
 
+            WindowTitle = "Localidades";
             Localidades = new ObservableCollection<LocalidadHeaderData>();
         }
 

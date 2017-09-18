@@ -247,12 +247,11 @@ namespace GeoUsers.Services.Logics
                                    .IsIn(filter.TipoOrganizacionIds.ToArray());
             }
 
-            organizacionesQuery.Fetch(x => x.Localidad).Eager
-                               .Fetch(x => x.TipoOrganizacion).Eager
-                               .Fetch(x => x.Rubro).Eager
-                               .OrderBy(x => x.Nombre);
-
-            return organizacionesQuery;
+            return organizacionesQuery.Fetch(x => x.Localidad).Eager
+                                      .Fetch(x => x.TipoOrganizacion).Eager
+                                      .Fetch(x => x.Rubro).Eager
+                                      .OrderBy(x => x.Nombre)
+                                      .Asc;
         }
     }
 }

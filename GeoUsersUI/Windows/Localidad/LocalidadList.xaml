@@ -7,7 +7,7 @@
         xmlns:UserControls="clr-namespace:GeoUsersUI.UserControls" 
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
-        Title="LocalidadList" 
+        Title="{Binding Path=WindowTitle}" 
         MinHeight="300"
         MinWidth="550"
         Background="{StaticResource BaseWindowBackground}">
