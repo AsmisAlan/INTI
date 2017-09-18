@@ -8,6 +8,7 @@ using GeoUsersUI.Models.ViewModels.UserControls;
 using System.ComponentModel;
 using System.Windows;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace GeoUsersUI.UserControls
 {
@@ -95,6 +96,24 @@ namespace GeoUsersUI.UserControls
         protected void OnPropertyChanged(string name)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+
+        private void SelectionListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var item = SelectionListBox.SelectedItem as SmartSelectItem;
+
+            if (item == null) return;
+
+            ViewModel.RemoveSelection(item);
+        }
+
+        private void EntitiesListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var item = EntitiesListBox.SelectedItem as SmartSelectItem;
+
+            if (item == null) return;
+
+            ViewModel.AddSelection(item);
         }
     }
 }

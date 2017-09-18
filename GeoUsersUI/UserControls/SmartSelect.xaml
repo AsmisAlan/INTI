@@ -30,7 +30,8 @@
                  x:Name="EntitiesListBox"
                  ItemsSource="{Binding Path=Entities}"
                  Style="{StaticResource SmartSelectList}"
-                 ItemContainerStyle="{StaticResource SmartSelectListItem}"/>
+                 ItemContainerStyle="{StaticResource SmartSelectListItem}"
+                 MouseDoubleClick="EntitiesListBox_MouseDoubleClick"/>
         <Label Grid.Column="2"
                Content="Seleccion" 
                VerticalAlignment="Bottom"
@@ -43,7 +44,8 @@
                  x:Name="SelectionListBox"
                  ItemsSource="{Binding Path=Selection}"
                  Style="{StaticResource SmartSelectList}"
-                 ItemContainerStyle="{StaticResource SmartSelectListItem}"/>
+                 ItemContainerStyle="{StaticResource SmartSelectListItem}"
+                 MouseDoubleClick="SelectionListBox_MouseDoubleClick"/>
         <Grid Grid.Row="1"
               Grid.Column="1"
               Margin="0, 0, 0, 10">
