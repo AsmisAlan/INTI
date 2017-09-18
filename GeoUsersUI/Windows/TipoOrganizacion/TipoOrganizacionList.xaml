@@ -25,10 +25,15 @@
                   Grid.Row="0"
                   Grid.Column="1"
                   Name="TipoOrganizacionGrid" 
-                  MouseDoubleClick="TipoOrganizacionGrid_MouseDoubleClick"
                   Style="{StaticResource ListDataGrid}"
                   Visibility="{Binding Path=LoadingTable,
                                        Converter={StaticResource InvertBooleanToVisibilityConverter}}">
+            <DataGrid.RowStyle>
+                <Style TargetType="{x:Type DataGridRow}">
+                    <EventSetter Event="MouseDoubleClick"
+                                 Handler="TipoOrganizacionGrid_MouseDoubleClick" />
+                </Style>
+            </DataGrid.RowStyle>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Tipo"
                                     Width="*"

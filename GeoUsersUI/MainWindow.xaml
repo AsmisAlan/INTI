@@ -168,10 +168,15 @@
                       Grid.Row="1"
                       Grid.Column="1"
                       Name="DataGrid" 
-                      MouseDoubleClick="DataGrid_MouseDoubleClick"
                       Style="{StaticResource ListDataGrid}"
                       Visibility="{Binding Path=LoadingTable,
                                            Converter={StaticResource InvertBooleanToVisibilityConverter}}">
+                <DataGrid.RowStyle>
+                    <Style TargetType="{x:Type DataGridRow}">
+                        <EventSetter Event="MouseDoubleClick"
+                                     Handler="DataGrid_MouseDoubleClick" />
+                    </Style>
+                </DataGrid.RowStyle>
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Nombre"
                                         Width="*"

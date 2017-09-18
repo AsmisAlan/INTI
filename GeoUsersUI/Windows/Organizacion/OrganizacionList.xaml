@@ -85,13 +85,16 @@
                   Grid.Row="1"
                   Grid.Column="1"
                   Name="OrganizacionGrid" 
-                  MouseDoubleClick="OrganizacionGrid_MouseDoubleClick"
                   Style="{StaticResource ListDataGrid}"
-                  ScrollViewer.CanContentScroll="True"
-                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
                   ColumnWidth="Auto"
                   Visibility="{Binding Path=LoadingTable,
                                        Converter={StaticResource InvertBooleanToVisibilityConverter}}">
+            <DataGrid.RowStyle>
+                <Style TargetType="{x:Type DataGridRow}">
+                    <EventSetter Event="MouseDoubleClick"
+                                 Handler="OrganizacionGrid_MouseDoubleClick" />
+                </Style>
+            </DataGrid.RowStyle>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Nombre"
                                     Binding="{Binding Path=Nombre}">

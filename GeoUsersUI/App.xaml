@@ -467,7 +467,7 @@
             <Setter Property="Cursor" Value="Hand" />
         </Style>
 
-        <Style TargetType="DataGridRow" x:Key="HideableRow">
+        <Style TargetType="DataGridRow" x:Key="DataRow">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=IsActive}" Value="False">
                     <Setter Property="Visibility" Value="Collapsed"/>
@@ -487,7 +487,7 @@
             <Setter Property="SelectionMode" Value="Single" />
             <Setter Property="SelectionUnit" Value="FullRow" />
             <Setter Property="ColumnHeaderStyle" Value="{StaticResource DataGridColumnHeaderStyle}"/>
-            <Setter Property="RowStyle" Value="{StaticResource HideableRow}"/>
+            <Setter Property="RowStyle" Value="{StaticResource DataRow}"/>
             <Setter Property="ColumnWidth" Value="Auto"/>
             <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
             <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>

@@ -25,10 +25,15 @@
                   Grid.Row="0"
                   Grid.Column="1"
                   Name="RubroGrid" 
-                  MouseDoubleClick="RubroGrid_MouseDoubleClick"
                   Style="{StaticResource ListDataGrid}"
                   Visibility="{Binding Path=LoadingTable,
                                        Converter={StaticResource InvertBooleanToVisibilityConverter}}">
+            <DataGrid.RowStyle>
+                <Style TargetType="{x:Type DataGridRow}">
+                    <EventSetter Event="MouseDoubleClick"
+                                 Handler="RubroGrid_MouseDoubleClick" />
+                </Style>
+            </DataGrid.RowStyle>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Nombre"
                                     Width="*"
