@@ -9,6 +9,7 @@
         mc:Ignorable="d"
         Title="{Binding Path=WindowTitle}" 
         Height="400"
+        MinHeight="300"
         MinWidth="550"
         Background="{StaticResource BaseWindowBackground}">
     <Grid Name="MainGrid"
@@ -16,7 +17,7 @@
           Grid.Column="1">
         <Grid.RowDefinitions>
             <RowDefinition Height="7*"/>
-            <RowDefinition Height="*" MaxHeight="100"/>
+            <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
