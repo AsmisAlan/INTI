@@ -30,7 +30,20 @@ namespace GeoUsers.Services.Logics
 
         public OrganizacionEditionData GetForEdition(int organizacionId)
         {
-            var organizacion = Session.Get<Organizacion>(organizacionId);
+            var organizacion = Session.QueryOver<Organizacion>()
+                                      .Where(x => x.Id == organizacionId)
+                                      .Fetch(x => x.Localidad)
+                                      .Eager
+                                      .Fetch(x => x.TipoOrganizacion)
+                                      .Eager
+                                      .Fetch(x => x.Rubro)
+                                      .Eager
+                                      .Fetch(x => x.Rubro.Sector)
+                                      .Eager
+                                      .Fetch(x => x.Rubro.Sector.Icono)
+                                      .Eager
+                                      .List()
+                                      .FirstOrDefault();
 
             var data = Mapper.Map<OrganizacionEditionData>(organizacion);
 

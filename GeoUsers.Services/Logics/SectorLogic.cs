@@ -23,7 +23,12 @@ namespace GeoUsers.Services.Logics
 
         public SectorEditionData GetForEdition(int sectorId)
         {
-            var sector = Session.Get<Sector>(sectorId);
+            var sector = Session.QueryOver<Sector>()
+                                .Where(x => x.Id == sectorId)
+                                .Fetch(x => x.Icono)
+                                .Eager
+                                .List()
+                                .First();
 
             return Mapper.Map<SectorEditionData>(sector);
         }
