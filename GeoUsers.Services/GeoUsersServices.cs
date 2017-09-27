@@ -1,5 +1,8 @@
-﻿using Microsoft.Practices.Unity;
-using static GeoUsers.Services.SessionProvider;
+﻿using GeoUsers.Services.Exceptions;
+using GeoUsers.Services.Properties;
+using GeoUsers.Services.Utils;
+using Microsoft.Practices.Unity;
+using System;
 
 namespace GeoUsers.Services
 {
@@ -14,14 +17,18 @@ namespace GeoUsers.Services
             //Dependency Injection
             Container = container;
 
-            InjectionConfig.RegisterDependencies(container);
+            try
+            {
+                InjectionConfig.RegisterDependencies(container);
 
-            SessionProvider = Container.Resolve<SessionProvider>();
-        }
+                SessionProvider = Container.Resolve<SessionProvider>();
+            }
+            catch (Exception e)
+            {
+                Logger.Log(e);
 
-        public ContextSessionBlock GetContextSessionBlock()
-        {
-            return SessionProvider.GetSessionContextBlock();
+                throw new BusinessException($"No se ha podido establecer una conexion con la base de datos.", e);
+            }
         }
     }
 }

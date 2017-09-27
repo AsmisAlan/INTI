@@ -1,20 +1,38 @@
 ﻿namespace GeoUsers.Services.Model.DataTransfer
 {
-    public class SectorEditionData : SectorCreationData
+    public class SectorEditionData : BaseNotifierEntity
     {
-        private long id { get; set; }
+        private string nombre;
 
-        public long Id
+        private ArchivoEditionData icono { get; set; }
+
+        public int? Id { get; set; }
+
+        public ArchivoEditionData Icono
         {
             get
             {
-                return id;
+                return icono;
             }
             set
             {
-                id = value;
+                icono = value;
 
-                OnPropertyChanged(nameof(Id));
+                OnPropertyChanged(nameof(Icono));
+            }
+        }
+
+        public string Nombre
+        {
+            get
+            {
+                return nombre;
+            }
+            set
+            {
+                nombre = value;
+
+                OnPropertyChanged(nameof(Nombre));
             }
         }
     }

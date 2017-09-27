@@ -4,49 +4,79 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GeoUsersUI.Windows"
+        xmlns:UserControls="clr-namespace:GeoUsersUI.UserControls"
         mc:Ignorable="d"
-        Title="SectorCreationEditionForm" Height="200" Width="300">
+        Title="{Binding Path=WindowTitle}" 
+        MinHeight="400" 
+        MaxHeight="900" 
+        MinWidth="300"
+        MaxWidth="500"
+        Height="400"
+        Width="300"
+        Background="{StaticResource BaseWindowBackground}">
     <Grid Name="MainGrid"
           Style="{StaticResource ResourceKey=FormGrid}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="3*" />
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
             <RowDefinition Height="2*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="3*"/>
-            </Grid.ColumnDefinitions>
-            <Label Content="Nombre :"
+        <Label Content="Nombre :"
                    Grid.Row="0"
                    Style="{StaticResource FormLabel}"/>
-            <TextBox Grid.Row="0"
-                     Grid.Column="1"
-                     x:Name="TextBoxNombre"
-                     Text="{Binding Sector.Nombre}"
-                     Style="{StaticResource FormTextBox}">
-            </TextBox>
-        </Grid>
+        <TextBox Grid.Row="0"
+                 Grid.Column="1"
+                 MaxLength="50"
+                 x:Name="TextBoxNombre"
+                 IsEnabled="{Binding IsReadonly, 
+                                     Converter={StaticResource InvertBooleanConverter}}"
+                 Text="{Binding Sector.Nombre}"
+                 Style="{StaticResource FormTextBox}">
+        </TextBox>
+        <Label Content="Icono :"
+                   Grid.Row="1"
+                   Style="{StaticResource FormLabel}"/>
         <Grid Grid.Row="1"
-              Margin="0,5,0,0">
+              Grid.Column="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="40"/>
             </Grid.ColumnDefinitions>
-            <Button Name="ButtonSubmit"
-                    Content="Aceptar"
-                    Height="30"
-                    Width="90"
-                    Click="ButtonSubmit_Click"/>
-            <Button Name="ButtonDismiss"
-                    Content="Cancelar"
+
+            <Button x:Name="ButtonIcono" 
+                Height="25"
+                Width="Auto"
+                Margin="0 0 10 0"
+                IsEnabled="{Binding IsReadonly, 
+                                    Converter={StaticResource InvertBooleanConverter}}"
+                Style="{StaticResource FileExplorerButton}"
+                Click="ButtonIcono_Click"/>
+            <Button Grid.Row="1"
                     Grid.Column="1"
-                    Height="30"
-                    Width="90"
-                    Click="ButtonDismiss_Click"/>
+                    x:Name="ButtonRemoveIcono" 
+                    Height="25"
+                    Width="25"
+                    IsEnabled="{Binding IsReadonly, 
+                                        Converter={StaticResource InvertBooleanConverter}}"
+                    Style="{StaticResource DeleteIconButton}"
+                    Click="ButtonRemoveIcono_Click"/>
         </Grid>
+        <Image Grid.Row="2"
+               Grid.Column="1"
+               x:Name="SectorIcono"
+               Source="{Binding Path=Sector.Icono.Ruta, 
+                                Converter={StaticResource PathToBitmapImageConverter}}"/>
+        <UserControls:FormButtonBar Grid.Row="3"
+                                    Grid.Column="1"
+                                    Loading="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                         AncestorType={x:Type Window}}, 
+                                                      Path=DataContext.Loading}"
+                                    OnCancelButtonClick="ButtonDismiss_Click"
+                                    OnSubmitButtonClick="ButtonSubmit_Click"/>
     </Grid>
 </Window>

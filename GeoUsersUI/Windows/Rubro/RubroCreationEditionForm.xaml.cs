@@ -10,35 +10,34 @@ namespace GeoUsersUI.Windows
     /// </summary>
     public partial class RubroCreationEditionForm : Window
     {
-        public RubroCreationEditionForm()
+        private RubroEditionViewModel ViewModel { get; set; }
+
+        public RubroCreationEditionForm(int? rubroId = null)
         {
             InitializeComponent();
 
-            DataContext = App.Container.Resolve<RubroCreationViewModel>();
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
-            var initialized = Initialize();
+            DataContext = ViewModel = App.Container.Resolve<RubroEditionViewModel>();
+
+            var initialized = Initialize(rubroId);
         }
 
-        public RubroCreationEditionForm(long rubroId)
+        private async Task<bool> Initialize(int? rubroId = null)
         {
-            InitializeComponent();
-        }
-
-        private async Task<bool> Initialize()
-        {
-            await ((RubroCreationViewModel)DataContext).LoadData();
-
-            ComboSector.ItemsSource = ((RubroCreationViewModel)DataContext).Sectores;
+            await ViewModel.Initialize(rubroId);
 
             return true;
         }
 
         private async void ButtonSubmit_Click(object sender, RoutedEventArgs e)
         {
-            DialogResult = await ((RubroCreationViewModel)DataContext).Submit();
+            var result = await ViewModel.Submit();
 
-            if (DialogResult.HasValue && DialogResult.Value)
+            if (result)
             {
+                DialogResult = true;
+
                 Close();
             }
         }
@@ -46,6 +45,7 @@ namespace GeoUsersUI.Windows
         private void ButtonDismiss_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = false;
+
             Close();
         }
     }

@@ -1,0 +1,46 @@
+﻿<UserControl x:Class="GeoUsersUI.UserControls.FormButtonBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GeoUsersUI.UserControls"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             mc:Ignorable="d" 
+             Height="30"
+             Width="Auto">
+    <StackPanel Orientation="Horizontal"
+                HorizontalAlignment="Right">
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    Visibility="{Binding Path=Loading,
+                                         Converter={StaticResource BooleanToVisibilityConverter}}">
+            <fa:FontAwesome x:Name="OperationLoading"
+                            Style="{StaticResource BaseLoading}"
+                            FontSize="26"
+                            Width="30"
+                            Foreground="White"
+                            Height="30"
+                            Grid.Row="1"/>
+            <TextBlock Text="Guardando..."
+                   Margin="5 0 10 0"
+                   VerticalAlignment="Center"
+                   FontWeight="Bold"
+                   Foreground="White"/>
+        </StackPanel>
+        <Button Name="SubmitButton"
+                Style="{StaticResource SaveButton}"
+                IsEnabled="{Binding Path=Loading,
+                                    Converter={StaticResource InvertBooleanConverter}}"
+                Visibility="{Binding AllowOperations,
+                                     Converter={StaticResource BooleanToVisibilityConverter}}"
+                Margin="0 0 10 0"
+                Click="SubmitButton_Click">
+        </Button>
+        <Button Name="CancelButton"
+                Style="{StaticResource CancelButton}"
+                IsEnabled="{Binding Path=Loading,
+                                    Converter={StaticResource InvertBooleanConverter}}"
+                Click="CancelButton_Click">
+        </Button>
+    </StackPanel>
+</UserControl>

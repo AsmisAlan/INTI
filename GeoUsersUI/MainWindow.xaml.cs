@@ -9,6 +9,10 @@ using GeoUsersUI.GoogleMaps;
 using System.Collections.ObjectModel;
 using GeoUsersUI.Windows;
 using GeoUsersUI.Models.ViewModels.UserControls;
+using CefSharp;
+using GeoUsersUI.UserControls;
+using System;
+using System.Linq;
 
 namespace GeoUsersUI
 {
@@ -17,139 +21,199 @@ namespace GeoUsersUI
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainViewModel CastedDataContext { get; set; }
+        public MainViewModel ViewModel { get; set; }
 
         public MainWindow()
         {
             InitializeComponent();
 
-            DataContext = CastedDataContext = App.Container.Resolve<MainViewModel>();
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
-            DataGrid.ItemsSource = new ObservableCollection<OrganizacionHeader>();
+            Browser.FrameLoadEnd += Browser_FrameLoadEnd;
+
+            DataContext = ViewModel = App.Container.Resolve<MainViewModel>();
 
             var loadingFinished = Initialize();
         }
 
-        public async Task<bool> Initialize()
+        private async Task<bool> Initialize()
         {
             InitializeMainMenu();
 
-            var organizacions = await CastedDataContext.InitializationTask;
+            await ViewModel.InitializationTask;
 
-            DataGrid.ItemsSource = CastedDataContext.Organizaciones;
+            ViewModel.LoadingTable = false;
 
-            var url = await GetMapUrl(organizacions);
+            var url = await GetMapUrl(ViewModel.Organizaciones);
 
-            Browser.NavigateToString(url);
+            UpdateMapUrl(url);
 
             return true;
+        }
+
+        private void UpdateMapUrl(string url)
+        {
+            Browser.LoadHtml(url, "http://www.geousers.com.ar");
         }
 
         private void InitializeMainMenu()
         {
-            var newOrganizacionButton = new MenuButton()
+            var listOrganizacionButton = new MenuButton()
             {
-                Name = "Nuevo",
-                OnButtonClickAction = () => { return OpenOrganizacionCreationForm(); }
+                Name = "Listado",
+                ButtonVisibility = Visibility.Collapsed
             };
 
-            var editOrganizacionButton = new MenuButton()
-            {
-                Name = "Editar",
-                OnButtonClickAction = () => { return OpenOrganizacionCreationForm(); }
-            };
-
-            var deleteOrganizacionButton = new MenuButton()
-            {
-                Name = "Eliminar",
-                OnButtonClickAction = () => { return OpenOrganizacionCreationForm(); }
-            };
+            listOrganizacionButton.ButtonClick += OpenOrganizacionList;
 
             var organizacionButtons = new ObservableCollection<MenuButton>();
 
-            organizacionButtons.Add(newOrganizacionButton);
-            organizacionButtons.Add(editOrganizacionButton);
-            organizacionButtons.Add(deleteOrganizacionButton);
+            organizacionButtons.Add(listOrganizacionButton);
 
             var rubroButtons = new ObservableCollection<MenuButton>();
 
-            rubroButtons.Add(MenuButton.Copy(newOrganizacionButton, () => { return OpenRubroCreationForm(); }));
-            rubroButtons.Add(MenuButton.Copy(editOrganizacionButton, () => { return OpenRubroCreationForm(); }));
-            rubroButtons.Add(MenuButton.Copy(deleteOrganizacionButton, () => { return OpenRubroDeletionForm(); }));
+            var listRubroButton = MenuButton.Copy(listOrganizacionButton);
+
+            listRubroButton.ButtonClick += OpenRubroList;
+
+            rubroButtons.Add(listRubroButton);
 
             var sectorButtons = new ObservableCollection<MenuButton>();
 
-            sectorButtons.Add(MenuButton.Copy(newOrganizacionButton, () => { return OpenSectorCreationForm(); }));
-            sectorButtons.Add(MenuButton.Copy(editOrganizacionButton, () => { return OpenSectorCreationForm(); }));
-            sectorButtons.Add(MenuButton.Copy(deleteOrganizacionButton, () => { return OpenSectorDeletionForm(); }));
+            var listSectorButton = MenuButton.Copy(listOrganizacionButton);
+
+            listSectorButton.ButtonClick += OpenSectorList;
+
+            sectorButtons.Add(listSectorButton);
 
             var tipoOrganizacionButtons = new ObservableCollection<MenuButton>();
 
-            tipoOrganizacionButtons.Add(MenuButton.Copy(newOrganizacionButton, () => { return OpenTipoOrganizacionCreationForm(); }));
-            tipoOrganizacionButtons.Add(MenuButton.Copy(editOrganizacionButton, () => { return OpenOrganizacionCreationForm(); }));
-            tipoOrganizacionButtons.Add(MenuButton.Copy(deleteOrganizacionButton, () => { return OpenOrganizacionDeletionForm(); }));
+            var listTipoOrganizacionButton = MenuButton.Copy(listOrganizacionButton);
+
+            listTipoOrganizacionButton.ButtonClick += OpenTipoOrganizacionList;
+
+            tipoOrganizacionButtons.Add(listTipoOrganizacionButton);
 
             var localidadButtons = new ObservableCollection<MenuButton>();
 
-            localidadButtons.Add(MenuButton.Copy(newOrganizacionButton, () => { return OpenLocalidadCreationForm(); }));
-            localidadButtons.Add(MenuButton.Copy(editOrganizacionButton, () => { return OpenLocalidadCreationForm(); }));
-            localidadButtons.Add(MenuButton.Copy(deleteOrganizacionButton, () => { return OpenLocalidadDeletionForm(); }));
+            var localidadListButton = MenuButton.Copy(listOrganizacionButton);
 
-            OrganizacionMenu.HeaderName = "Organizaciones";
-            OrganizacionMenu.Buttons = organizacionButtons;
-            OrganizacionMenu.ToggleButtonsVisibility();
+            localidadListButton.ButtonClick += OpenLocalidadList;
 
-            RubroMenu.HeaderName = "Rubros";
-            RubroMenu.Buttons = rubroButtons;
-            RubroMenu.ToggleButtonsVisibility();
+            localidadButtons.Add(localidadListButton);
 
-            SectorMenu.HeaderName = "Sectores";
-            SectorMenu.Buttons = sectorButtons;
-            SectorMenu.ToggleButtonsVisibility();
+            if (App.IsUserAuthenticated)
+            {
+                var newOrganizacionButton = new MenuButton()
+                {
+                    Name = "Nuevo",
+                    ButtonVisibility = Visibility.Collapsed
+                };
 
-            TipoOrganizacionMenu.HeaderName = "Tipo Organizaciones";
-            TipoOrganizacionMenu.Buttons = tipoOrganizacionButtons;
-            TipoOrganizacionMenu.ToggleButtonsVisibility();
+                newOrganizacionButton.ButtonClick += NewOrganizacionButton_ButtonClick;
 
-            LocalidadMenu.HeaderName = "Localidades";
-            LocalidadMenu.Buttons = localidadButtons;
-            LocalidadMenu.ToggleButtonsVisibility();
+                organizacionButtons.Add(newOrganizacionButton);
+
+                var newRubroButton = MenuButton.Copy(newOrganizacionButton);
+
+                newRubroButton.ButtonClick += NewRubroButton_ButtonClick;
+
+                rubroButtons.Add(newRubroButton);
+
+                var newSectorButton = MenuButton.Copy(newOrganizacionButton);
+
+                newSectorButton.ButtonClick += NewSectorButton_ButtonClick;
+
+                sectorButtons.Add(newSectorButton);
+
+                var newTipoOrganizacionButton = MenuButton.Copy(newOrganizacionButton);
+
+                newTipoOrganizacionButton.ButtonClick += NewTipoOrganizacionButton_ButtonClick;
+
+                tipoOrganizacionButtons.Add(newTipoOrganizacionButton);
+
+                var newLocalidadButton = MenuButton.Copy(newOrganizacionButton);
+
+                newLocalidadButton.ButtonClick += NewLocalidadButton_ButtonClick;
+
+                localidadButtons.Add(newLocalidadButton);
+            }
+
+            ViewModel.OrganizacionMenuContainer = new MenuContainer()
+            {
+                Buttons = organizacionButtons,
+                HeaderName = "Organizaciones",
+                IsMenuOpened = false
+            };
+
+            ViewModel.RubroMenuContainer = new MenuContainer()
+            {
+                Buttons = rubroButtons,
+                HeaderName = "Rubros",
+                IsMenuOpened = false
+            };
+
+            ViewModel.SectorMenuContainer = new MenuContainer()
+            {
+                Buttons = sectorButtons,
+                HeaderName = "Sectores",
+                IsMenuOpened = false
+            };
+
+            ViewModel.TipoOrganizacionMenuContainer = new MenuContainer()
+            {
+                Buttons = tipoOrganizacionButtons,
+                HeaderName = "Tipo Organizaciones",
+                IsMenuOpened = false
+            };
+
+            ViewModel.LocalidadMenuContainer = new MenuContainer()
+            {
+                Buttons = localidadButtons,
+                HeaderName = "Localidades",
+                IsMenuOpened = false
+            };
         }
 
-        public async Task<string> GetMapUrl(IEnumerable<OrganizacionHeader> organizacions)
+        private async Task<string> GetMapUrl(IEnumerable<OrganizacionHeaderData> organizaciones)
         {
             return await Task.Run(() =>
             {
-                var mapManager = new MapManager();
+                var mapManager = new GoogleMapsManager();
 
-                foreach (var organizacion in (organizacions))
-                {
-                    mapManager.addDireccion($"{organizacion.Direccion} {organizacion.Localidad}", organizacion.Nombre);
-                }
-
-                return mapManager.getHtmlString();
+                return mapManager.GetHtmlString(organizaciones.ToList());
             });
         }
 
-        private async void UpdateMap(OrganizacionHeader organizacion)
+        private async Task<bool> UpdateMap()
         {
-            CastedDataContext.Organizaciones.Add(organizacion);
+            var url = await GetMapUrl(ViewModel.Organizaciones);
 
-            var url = await GetMapUrl(CastedDataContext.Organizaciones);
+            UpdateMapUrl(url);
 
-            Browser.NavigateToString(url);
+            return true;
         }
 
-        private bool OpenOrganizacionCreationForm(int? organizacionId = null)
+        private async Task<bool> UpdateUI()
         {
-            var form = new OrganizacionCreationEditionForm();
+            ViewModel.LoadingMap = true;
+            ViewModel.LoadingTable = true;
+
+            await ViewModel.UpdateOrganizacionHeaders();
+
+            ViewModel.LoadingTable = false;
+
+            return await UpdateMap();
+        }
+
+        private async void OpenOrganizacionCreationForm(int? organizacionId = null)
+        {
+            var form = new OrganizacionCreationEditionForm(organizacionId);
 
             if (form.ShowDialog().Value)
             {
-                UpdateMap(form.GetResult());
+                await UpdateUI();
             }
-
-            return true;
         }
 
         private bool OpenRubroCreationForm(int? rubroId = null)
@@ -188,51 +252,134 @@ namespace GeoUsersUI
             return true;
         }
 
-        private bool OpenOrganizacionDeletionForm(int? organizacionId = null)
+        private void NewLocalidadButton_ButtonClick(object sender, EventArgs e)
         {
-
-            //if (form.ShowDialog().Value)
-            //{
-            //    UpdateMap(form.GetResult());
-            //}
-
-            return true;
+            OpenLocalidadCreationForm();
         }
 
-        private bool OpenRubroDeletionForm(int? rubroId = null)
+        private void NewTipoOrganizacionButton_ButtonClick(object sender, EventArgs e)
         {
-            var form = new RubroCreationEditionForm();
+            OpenTipoOrganizacionCreationForm();
+        }
+
+        private void NewSectorButton_ButtonClick(object sender, EventArgs e)
+        {
+            OpenSectorCreationForm();
+        }
+
+        private void NewRubroButton_ButtonClick(object sender, EventArgs e)
+        {
+            OpenRubroCreationForm();
+        }
+
+        private void NewOrganizacionButton_ButtonClick(object sender, System.EventArgs e)
+        {
+            OpenOrganizacionCreationForm();
+        }
+
+        private void OpenOrganizacionList(object sender, EventArgs e)
+        {
+            var form = new OrganizacionList();
 
             form.ShowDialog();
-
-            return true;
         }
 
-        private bool OpenTipoOrganizacionDeletionForm(int? organizacionId = null)
+        private void OpenRubroList(object sender, EventArgs e)
         {
-            //var form = new TipoOrganizacionCreationEditionForm();
-
-            //form.ShowDialog();
-
-            return true;
-        }
-
-        private bool OpenSectorDeletionForm(int? sectorId = null)
-        {
-            var form = new SectorCreationEditionForm();
+            var form = new RubroList();
 
             form.ShowDialog();
-
-            return true;
         }
 
-        private bool OpenLocalidadDeletionForm(int? localidadId = null)
+        private void OpenSectorList(object sender, EventArgs e)
         {
-            var form = new LocalidadCreationEditionForm();
+            var form = new SectorList();
 
             form.ShowDialog();
+        }
 
-            return true;
+        private void OpenTipoOrganizacionList(object sender, EventArgs e)
+        {
+            var form = new TipoOrganizacionList();
+
+            form.ShowDialog();
+        }
+
+        private void OpenLocalidadList(object sender, EventArgs e)
+        {
+            var form = new LocalidadList();
+
+            form.ShowDialog();
+        }
+
+        private async void SectorFilterButton_Click(object sender, RoutedEventArgs e)
+        {
+            var update = ViewModel.ApplySectorFilter();
+
+            if (update.HasValue && update.Value)
+            {
+                await UpdateUI();
+            }
+        }
+
+        private async void RubroFilterButton_Click(object sender, RoutedEventArgs e)
+        {
+            var update = ViewModel.ApplyRubroFilter();
+
+            if (update.HasValue && update.Value)
+            {
+                await UpdateUI();
+            }
+        }
+
+        private async void TipoOrganizacionFilterButton_Click(object sender, RoutedEventArgs e)
+        {
+            var update = ViewModel.ApplyTipoOrganizacionFilter();
+
+            if (update.HasValue && update.Value)
+            {
+                await UpdateUI();
+            }
+        }
+
+        private async void LocalidadFilterButton_Click(object sender, RoutedEventArgs e)
+        {
+            var update = ViewModel.ApplyLocalidadFilter();
+
+            if (update.HasValue && update.Value)
+            {
+                await UpdateUI();
+            }
+        }
+
+        private async void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ViewModel.InitializationTask != null && ViewModel.InitializationTask.IsCompleted)
+            {
+                await UpdateUI();
+            }
+        }
+
+        private void DataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (DataGrid.SelectedItem == null)
+            {
+                return;
+            }
+
+            var organizacion = (OrganizacionHeaderData)DataGrid.SelectedItem;
+
+            OpenOrganizacionCreationForm(organizacion.Id);
+        }
+
+        private void SearchBar_OnSearchTermChanged(object sender, RoutedEventArgs e)
+        {
+            ViewModel.FilterOrganizaciones(((OnSearchTermChangedEventArgs)e).SearchTerm);
+        }
+
+        private void Browser_FrameLoadEnd(object sender, FrameLoadEndEventArgs e)
+        {
+            ViewModel.LoadingMap = false;
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using GeoUsers.Services.Model.DataTransfer;
 using GeoUsers.Services.Model.Entities;
+using GeoUsers.Services.SQLExceptions;
+using GeoUsers.Services.Utils;
 using NHibernate;
 using System;
 using System.Collections.Generic;
@@ -11,33 +13,62 @@ namespace GeoUsers.Services.Logics
     public class TipoOrganizacionLogic : BaseLogic
     {
         public TipoOrganizacionLogic(IMapper autoMapper,
-                                 ISessionFactory sessionFactory) : base(autoMapper, sessionFactory)
+                                     ISessionFactory sessionFactory) : base(autoMapper, sessionFactory)
         { }
 
-        public TipoOrganizacion GetOrganizacion(int organizacionId)
+        public TipoOrganizacion Get(int tipoOrganizacionId)
         {
-            return Session.Get<TipoOrganizacion>(organizacionId);
+            return Session.Get<TipoOrganizacion>(tipoOrganizacionId);
         }
 
-        public IEnumerable<TipoOrganizacion> GetAll()
+        public IEnumerable<TipoOrganizacionHeaderData> GetAll()
         {
-            return Session.QueryOver<TipoOrganizacion>()
-                          .List()
-                          .OrderBy(x => x.Tipo);
+            var tipoOrganizaciones = GetTipoOrganizaciones();
+
+            return Mapper.Map<IEnumerable<TipoOrganizacionHeaderData>>(tipoOrganizaciones);
         }
 
-        public IEnumerable<IdAndValue> GetForSelection(/*ICollection<int> currentIds*/)
+        public TipoOrganizacionEditionData GetForEdition(int tipoOrganizacionId)
         {
-            var organizaciones = Session.QueryOver<TipoOrganizacion>()
-                          //.WhereRestrictionOn(x => x.Id)
-                          //.Not.IsIn(currentIds.ToArray())
-                          .List()
-                          .OrderBy(x => x.Tipo);
+            var tipoOrganizacion = Get(tipoOrganizacionId);
 
-            return Mapper.Map<IEnumerable<IdAndValue>>(organizaciones);
+            return Mapper.Map<TipoOrganizacionEditionData>(tipoOrganizacion);
         }
 
-        public bool Create(TipoOrganizacionCreationData organizacionData)
+        public IEnumerable<IdAndValue> GetByIds(ICollection<int> tipoOrganizacionIds)
+        {
+            var tipoOrganizacion = Session.QueryOver<TipoOrganizacion>()
+                                          .WhereRestrictionOn(x => x.Id)
+                                          .IsIn(tipoOrganizacionIds.ToArray())
+                                          .OrderBy(x => x.Tipo).Asc
+                                          .List();
+
+            return Mapper.Map<IEnumerable<IdAndValue>>(tipoOrganizacion);
+        }
+
+        public IEnumerable<IdAndValue> GetForSelection()
+        {
+            var tipoOrganizaciones = Session.QueryOver<TipoOrganizacion>()
+                                            .OrderBy(x => x.Tipo)
+                                            .Asc
+                                            .List();
+
+            return Mapper.Map<IEnumerable<IdAndValue>>(tipoOrganizaciones);
+        }
+
+        public void ExportToExcel(string filePath)
+        {
+            var tipoOrganizaciones = GetTipoOrganizaciones();
+
+            ExcelUtils.ExportTipoOrganizacionesTable(tipoOrganizaciones, filePath);
+        }
+
+        public bool Save(TipoOrganizacionEditionData organizacionData)
+        {
+            return organizacionData.Id.HasValue ? Edit(organizacionData) : Create(organizacionData);
+        }
+
+        public bool Create(TipoOrganizacionEditionData organizacionData)
         {
             var organizacion = new TipoOrganizacion()
             {
@@ -51,13 +82,13 @@ namespace GeoUsers.Services.Logics
             return true;
         }
 
-        public bool Edit(int organizacionId, string tipo)
+        public bool Edit(TipoOrganizacionEditionData tipoOrganizacionData)
         {
-            var organizacion = Session.Get<TipoOrganizacion>(organizacionId);
+            var organizacion = Session.Get<TipoOrganizacion>(tipoOrganizacionData.Id);
 
-            organizacion.Tipo = tipo;
+            if (organizacion == null) throw new Exception("Tipo de organizacion Invalida");
 
-            if (organizacion == null) throw new Exception("Organizacion Invalida");
+            organizacion.Tipo = tipoOrganizacionData.Tipo;
 
             Session.Save(organizacion);
 
@@ -66,15 +97,32 @@ namespace GeoUsers.Services.Logics
             return true;
         }
 
-        public bool Delete(int organizacionId)
+        public bool Delete(int tipoOrganizacionId)
         {
-            var organizacion = Session.Get<Sector>(organizacionId);
+            var tipoOrganizacion = Session.Get<TipoOrganizacion>(tipoOrganizacionId);
 
-            if (organizacion == null) throw new Exception("Organizacion Invalida");
+            if (tipoOrganizacion == null) throw new Exception("Tipo de organizacion invalida");
 
-            Session.Delete(organizacion);
+            try
+            {
+                Session.Delete(tipoOrganizacion);
+            }
+            catch (ConstraintViolationException)
+            {
+                throw new Exception("El tipo de organización que se desesa eliminar está siendo utilizado.");
+            }
 
             return true;
+        }
+
+        private IEnumerable<TipoOrganizacion> GetTipoOrganizaciones()
+        {
+            var tipoOrganizaciones = Session.QueryOver<TipoOrganizacion>()
+                                            .OrderBy(x => x.Tipo)
+                                            .Asc
+                                            .List();
+
+            return tipoOrganizaciones;
         }
     }
 }

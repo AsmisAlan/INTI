@@ -1,21 +1,39 @@
 ﻿namespace GeoUsers.Services.Model.DataTransfer
 {
-    public class RubroEditionData : RubroCreationData
+    public class RubroEditionData : BaseNotifierEntity
     {
-        private int id { get; set; }
+        protected string nombre { get; set; }
 
-        public int Id
+        protected int? sectorId { get; set; }
+
+        public string Nombre
         {
             get
             {
-                return id;
+                return nombre;
             }
             set
             {
-                id = value;
+                nombre = value;
 
-                OnPropertyChanged(nameof(Id));
+                OnPropertyChanged(nameof(Nombre));
             }
         }
+
+        public int? SectorId
+        {
+            get
+            {
+                return sectorId;
+            }
+            set
+            {
+                sectorId = value;
+
+                OnPropertyChanged(nameof(SectorId));
+            }
+        }
+
+        public int? Id { get; set; }
     }
 }

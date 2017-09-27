@@ -18,23 +18,19 @@
             </Grid.ColumnDefinitions>
 
             <Button Name="ButtonHeader" 
-                Content="{Binding Path=HeaderName}"
-                Style="{StaticResource MenuHeaderButton}"
-                Click="ButtonHeader_Click">
+                    Content="{Binding Path=HeaderName}"
+                    Style="{StaticResource MenuHeaderButton}"
+                    Click="ButtonHeader_Click">
             </Button>
 
             <ItemsControl ItemsSource="{Binding Path=Buttons}"
-                      VerticalAlignment="Top"
-                      HorizontalAlignment="Stretch"
-                      Grid.Row="1">
+                          VerticalAlignment="Top"
+                          HorizontalAlignment="Stretch"
+                          Grid.Row="1">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Button Content="{Binding Name}"
-                                Background="DeepSkyBlue"
-                                Opacity="0.9"
-                                Height="30"
-                                FontWeight="Bold"
-                                FontFamily="Arial"
+                                Style="{StaticResource MenuOptionButton}"
                                 Visibility="{Binding ButtonVisibility}"
                                 Click="Button_Click">
                         </Button>

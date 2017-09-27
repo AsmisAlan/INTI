@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
 using GeoUsers.Services.Model.DataTransfer;
 using GeoUsers.Services.Model.Entities;
+using GeoUsers.Services.Model.Enums;
+using GeoUsers.Services.SQLExceptions;
+using GeoUsers.Services.Utils;
 using NHibernate;
 using System;
 using System.Collections.Generic;
@@ -25,136 +28,243 @@ namespace GeoUsers.Services.Logics
             this.tipoOrganizacionLogic = organizacionLogic;
         }
 
-        public Organizacion GetOrganizacion(int organizacionId)
+        public OrganizacionEditionData GetForEdition(int organizacionId)
         {
-            return Session.Get<Organizacion>(organizacionId);
+            var organizacion = Session.QueryOver<Organizacion>()
+                                      .Where(x => x.Id == organizacionId)
+                                      .Fetch(x => x.Localidad)
+                                      .Eager
+                                      .Fetch(x => x.TipoOrganizacion)
+                                      .Eager
+                                      .Fetch(x => x.Rubro)
+                                      .Eager
+                                      .Fetch(x => x.Rubro.Sector)
+                                      .Eager
+                                      .Fetch(x => x.Rubro.Sector.Icono)
+                                      .Eager
+                                      .List()
+                                      .FirstOrDefault();
+
+            var data = Mapper.Map<OrganizacionEditionData>(organizacion);
+
+            return data;
         }
 
-        public IEnumerable<Organizacion> GetAll()
-        {
-            return Session.QueryOver<Organizacion>()
-                          .List()
-                          .OrderBy(x => x.Nombre);
-        }
-
-        public IEnumerable<IdAndValue> GetForSelection(/*ICollection<int> currentIds*/)
+        public IEnumerable<OrganizacionData> GetAll()
         {
             var organizaciones = Session.QueryOver<Organizacion>()
-                                        //.WhereRestrictionOn(x => x.Id)
-                                        //.Not.IsIn(currentIds.ToArray())
+                                        .OrderBy(x => x.Nombre)
+                                        .Asc
+                                        .List();
+
+            return Mapper.Map<IEnumerable<OrganizacionData>>(organizaciones);
+        }
+
+        public IEnumerable<IdAndValue> GetByIds(ICollection<int> organizacionIds)
+        {
+            var organizaciones = Session.QueryOver<Organizacion>()
+                                        .WhereRestrictionOn(x => x.Id)
+                                        .IsIn(organizacionIds.ToArray())
                                         .List()
                                         .OrderBy(x => x.Nombre);
 
             return Mapper.Map<IEnumerable<IdAndValue>>(organizaciones);
         }
 
-        public IEnumerable<OrganizacionHeader> GetOrganizacionHeaders(/*ICollection<int> organizacionIds*/)
+        public IEnumerable<IdAndValue> GetForSelection(ICollection<int> organizacionIds = null)
         {
-            var organizaciones = Session.QueryOver<Organizacion>()
-                                        //.WhereRestrictionOn(x => x.Id)
-                                        //.IsIn(organizacionIds.ToArray())
-                                        .List()
-                                        .OrderBy(x => x.Nombre);
+            var organizacionesQuery = Session.QueryOver<Organizacion>();
 
-            return Mapper.Map<IEnumerable<OrganizacionHeader>>(organizaciones);
-        }
-
-        public bool Create(OrganizacionCreationData creationData)
-        {
-            var rubro = rubroLogic.GetRubro(creationData.RubroId.Value);
-
-            if (rubro == null) throw new Exception("Rubro Invalido");
-
-            var tipoOrganizacion = tipoOrganizacionLogic.GetOrganizacion(creationData.TipoOrganizacionId.Value);
-
-            if (tipoOrganizacion == null) throw new Exception("Organizacion Invalida");
-
-            var localidad = localidadLogic.GetLocalidad(creationData.LocalidadId.Value);
-
-            if (localidad == null) throw new Exception("Localidad Invalida");
-
-            var organizacion = new Organizacion()
+            if (organizacionIds != null && organizacionIds.Count > 0)
             {
-                Nombre = creationData.Nombre,
-                ContactoCargo = creationData.ContactoCargo,
-                Cuit = creationData.Cuit,
-                Direccion = creationData.Direccion,
-                Email = creationData.Email,
-                Personal = creationData.Personal.Value,
-                Telefono = creationData.Telefono,
-                Web = creationData.Web,
-                UsuarioInti = creationData.UsuarioInti,
-                Localidad = localidad,
-                TipoOrganizacion = tipoOrganizacion,
-                Rubro = rubro
-            };
+                organizacionesQuery.WhereRestrictionOn(x => x.Id)
+                                   .Not.IsIn(organizacionIds.ToArray());
+            }
 
-            Session.Save(tipoOrganizacion);
+            var organizaciones = organizacionesQuery.List()
+                                                    .OrderBy(x => x.Nombre);
 
-            Session.Transaction.Commit();
-
-            return true;
+            return Mapper.Map<IEnumerable<IdAndValue>>(organizaciones);
         }
 
-        public bool Edit(int organizacionId,
-                         string nombre,
-                         string direccion,
-                         string telefono,
-                         string email,
-                         string web,
-                         string contactoCargo,
-                         bool organizacionGeoUsersServices,
-                         int personal,
-                         long? cuit,
-                         int rubroId,
-                         int tipoOrganizacionId,
-                         int localidadId)
+        public IEnumerable<OrganizacionHeaderData> GetHeadersByFilter(FilterData filter)
         {
-            var organizacion = Session.Get<Organizacion>(organizacionId);
+            var query = GetOrganizacionesQueryByFilter(filter);
 
-            if (organizacion == null) throw new Exception("Organizacion Invalido");
+            var organizaciones = query.Fetch(x => x.Rubro.Sector).Eager
+                                      .Fetch(x => x.Rubro.Sector.Icono).Eager
+                                      .List();
 
-            var rubro = rubroLogic.GetRubro(rubroId);
+            return Mapper.Map<IEnumerable<OrganizacionHeaderData>>(organizaciones);
+        }
+
+        public IEnumerable<OrganizacionData> GetOrganizacionesByFilter(FilterData filter)
+        {
+            var organizaciones = GetByFilter(filter);
+
+            return Mapper.Map<IEnumerable<OrganizacionData>>(organizaciones);
+        }
+
+        public void ExportDataTable(FilterData filter, string filePath)
+        {
+            var organizaciones = GetByFilter(filter);
+
+            ExcelUtils.ExportOrganizacionesTable(organizaciones, filePath);
+        }
+
+        public int Create(OrganizacionEditionData creationData)
+        {
+            return Edit(creationData);
+        }
+
+        public int Edit(OrganizacionEditionData organizacionData)
+        {
+            Organizacion organizacion;
+
+            if (organizacionData.Id.HasValue)
+            {
+                organizacion = Session.Get<Organizacion>(organizacionData.Id);
+
+                if (organizacion == null) throw new Exception("Organizacion Invalido");
+            }
+            else
+            {
+                organizacion = new Organizacion();
+            }
+
+            var rubro = rubroLogic.GetRubro(organizacionData.RubroId.Value);
 
             if (rubro == null) throw new Exception("Rubro Invalido");
 
-            var tipoOrganizacion = tipoOrganizacionLogic.GetOrganizacion(tipoOrganizacionId);
+            var tipoOrganizacion = tipoOrganizacionLogic.Get(organizacionData.TipoOrganizacionId.Value);
 
             if (tipoOrganizacion == null) throw new Exception("Tipo de Organizacion Invalida");
 
-            var localidad = localidadLogic.GetLocalidad(localidadId);
+            var localidad = localidadLogic.Get(organizacionData.LocalidadId.Value);
 
             if (localidad == null) throw new Exception("Localidad Invalida");
 
-            organizacion.ContactoCargo = contactoCargo;
-            organizacion.Cuit = cuit;
-            organizacion.Direccion = direccion;
-            organizacion.Email = email;
+            if (!organizacionData.AutoDetectCoordinates &&
+                string.IsNullOrEmpty(organizacionData.Latitud) &&
+                string.IsNullOrEmpty(organizacionData.Longitud))
+            {
+                throw new Exception("Debe especificar latitud y longitud.");
+            }
+
+            organizacion.ContactoCargo = organizacionData.ContactoCargo;
+            organizacion.Cuit = organizacionData.Cuit;
+            organizacion.Direccion = organizacionData.Direccion;
+            organizacion.Email = organizacionData.Email;
             organizacion.Localidad = localidad;
-            organizacion.Nombre = nombre;
+            organizacion.Nombre = organizacionData.Nombre;
             organizacion.TipoOrganizacion = tipoOrganizacion;
-            organizacion.Personal = personal;
+            organizacion.Personal = organizacionData.Personal;
             organizacion.Rubro = rubro;
-            organizacion.Telefono = telefono;
-            organizacion.UsuarioInti = organizacionGeoUsersServices;
-            organizacion.Web = web;
+            organizacion.Telefono = organizacionData.Telefono;
+            organizacion.UsuarioInti = organizacionData.UsuarioInti;
+            organizacion.Web = organizacionData.Web;
 
-            Session.Save(organizacion);
+            if (organizacionData.AutoDetectCoordinates)
+            {
+                var address = $"{organizacion.Direccion} {organizacion.Localidad.Nombre}";
 
-            Session.Transaction.Commit();
+                var coordinates = WebUtils.GetCoordinates(address);
 
-            return true;
+                organizacion.Latitud = coordinates.lat;
+                organizacion.Longitud = coordinates.lng;
+            }
+            else
+            {
+
+                if (string.IsNullOrEmpty(organizacionData.Latitud))
+                {
+                    throw new Exception("El campo latitud no puede estar vacío.");
+                }
+
+                if (string.IsNullOrEmpty(organizacionData.Longitud))
+                {
+                    throw new Exception("El campo longitud no puede estar vacío.");
+                }
+
+                organizacion.Latitud = organizacionData.Latitud;
+                organizacion.Longitud = organizacionData.Longitud;
+            }
+
+            try
+            {
+                Session.Save(organizacion);
+
+                Session.Transaction.Commit();
+            }
+            catch (UniqueConstraintViolationException)
+            {
+                throw new Exception($"El cuit {organizacion.Cuit} ya fue registrado en otra organización");
+            }
+
+            return organizacion.Id;
         }
 
         public bool Delete(int organizacionId)
         {
-            var organizacion = Session.Get<TipoOrganizacion>(organizacionId);
+            var organizacion = Session.Get<Organizacion>(organizacionId);
 
             if (organizacion == null) throw new Exception("Organizacion Invalido");
 
             Session.Delete(organizacion);
 
             return true;
+        }
+
+        private IEnumerable<Organizacion> GetByFilter(FilterData filter)
+        {
+            return GetOrganizacionesQueryByFilter(filter).List();
+        }
+
+        private IQueryOver<Organizacion, Organizacion> GetOrganizacionesQueryByFilter(FilterData filter)
+        {
+            var organizacionesQuery = Session.QueryOver<Organizacion>();
+
+            if (((UsuarioIntiStatus)filter.UsuarioInti) == UsuarioIntiStatus.NoUsuarioInti)
+            {
+                organizacionesQuery.WhereNot(x => x.UsuarioInti);
+            }
+            else if (((UsuarioIntiStatus)filter.UsuarioInti) == UsuarioIntiStatus.UsuarioInti)
+            {
+                organizacionesQuery.Where(x => x.UsuarioInti);
+            }
+
+            if (filter.LocalidadIds != null && filter.LocalidadIds.Count > 0)
+            {
+                organizacionesQuery.WhereRestrictionOn(x => x.Localidad.Id)
+                                   .IsIn(filter.LocalidadIds.ToArray());
+            }
+
+            if (filter.SectorIds != null && filter.SectorIds.Count > 0)
+            {
+                Rubro rubroAlias = null;
+
+                organizacionesQuery.JoinAlias(x => x.Rubro, () => rubroAlias)
+                                   .WhereRestrictionOn(() => rubroAlias.Sector.Id)
+                                   .IsIn(filter.SectorIds.ToArray());
+            }
+
+            if (filter.RubroIds != null && filter.RubroIds.Count > 0)
+            {
+                organizacionesQuery.WhereRestrictionOn(x => x.Rubro.Id)
+                                   .IsIn(filter.RubroIds.ToArray());
+            }
+
+            if (filter.TipoOrganizacionIds != null && filter.TipoOrganizacionIds.Count > 0)
+            {
+                organizacionesQuery.WhereRestrictionOn(x => x.TipoOrganizacion.Id)
+                                   .IsIn(filter.TipoOrganizacionIds.ToArray());
+            }
+
+            return organizacionesQuery.Fetch(x => x.Localidad).Eager
+                                      .Fetch(x => x.TipoOrganizacion).Eager
+                                      .Fetch(x => x.Rubro).Eager
+                                      .OrderBy(x => x.Nombre)
+                                      .Asc;
         }
     }
 }

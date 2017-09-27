@@ -4,135 +4,212 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GeoUsersUI"
-        xmlns:UserControls="clr-namespace:GeoUsersUI.UserControls" xmlns:ViewModels="clr-namespace:GeoUsersUI.Models.ViewModels" x:Class="GeoUsersUI.MainWindow"
+        xmlns:UserControls="clr-namespace:GeoUsersUI.UserControls" 
+        xmlns:ViewModels="clr-namespace:GeoUsersUI.Models.ViewModels" 
+        xmlns:cefSharp="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"  
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
+        x:Class="GeoUsersUI.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" MinWidth="900">
+        Title="SGU" MinHeight="600" MinWidth="950"
+        Background="{StaticResource MainWindowBorderBrush}">
     <Grid Margin="10,10,10,10"
           Name="Container">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="230"/>
             <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
         <Grid Name="MenuGrid"
               Margin="0 0 5 0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="260"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="220"/>
             </Grid.ColumnDefinitions>
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <WrapPanel Orientation="Vertical"
-                       HorizontalAlignment="Stretch"
-                       Grid.Column="0">
+                           HorizontalAlignment="Stretch"
+                           Grid.Column="0">
                     <UserControls:CollapsibleMenu 
-                Grid.Row="0"
-                x:Name="OrganizacionMenu"
-                Buttons="{Binding MainMenu.OrganizacionMenu.Buttons}"
-                HeaderName="{Binding MainMenu.OrganizacionMenu.HeaderName}"
-                HorizontalAlignment="Stretch">
+                        Grid.Row="0"
+                        x:Name="OrganizacionMenu"
+                        Buttons="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                         AncestorType={x:Type Window}}, 
+                                          Path=DataContext.OrganizacionMenuContainer.Buttons}"
+                        HeaderName="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                            AncestorType={x:Type Window}}, 
+                                             Path=DataContext.OrganizacionMenuContainer.HeaderName}"
+                        IsMenuOpened="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                              AncestorType={x:Type Window}}, 
+                                               Path=DataContext.OrganizacionMenuContainer.IsMenuOpened}"
+                        HorizontalAlignment="Stretch">
                     </UserControls:CollapsibleMenu>
                     <UserControls:CollapsibleMenu 
-                Grid.Row="1"
-                x:Name="TipoOrganizacionMenu"
-                Buttons="{Binding MainMenu.TipoOrganizacionMenu.Buttons}"
-                HeaderName="{Binding MainMenu.TipoOrganizacionMenu.HeaderName}">
+                        Grid.Row="1"
+                        x:Name="TipoOrganizacionMenu"
+                        Buttons="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                         AncestorType={x:Type Window}}, 
+                                          Path=DataContext.TipoOrganizacionMenuContainer.Buttons}"
+                        HeaderName="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                            AncestorType={x:Type Window}}, 
+                                             Path=DataContext.TipoOrganizacionMenuContainer.HeaderName}"
+                        IsMenuOpened="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                              AncestorType={x:Type Window}}, 
+                                               Path=DataContext.TipoOrganizacionMenuContainer.IsMenuOpened}">
                     </UserControls:CollapsibleMenu>
                     <UserControls:CollapsibleMenu 
-                Grid.Row="2"
-                x:Name="SectorMenu"
-                Buttons="{Binding MainMenu.SectorMenu.Buttons}"
-                HeaderName="{Binding MainMenu.SectorMenu.HeaderName}">
+                        Grid.Row="2"
+                        x:Name="SectorMenu"
+                        Buttons="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                         AncestorType={x:Type Window}}, 
+                                          Path=DataContext.SectorMenuContainer.Buttons}"
+                        HeaderName="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                            AncestorType={x:Type Window}}, 
+                                             Path=DataContext.SectorMenuContainer.HeaderName}"
+                        IsMenuOpened="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                              AncestorType={x:Type Window}}, 
+                                               Path=DataContext.SectorMenuContainer.IsMenuOpened}">
                     </UserControls:CollapsibleMenu>
                     <UserControls:CollapsibleMenu 
-                Grid.Row="3"
-                x:Name="RubroMenu"
-                Buttons="{Binding MainMenu.RubroMenu.Buttons}"
-                HeaderName="{Binding MainMenu.RubroMenu.HeaderName}">
+                        Grid.Row="3"
+                        x:Name="RubroMenu"
+                        Buttons="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                         AncestorType={x:Type Window}}, 
+                                          Path=DataContext.RubroMenuContainer.Buttons}"
+                        HeaderName="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                            AncestorType={x:Type Window}}, 
+                                             Path=DataContext.RubroMenuContainer.HeaderName}"
+                        IsMenuOpened="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                              AncestorType={x:Type Window}}, 
+                                               Path=DataContext.RubroMenuContainer.IsMenuOpened}">
                     </UserControls:CollapsibleMenu>
                     <UserControls:CollapsibleMenu 
-                Grid.Row="4"
-                x:Name="LocalidadMenu"
-                Buttons="{Binding MainMenu.LocalidadMenu.Buttons}"
-                HeaderName="{Binding MainMenu.LocalidadMenu.HeaderName}">
+                        Grid.Row="4"
+                        x:Name="LocalidadMenu"
+                        Buttons="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                         AncestorType={x:Type Window}}, 
+                                          Path=DataContext.LocalidadMenuContainer.Buttons}"
+                        HeaderName="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                            AncestorType={x:Type Window}}, 
+                                             Path=DataContext.LocalidadMenuContainer.HeaderName}"
+                        IsMenuOpened="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                              AncestorType={x:Type Window}}, 
+                                               Path=DataContext.LocalidadMenuContainer.IsMenuOpened}">
                     </UserControls:CollapsibleMenu>
                 </WrapPanel>
             </ScrollViewer>
-            <ScrollViewer VerticalScrollBarVisibility="Auto"
-                          Grid.Row="1">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <Label Content="Filtrar"></Label>
-                    <Button Content="{Binding Path=OrganizacionesFilter.SectorStatus}"
-                            Style="{StaticResource MenuButton}"
-                            Grid.Row="1">
-                    </Button>
-                    <Button Content="{Binding Path=OrganizacionesFilter.RubroStatus}"
-                            Style="{StaticResource MenuButton}"
-                            Grid.Row="2">
-                    </Button>
-                    <Button Content="{Binding Path=OrganizacionesFilter.TipoOrganizacionStatus}"
-                            Style="{StaticResource MenuButton}"
-                            Grid.Row="3">
-                    </Button>
-                    <Button Content="{Binding Path=OrganizacionesFilter.LocalidadStatus}"
-                            Style="{StaticResource MenuButton}"
-                            Grid.Row="4">
-                    </Button>
-                    <CheckBox Content="Organizacion Inti"
-                              IsChecked="{Binding Path=OrganizacionesFilter.UsuarioInti}"
-                              Grid.Row="5"
-                              VerticalAlignment="Center">
-                    </CheckBox>
-                </Grid>
-            </ScrollViewer>
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Label Content="Filtrar"
+                       HorizontalAlignment="Center"
+                       FontWeight="Bold"
+                       Foreground="White"
+                       Margin="0, 10, 0, 0"
+                       FontSize="20"></Label>
+                <ComboBox  Grid.Row="1"
+                           ItemsSource="{Binding Path=UsuarioIntiStatuses}"
+                           SelectedValuePath="Id"
+                           DisplayMemberPath="Value"
+                           SelectedValue="{Binding Path=OrganizacionesFilter.Filter.UsuarioInti}"
+                           IsSynchronizedWithCurrentItem="True" SelectionChanged="ComboBox_SelectionChanged" 
+                           Height="25"
+                           Margin="0"/>
+                <Button Content="{Binding Path=OrganizacionesFilter.SectorStatus}"
+                        Style="{StaticResource MenuFilterButton}"
+                        x:Name="SectorFilterButton"
+                        Click="SectorFilterButton_Click"
+                        Grid.Row="2">
+                </Button>
+                <Button Content="{Binding Path=OrganizacionesFilter.RubroStatus}"
+                        Style="{StaticResource MenuFilterButton}"
+                        x:Name="RubroFilterButton"
+                        Click="RubroFilterButton_Click"
+                        Grid.Row="3">
+                </Button>
+                <Button Content="{Binding Path=OrganizacionesFilter.TipoOrganizacionStatus}"
+                        Style="{StaticResource MenuFilterButton}"
+                        x:Name="TipoOrganizacionFilterButton"
+                        Click="TipoOrganizacionFilterButton_Click"
+                        Grid.Row="4">
+                </Button>
+                <Button Content="{Binding Path=OrganizacionesFilter.LocalidadStatus}"
+                        Style="{StaticResource MenuFilterButton}"
+                        x:Name="LocalidadFilterButton"
+                        Click="LocalidadFilterButton_Click"
+                        Grid.Row="5">
+                </Button>
+            </Grid>
         </Grid>
         <Grid Name="MainGrid"
               Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="5*"/>
+                <RowDefinition Height="7*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <DataGrid ItemsSource="{Binding Path=Usuarios, Mode=TwoWay}"
-                      Grid.Row="0"
+            <UserControls:SearchBar x:Name="SearchBar"
+                                    VerticalAlignment="Top"
+                                    OnSearchTermChanged="SearchBar_OnSearchTermChanged"/>
+            <DataGrid ItemsSource="{Binding Path=Organizaciones}"
+                      Grid.Row="1"
                       Grid.Column="1"
-                      VerticalAlignment="Stretch"
-                      HorizontalAlignment="Stretch"
                       Name="DataGrid" 
-                      HeadersVisibility="Column"
-                      AutoGenerateColumns="False">
+                      Style="{StaticResource ListDataGrid}"
+                      Visibility="{Binding Path=LoadingTable,
+                                           Converter={StaticResource InvertBooleanToVisibilityConverter}}">
+                <DataGrid.RowStyle>
+                    <Style TargetType="{x:Type DataGridRow}">
+                        <EventSetter Event="MouseDoubleClick"
+                                     Handler="DataGrid_MouseDoubleClick" />
+                    </Style>
+                </DataGrid.RowStyle>
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Nombre"
-                                    Width="*"
-                                    Binding="{Binding Path=Nombre}">
+                                        Width="*"
+                                        Binding="{Binding Path=Nombre}">
                     </DataGridTextColumn>
-                    <DataGridTextColumn Header="Nombre"
-                                    Width="*"
-                                    Binding="{Binding Path=Direccion}">
+                    <DataGridTextColumn Header="Direccion"
+                                        Width="*"
+                                        Binding="{Binding Path=Direccion}">
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Telefono"
+                                        Width="*"
+                                        Binding="{Binding Path=Telefono}">
                     </DataGridTextColumn>
                     <DataGridTextColumn Header="Email"
-                                    Width="*"
-                                    Binding="{Binding Path=Email}">
+                                        Width="*"
+                                        Binding="{Binding Path=Email}">
                     </DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
-            <WebBrowser Name="Browser" 
-                        Grid.Row="1">
-            </WebBrowser>
+            <cefSharp:ChromiumWebBrowser x:Name="Browser"
+                                         Grid.Row="2"
+                                         Visibility="{Binding Path=LoadingMap,
+                                                              Converter={StaticResource InvertBooleanToVisibilityConverter}}"/>
+            <fa:FontAwesome x:Name="MapLoading"
+                            Style="{StaticResource LoadingTable}"
+                            Grid.Row="2"
+                            Visibility="{Binding Path=LoadingMap,
+                                                 Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <fa:FontAwesome x:Name="TableLoading"
+                            Style="{StaticResource LoadingTable}"
+                            Grid.Row="1"
+                            Visibility="{Binding Path=LoadingTable,
+                                                 Converter={StaticResource BooleanToVisibilityConverter}}"/>
         </Grid>
     </Grid>
 </Window>

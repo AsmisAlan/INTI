@@ -4,8 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GeoUsersUI.Windows"
+        xmlns:UserControls="clr-namespace:GeoUsersUI.UserControls"
         mc:Ignorable="d"
-        Title="LocalidadCreationEditionForm" Height="266.187" Width="400">
+        Title="{Binding Path=WindowTitle}" 
+        MinHeight="300" 
+        MaxHeight="350" 
+        MinWidth="420"
+        MaxWidth="600"
+        Background="{StaticResource BaseWindowBackground}" >
     <Grid Name="MainGrid"
           Style="{StaticResource ResourceKey=FormGrid}">
         <Grid.RowDefinitions>
@@ -21,42 +27,36 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="3*"/>
             </Grid.ColumnDefinitions>
-            <Label Content="Nombre :"
+            <Label Content="* Nombre :"
                    Grid.Row="0"
                    Style="{StaticResource FormLabel}"/>
             <TextBox Grid.Row="0"
                      Grid.Column="1"
+                     MaxLength="50"
+                     IsEnabled="{Binding IsReadonly, 
+                                         Converter={StaticResource InvertBooleanConverter}}"
                      x:Name="TextBoxNombre"
                      Text="{Binding Localidad.Nombre}"
                      Style="{StaticResource FormTextBox}">
             </TextBox>
-            <Label Content="Código Postal :"
+            <Label Content="* Código Postal :"
                    Grid.Row="1"
                    Style="{StaticResource FormLabel}"/>
             <TextBox Grid.Row="1"
                      Grid.Column="1"
                      x:Name="TextBoxCodigoPostal"
                      Text="{Binding Localidad.CodigoPostal}"
+                     IsEnabled="{Binding IsReadonly, 
+                                         Converter={StaticResource InvertBooleanConverter}}"
                      Style="{StaticResource NumericTextBox}">
             </TextBox>
         </Grid>
-        <Grid Grid.Row="1"
-              Margin="0,5,0,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Button Name="ButtonSubmit"
-                    Content="Aceptar"
-                    Height="30"
-                    Width="90"
-                    Click="ButtonSubmit_Click"/>
-            <Button Name="ButtonDismiss"
-                    Content="Cancelar"
-                    Grid.Column="1"
-                    Height="30"
-                    Width="90"
-                    Click="ButtonDismiss_Click"/>
-        </Grid>
+        <UserControls:FormButtonBar Grid.Row="1"
+                                    Grid.Column="1"
+                                    Loading="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                         AncestorType={x:Type Window}}, 
+                                                      Path=DataContext.Loading}"
+                                    OnCancelButtonClick="ButtonDismiss_Click"
+                                    OnSubmitButtonClick="ButtonSubmit_Click"/>
     </Grid>
 </Window>

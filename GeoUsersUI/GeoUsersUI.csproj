@@ -1,5 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\CefSharp.Wpf.55.0.0\build\CefSharp.Wpf.props" Condition="Exists('..\packages\CefSharp.Wpf.55.0.0\build\CefSharp.Wpf.props')" />
+  <Import Project="..\packages\CefSharp.Common.55.0.0\build\CefSharp.Common.props" Condition="Exists('..\packages\CefSharp.Common.55.0.0\build\CefSharp.Common.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -14,27 +16,57 @@
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>bin\x64\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>LOGO.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FontAwesome.WPF, Version=4.7.0.37774, Culture=neutral, PublicKeyToken=0758b07a11a4f466, processorArchitecture=MSIL">
+      <HintPath>..\packages\FontAwesome.WPF.4.7.0.9\lib\net40\FontAwesome.WPF.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
       <Private>True</Private>
@@ -75,20 +107,38 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Extensions\MessageBoxExtensions.cs" />
-    <Compile Include="GoogleMaps\GoogleCodeResponse.cs" />
-    <Compile Include="GoogleMaps\MapManager.cs" />
+    <Compile Include="Models\ViewModels\BaseWindowViewModel.cs" />
+    <Compile Include="Models\ViewModels\BaseListViewModel.cs" />
+    <Compile Include="Models\ViewModels\Forms\Localidad\LocalidadListViewModel.cs" />
+    <Compile Include="Models\ViewModels\Forms\LoginFormViewModel.cs" />
+    <Compile Include="Models\ViewModels\Forms\Rubro\RubroListViewModel.cs" />
+    <Compile Include="Models\ViewModels\Forms\Sector\SectorListViewModel.cs" />
+    <Compile Include="Models\ViewModels\Forms\TipoOrganizacion\TipoOrganizacionListViewModel.cs" />
+    <Compile Include="Models\ViewModels\UserControls\SmartSelect\SmartSelectItem.cs" />
+    <Compile Include="UserControls\DataGridExportButtonBar\DataGridExportButtonBar.xaml.cs">
+      <DependentUpon>DataGridExportButtonBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\EntityListButtonBar\EntityListButtonBar.xaml.cs">
+      <DependentUpon>EntityListButtonBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\FormButtonBar\FormButtonBar.xaml.cs">
+      <DependentUpon>FormButtonBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\SearchBar\OnSearchTermChangedEventArgs.cs" />
+    <Compile Include="UserControls\SearchBar\SearchBar.xaml.cs">
+      <DependentUpon>SearchBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\SearchBar\SearchType.cs" />
+    <Compile Include="Utils\CollectionExtensions.cs" />
+    <Compile Include="Utils\MessageBoxUtils.cs" />
+    <Compile Include="Models\ViewModels\Forms\Organizacion\OrganizacionListViewModel.cs" />
     <Compile Include="Models\ViewModels\Helpers\FilterStatus.cs" />
     <Compile Include="Models\ViewModels\MainViewModel.cs" />
-    <Compile Include="Models\ViewModels\Forms\LocalidadCreationViewModel.cs" />
-    <Compile Include="Models\ViewModels\Forms\TipoOrganizacion\BaseTipoOrganizacionViewModel.cs" />
-    <Compile Include="Models\ViewModels\Forms\TipoOrganizacion\TipoOrganizacionCreationViewModel.cs" />
-    <Compile Include="Models\ViewModels\Forms\Rubro\BaseRubroViewModel.cs" />
-    <Compile Include="Models\ViewModels\Forms\Rubro\RubroCreationViewModel.cs" />
-    <Compile Include="Models\ViewModels\Forms\Sector\BaseSectorViewModel.cs" />
-    <Compile Include="Models\ViewModels\Forms\Sector\SectorCreationViewModel.cs" />
-    <Compile Include="Models\ViewModels\Forms\Organizacion\OrganizacionCreationEditionViewModel.cs" />
-    <Compile Include="Models\ViewModels\Forms\Organizacion\BaseOrganizacionViewModel.cs" />
+    <Compile Include="Models\ViewModels\Forms\Localidad\LocalidadCreationViewModel.cs" />
+    <Compile Include="Models\ViewModels\Forms\TipoOrganizacion\TipoOrganizacionEditionViewModel.cs" />
+    <Compile Include="Models\ViewModels\Forms\Rubro\RubroEditionViewModel.cs" />
+    <Compile Include="Models\ViewModels\Forms\Sector\SectorEditionViewModel.cs" />
+    <Compile Include="Models\ViewModels\Forms\Organizacion\OrganizacionViewModel.cs" />
     <Compile Include="Models\ViewModels\Helpers\MainMenuContainer.cs" />
     <Compile Include="Models\ViewModels\Helpers\MenuContainer.cs" />
     <Compile Include="Models\ViewModels\UserControls\CollapsibleMenu\CollapsibleMenuViewModel.cs" />
@@ -100,11 +150,38 @@
     <Compile Include="UserControls\SmartSelect.xaml.cs">
       <DependentUpon>SmartSelect.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Utils\ObjectExtensions.cs" />
+    <Compile Include="Utils\PrintUtils.cs" />
+    <Compile Include="Utils\RequestService.cs" />
+    <Compile Include="Utils\ValidationUtils.cs" />
     <Compile Include="ValidationRules\EmailInputValidationRule.cs" />
     <Compile Include="ValidationRules\NumericInputValidationRule.cs" />
     <Compile Include="Models\ViewModels\BaseSubmitViewModel.cs" />
+    <Compile Include="ValueConverters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="ValueConverters\BooleanToYesNoConverter.cs" />
+    <Compile Include="ValueConverters\InvertBooleanConverter.cs" />
+    <Compile Include="ValueConverters\InvertBooleanToVisibilityConverter.cs" />
+    <Compile Include="ValueConverters\PathToBitmapImageConverter.cs" />
+    <Compile Include="Windows\ConnectionErrorForm.xaml.cs">
+      <DependentUpon>ConnectionErrorForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Localidad\LocalidadList.xaml.cs">
+      <DependentUpon>LocalidadList.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\Localidad\LocalidadCreationEditionForm.xaml.cs">
       <DependentUpon>LocalidadCreationEditionForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\LoginForm.xaml.cs">
+      <DependentUpon>LoginForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Organizacion\OrganizacionList.xaml.cs">
+      <DependentUpon>OrganizacionList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Rubro\RubroList.xaml.cs">
+      <DependentUpon>RubroList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Sector\SectorList.xaml.cs">
+      <DependentUpon>SectorList.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\TipoOrganizacion\TipoOrganizacionCreationEditionForm.xaml.cs">
       <DependentUpon>TipoOrganizacionCreationEditionForm.xaml</DependentUpon>
@@ -120,6 +197,9 @@
     </Compile>
     <Compile Include="Windows\Organizacion\OrganizacionCreationEditionForm.xaml.cs">
       <DependentUpon>OrganizacionCreationEditionForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\TipoOrganizacion\TipoOrganizacionList.xaml.cs">
+      <DependentUpon>TipoOrganizacionList.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -137,11 +217,51 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserControls\DataGridExportButtonBar\DataGridExportButtonBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\EntityListButtonBar\EntityListButtonBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\FormButtonBar\FormButtonBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\SearchBar\SearchBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\SmartSelect.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Windows\ConnectionErrorForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\Localidad\LocalidadList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\Localidad\LocalidadCreationEditionForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\LoginForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\Organizacion\OrganizacionList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\Rubro\RubroList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\Sector\SectorList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -165,6 +285,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Windows\TipoOrganizacion\TipoOrganizacionList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -184,7 +308,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -192,7 +318,9 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GeoUsers.Services\GeoUsersServices.csproj">
@@ -200,8 +328,56 @@
       <Name>GeoUsersServices</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <COMReference Include="Microsoft.Office.Core">
+      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>7</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="VBIDE">
+      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\logo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <SplashScreen Include="Resources\splash.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\inti.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="LOGO.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\cef.redist.x64.3.2883.1552\build\cef.redist.x64.targets" Condition="Exists('..\packages\cef.redist.x64.3.2883.1552\build\cef.redist.x64.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\cef.redist.x64.3.2883.1552\build\cef.redist.x64.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\cef.redist.x64.3.2883.1552\build\cef.redist.x64.targets'))" />
+    <Error Condition="!Exists('..\packages\cef.redist.x86.3.2883.1552\build\cef.redist.x86.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\cef.redist.x86.3.2883.1552\build\cef.redist.x86.targets'))" />
+    <Error Condition="!Exists('..\packages\CefSharp.Common.55.0.0\build\CefSharp.Common.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CefSharp.Common.55.0.0\build\CefSharp.Common.props'))" />
+    <Error Condition="!Exists('..\packages\CefSharp.Common.55.0.0\build\CefSharp.Common.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CefSharp.Common.55.0.0\build\CefSharp.Common.targets'))" />
+    <Error Condition="!Exists('..\packages\CefSharp.Wpf.55.0.0\build\CefSharp.Wpf.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CefSharp.Wpf.55.0.0\build\CefSharp.Wpf.props'))" />
+    <Error Condition="!Exists('..\packages\CefSharp.Wpf.55.0.0\build\CefSharp.Wpf.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CefSharp.Wpf.55.0.0\build\CefSharp.Wpf.targets'))" />
+  </Target>
+  <Import Project="..\packages\cef.redist.x86.3.2883.1552\build\cef.redist.x86.targets" Condition="Exists('..\packages\cef.redist.x86.3.2883.1552\build\cef.redist.x86.targets')" />
+  <Import Project="..\packages\CefSharp.Common.55.0.0\build\CefSharp.Common.targets" Condition="Exists('..\packages\CefSharp.Common.55.0.0\build\CefSharp.Common.targets')" />
+  <Import Project="..\packages\CefSharp.Wpf.55.0.0\build\CefSharp.Wpf.targets" Condition="Exists('..\packages\CefSharp.Wpf.55.0.0\build\CefSharp.Wpf.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

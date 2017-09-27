@@ -26,8 +26,6 @@ namespace GeoUsersUI.UserControls
             {
                 SetValue(ButtonsProperty, value);
 
-                CastedDataContext.Buttons = value;
-
                 OnPropertyChanged(nameof(Buttons));
             }
         }
@@ -49,8 +47,6 @@ namespace GeoUsersUI.UserControls
             {
                 SetValue(HeaderNameProperty, value);
 
-                CastedDataContext.HeaderName = value;
-
                 OnPropertyChanged(nameof(HeaderName));
             }
         }
@@ -71,9 +67,9 @@ namespace GeoUsersUI.UserControls
             {
                 SetValue(IsMenuOpenedProperty, value);
 
-                CastedDataContext.IsMenuOpened = value;
-
                 OnPropertyChanged(nameof(IsMenuOpened));
+
+                ToggleButtonsVisibility();
             }
         }
 
@@ -81,26 +77,29 @@ namespace GeoUsersUI.UserControls
              DependencyProperty.Register("IsMenuOpened",
                                          typeof(bool),
                                          typeof(CollapsibleMenu),
-                                         new PropertyMetadata(true));
+                                         new PropertyMetadata(false, OnPropertyChanged));
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        private CollapsibleMenuViewModel CastedDataContext { get; set; }
 
         public CollapsibleMenu()
         {
             InitializeComponent();
 
-            DataContext = CastedDataContext = new CollapsibleMenuViewModel(HeaderName, Buttons, IsMenuOpened);
+            DataContext = this;
+
+            ToggleButtonsVisibility();
         }
 
-        public void ToggleButtonsVisibility()
+        private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var visibility = CastedDataContext.IsMenuOpened ? Visibility.Collapsed : Visibility.Visible;
+            ((CollapsibleMenu)d).ToggleButtonsVisibility();
+        }
 
-            CastedDataContext.IsMenuOpened = !CastedDataContext.IsMenuOpened;
+        private void ToggleButtonsVisibility()
+        {
+            var visibility = IsMenuOpened ? Visibility.Visible : Visibility.Collapsed;
 
-            foreach (var button in CastedDataContext.Buttons)
+            foreach (var button in Buttons)
             {
                 button.ButtonVisibility = visibility;
             }
@@ -108,12 +107,12 @@ namespace GeoUsersUI.UserControls
 
         private void ButtonHeader_Click(object sender, RoutedEventArgs e)
         {
-            ToggleButtonsVisibility();
+            IsMenuOpened = !IsMenuOpened;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            ((MenuButton)((Button)sender).DataContext).OnButtonClickAction();
+            ((MenuButton)((Button)sender).DataContext).OnButtonClick(e);
         }
     }
 }

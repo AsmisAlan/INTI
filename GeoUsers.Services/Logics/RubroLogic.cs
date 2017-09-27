@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
-using GeoUsers.Services.Model;
 using GeoUsers.Services.Model.DataTransfer;
 using GeoUsers.Services.Model.Entities;
+using GeoUsers.Services.SQLExceptions;
+using GeoUsers.Services.Utils;
 using NHibernate;
 using System;
 using System.Collections.Generic;
@@ -20,20 +21,36 @@ namespace GeoUsers.Services.Logics
             return Session.Get<Rubro>(rubroId);
         }
 
-        public IEnumerable<Rubro> GetAll()
+        public RubroEditionData GetForEdition(int rubroId)
         {
-            return Session.QueryOver<Rubro>()
-                          .List()
-                          .OrderBy(x => x.Nombre);
+            return Mapper.Map<RubroEditionData>(GetRubro(rubroId));
         }
 
-        public IEnumerable<IdAndValue> GetForSelection(/*ICollection<int> currentIds*/)
+        public IEnumerable<RubroHeaderData> GetAll()
+        {
+            var rubros = GetRubros();
+
+            return Mapper.Map<IEnumerable<RubroHeaderData>>(rubros);
+        }
+
+        public IEnumerable<IdAndValue> GetByIds(ICollection<int> rubroIds)
         {
             var rubros = Session.QueryOver<Rubro>()
-                          //.WhereRestrictionOn(x => x.Id)
-                          //.Not.IsIn(currentIds.ToArray())
-                          .List()
-                          .OrderBy(x => x.Nombre);
+                                .WhereRestrictionOn(x => x.Id)
+                                .IsIn(rubroIds.ToArray())
+                                .OrderBy(x => x.Nombre)
+                                .Asc
+                                .List();
+
+            return Mapper.Map<IEnumerable<IdAndValue>>(rubros);
+        }
+
+        public IEnumerable<IdAndValue> GetForSelection()
+        {
+            var rubros = Session.QueryOver<Rubro>()
+                                .OrderBy(x => x.Nombre)
+                                .Asc
+                                .List();
 
             return Mapper.Map<IEnumerable<IdAndValue>>(rubros);
         }
@@ -43,13 +60,31 @@ namespace GeoUsers.Services.Logics
             var rubros = Session.QueryOver<Rubro>()
                           .WhereRestrictionOn(x => x.Sector.Id)
                           .IsIn(sectorIds.ToArray())
-                          .List()
-                          .OrderBy(x => x.Nombre);
+                          .OrderBy(x => x.Nombre)
+                          .Asc
+                          .List();
 
             return Mapper.Map<IEnumerable<IdAndValue>>(rubros);
         }
 
-        public bool Create(RubroCreationData rubroData)
+        public void ExportToExcel(string filePath)
+        {
+            var rubros = GetRubros();
+
+            ExcelUtils.ExportRubrosTable(rubros, filePath);
+        }
+
+        public bool Save(RubroEditionData rubroData)
+        {
+            if (!rubroData.Id.HasValue)
+            {
+                return Create(rubroData);
+            }
+
+            return Edit(rubroData);
+        }
+
+        public bool Create(RubroEditionData rubroData)
         {
             var sector = Session.Get<Sector>(rubroData.SectorId);
 
@@ -68,17 +103,17 @@ namespace GeoUsers.Services.Logics
             return true;
         }
 
-        public bool Edit(int rubroId, string nombre, int sectorId)
+        public bool Edit(RubroEditionData rubroData)
         {
-            var rubro = Session.Get<Rubro>(rubroId);
+            var rubro = Session.Get<Rubro>(rubroData.Id);
 
             if (rubro == null) throw new Exception("Rubro Invalido");
 
-            var sector = Session.Get<Sector>(sectorId);
+            var sector = Session.Get<Sector>(rubroData.SectorId);
 
             if (sector == null) throw new Exception("Sector Invalido");
 
-            rubro.Nombre = nombre;
+            rubro.Nombre = rubroData.Nombre;
             rubro.Sector = sector;
 
             Session.Save(rubro);
@@ -94,9 +129,26 @@ namespace GeoUsers.Services.Logics
 
             if (rubro == null) throw new Exception("Rubro Invalido");
 
-            Session.Delete(rubro);
+            try
+            {
+                Session.Delete(rubro);
+            }
+            catch (ConstraintViolationException)
+            {
+                throw new Exception("El rubro que se desesa eliminar está siendo utilizado.");
+            }
 
             return true;
+        }
+
+        private IEnumerable<Rubro> GetRubros()
+        {
+            var rubros = Session.QueryOver<Rubro>()
+                               .OrderBy(x => x.Nombre)
+                               .Asc
+                               .List();
+
+            return rubros;
         }
     }
 }

@@ -5,7 +5,7 @@ namespace GeoUsers.Services.Logics
 {
     public class BaseLogic
     {
-        readonly IMapper autoMapper;
+        readonly IMapper mapper;
         readonly ISessionFactory sessionFactory;
 
         protected ISession Session
@@ -21,14 +21,14 @@ namespace GeoUsers.Services.Logics
         {
             get
             {
-                return autoMapper;
+                return mapper;
             }
         }
 
         public BaseLogic(IMapper autoMapper,
                          ISessionFactory sessionFactory)
         {
-            this.autoMapper = autoMapper;
+            this.mapper = autoMapper;
             this.sessionFactory = sessionFactory;
         }
     }

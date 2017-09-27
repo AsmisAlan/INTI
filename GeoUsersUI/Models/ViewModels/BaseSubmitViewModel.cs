@@ -1,13 +1,56 @@
-﻿using GeoUsers.Services;
-using GeoUsersUI.Extensions;
+﻿using GeoUsersUI.Utils;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace GeoUsersUI.Models.ViewModels
 {
-    public abstract class BaseSubmitViewModel<T>
+    public abstract class BaseSubmitViewModel<T> : BaseWindowViewModel
     {
+        protected bool loading;
+
+        protected bool isReadonly;
+
+        protected readonly IList<ValidationError> Errors;
+
+        public BaseSubmitViewModel()
+        {
+            IsReadonly = !App.IsUserAuthenticated;
+
+            Errors = new List<ValidationError>();
+        }
+
+        public bool Loading
+        {
+            get
+            {
+                return loading;
+            }
+            set
+            {
+                loading = value;
+
+                OnPropertyChanged(nameof(Loading));
+            }
+        }
+
+        public bool IsReadonly
+        {
+            get
+            {
+                return isReadonly;
+            }
+            set
+            {
+                isReadonly = value;
+
+                OnPropertyChanged(nameof(IsReadonly));
+            }
+        }
+
         public T Result { get; set; }
 
         /// <summary>
@@ -29,34 +72,42 @@ namespace GeoUsersUI.Models.ViewModels
         /// </summary>
         /// <param name="submitFunction"></param>
         /// <returns></returns>
-        public Task<bool> Submit()
+        public async Task<bool> Submit()
         {
-            // TODO. implement notifypropertychanged together with a loading property to notify when the loading starts and finishes.
-            if (!SubmitValidation())
+            var error = Errors.FirstOrDefault();
+
+            if (error != null)
             {
-                MessageBoxExtensions.ShowFormIncompleteError();
-                return Task.FromResult(false);
+                MessageBoxUtils.Error((string)error.ErrorContent);
+
+                return false;
             }
 
-            return Task.Run(() =>
+            if (!SubmitValidation())
             {
-                try
-                {
-                    using (var sessionContext = GeoUsersServices.SessionProvider.GetSessionContextBlock())
-                    {
-                        SubmitFunction();
-                    }
+                MessageBoxUtils.FormIncompleteError();
 
-                    return true;
-                }
-                catch (InvalidOperationException e)
-                {
-                    Console.Write(e);
-                    // TODO. Logger implementation. Log exceptions.
-                    MessageBox.Show("Operacion invalida");
-                    return false;
-                }
-            });
+                return false;
+            }
+
+            try
+            {
+                Loading = true;
+
+                var result = await RequestService.Execute(() => SubmitFunction());
+
+                Loading = false;
+
+                return result;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+
+                Loading = false;
+            }
+
+            return true;
         }
     }
 }

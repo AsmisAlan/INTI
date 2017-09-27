@@ -9,16 +9,33 @@ namespace GeoUsers.Services.Model.Mappings
         {
             Table("SECTOR");
 
-            Id<int>(x => x.Id, x =>
+            Id(x => x.Id, x =>
             {
-                x.Column("IDSECTOR");
+                x.Column("ID");
                 x.Generator(new IdentityGeneratorDef());
                 x.UnsavedValue(0);
             });
 
             Property(x => x.Nombre, "NOMBRE");
 
+            ManyToOne(x => x.Icono, map =>
+            {
+                map.Column("IDICONO");
+                map.Cascade(Cascade.All | Cascade.DeleteOrphans);
+            });
 
+            Set(x => x.Rubros, collectionMapping =>
+            {
+                collectionMapping.Key(key =>
+                {
+                    key.Column("IDSECTOR");
+                });
+
+                collectionMapping.Table("RUBRO");
+                collectionMapping.Cascade(Cascade.All | Cascade.DeleteOrphans);
+                collectionMapping.Inverse(true);
+            },
+            mapping => mapping.OneToMany());
         }
     }
 }

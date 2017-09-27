@@ -2,15 +2,26 @@
 
 namespace GeoUsersUI.Models.ViewModels.Helpers
 {
-    public class FilterStatus
+    public class FilterStatus : BaseNotifierEntity
     {
+        private string tipoOrganizacionStatus { get; set; }
+        private string sectorStatus { get; set; }
+        private string rubroStatus { get; set; }
+        private string localidadStatus { get; set; }
+
         public FilterData Filter { get; set; }
 
         public string TipoOrganizacionStatus
         {
             get
             {
-                return $"Tipo Organizacion ({Filter.TipoOrganizacionIds.Count})";
+                return tipoOrganizacionStatus;
+            }
+            set
+            {
+                tipoOrganizacionStatus = value;
+
+                OnPropertyChanged(nameof(TipoOrganizacionStatus));
             }
         }
 
@@ -18,7 +29,13 @@ namespace GeoUsersUI.Models.ViewModels.Helpers
         {
             get
             {
-                return $"Sector ({Filter.SectorIds.Count})";
+                return sectorStatus;
+            }
+            set
+            {
+                sectorStatus = value;
+
+                OnPropertyChanged(nameof(SectorStatus));
             }
         }
 
@@ -26,7 +43,13 @@ namespace GeoUsersUI.Models.ViewModels.Helpers
         {
             get
             {
-                return $"Rubro ({Filter.RubroIds.Count})";
+                return rubroStatus;
+            }
+            set
+            {
+                rubroStatus = value;
+
+                OnPropertyChanged(nameof(RubroStatus));
             }
         }
 
@@ -34,13 +57,29 @@ namespace GeoUsersUI.Models.ViewModels.Helpers
         {
             get
             {
-                return $"Localidad ({Filter.LocalidadIds.Count})";
+                return localidadStatus;
+            }
+            set
+            {
+                localidadStatus = value;
+
+                OnPropertyChanged(nameof(LocalidadStatus));
             }
         }
 
         public FilterStatus()
         {
             Filter = new FilterData();
+
+            UpdateStatuses();
+        }
+
+        public void UpdateStatuses()
+        {
+            TipoOrganizacionStatus = $"Tipo Organizacion ({Filter.TipoOrganizacionIds.Count})";
+            SectorStatus = $"Sector ({Filter.SectorIds.Count})";
+            RubroStatus = $"Rubro ({Filter.RubroIds.Count})";
+            LocalidadStatus = $"Localidad ({Filter.LocalidadIds.Count})";
         }
     }
 }

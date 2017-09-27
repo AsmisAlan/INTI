@@ -9,24 +9,17 @@ namespace GeoUsersUI.Windows
     /// </summary>
     public partial class TipoOrganizacionCreationEditionForm : Window
     {
-        private BaseTipoOrganizacionViewModel ViewModel { get; set; }
+        private TipoOrganizacionEditionViewModel ViewModel { get; set; }
 
-        public TipoOrganizacionCreationEditionForm()
-        {
-            DataContext = App.Container.Resolve<TipoOrganizacionCreationViewModel>();
-
-            Initialize();
-        }
-
-        public TipoOrganizacionCreationEditionForm(long tipoOrganizacionId)
-        {
-        }
-
-        private void Initialize()
+        public TipoOrganizacionCreationEditionForm(int? tipoOrganizacionId = null)
         {
             InitializeComponent();
 
-            ViewModel = ((BaseTipoOrganizacionViewModel)DataContext);
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
+            DataContext = ViewModel = App.Container.Resolve<TipoOrganizacionEditionViewModel>();
+
+            Initialize(tipoOrganizacionId);
         }
 
         public bool GetResult()
@@ -34,11 +27,21 @@ namespace GeoUsersUI.Windows
             return ViewModel.Result;
         }
 
+        private async void Initialize(int? tipoOrganizacionId)
+        {
+            await ViewModel.Initialize(tipoOrganizacionId);
+        }
+
         private async void ButtonSubmit_Click(object sender, RoutedEventArgs e)
         {
-            DialogResult = await ViewModel.Submit();
+            var result = await ViewModel.Submit();
 
-            Close();
+            if (result)
+            {
+                DialogResult = true;
+
+                Close();
+            }
         }
 
         private void ButtonDismiss_Click(object sender, RoutedEventArgs e)

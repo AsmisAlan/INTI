@@ -1,21 +1,24 @@
 ﻿using GeoUsers.Services;
 using GeoUsers.Services.Model.DataTransfer;
+using GeoUsersUI.Models.ViewModels.UserControls;
+using GeoUsersUI.Utils;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GeoUsersUI.Models.ViewModels.SmartSelect
+namespace GeoUsersUI.Models.ViewModels
 {
     public class SmartSelectViewModel
     {
-        public ObservableCollection<IdAndValue> Selection { get; private set; }
+        public ObservableCollection<SmartSelectItem> Selection { get; private set; }
         public Func<IEnumerable<IdAndValue>> DataFunction { get; set; }
+        public Func<IEnumerable<IdAndValue>> GetSelectionFunction { get; set; }
         public bool Loading { get; set; }
         public string EntityListTitle { get; set; }
 
-        public ObservableCollection<IdAndValue> Entities { get; set; }
+        public ObservableCollection<SmartSelectItem> Entities { get; set; }
         public string RemoveEntityButtonContent { get; set; }
         public string AddEntityButtonContent { get; set; }
 
@@ -25,53 +28,99 @@ namespace GeoUsersUI.Models.ViewModels.SmartSelect
             RemoveEntityButtonContent = ">";
         }
 
-        public void SetSelection(IEnumerable<IdAndValue> selection)
+        public async Task<bool> Initialize(Func<IEnumerable<IdAndValue>> dataFunction,
+                                           Func<IEnumerable<IdAndValue>> getSelectionDataFunction,
+                                           IEnumerable<int> selection)
         {
-            Selection = new ObservableCollection<IdAndValue>(selection);
-        }
-
-        public void Initialize(Func<IEnumerable<IdAndValue>> dataFunction,
-                               IEnumerable<IdAndValue> selection)
-        {
-            Loading = true;
             DataFunction = dataFunction;
-            SetSelection(selection);
-            executeDataFunction();
+            GetSelectionFunction = getSelectionDataFunction;
+
+            Entities = new ObservableCollection<SmartSelectItem>();
+            Selection = new ObservableCollection<SmartSelectItem>();
+
+            return await LoadInitialData(selection);
         }
 
-        private async void executeDataFunction()
+        private async Task<bool> LoadInitialData(IEnumerable<int> selectedIds)
         {
-            var results = await DataFunctionWrapper();
+            IEnumerable<IdAndValue> entities = null;
+            IEnumerable<IdAndValue> selection = null;
 
-            var selectedIds = Selection.Select(x => x.Id);
-            var entities = results.Where(x => !selectedIds.Contains(x.Id));
+            await Task.Run(() =>
+           {
+               using (var sessionBlock = GeoUsersServices.SessionProvider.GetSessionContextBlock())
+               {
+                   entities = DataFunction();
+                   selection = GetSelectionFunction();
+               }
+           });
 
-            Entities = new ObservableCollection<IdAndValue>(entities);
+            CreateSelectionItemsCollection(selection);
+            CreateEntityItemsCollection(entities);
 
-            Loading = false;
+            return true;
         }
 
-        private async Task<IEnumerable<IdAndValue>> DataFunctionWrapper()
+        public void AddSelection(SmartSelectItem item)
         {
-            return await Task.Run(() =>
-            {
-                using (var sessionBlock = GeoUsersServices.SessionProvider.GetSessionContextBlock())
-                {
-                    return DataFunction();
-                }
-            });
+            var copy = item.Copy();
+
+            Selection.Add(copy);
+
+            item.IsActive = false;
         }
 
-        private void AddSelection(IdAndValue item)
-        {
-            Selection.Add(item);
-            Entities.Remove(item);
-        }
-
-        private void RemoveSelection(IdAndValue item)
+        public void RemoveSelection(SmartSelectItem item)
         {
             Selection.Remove(item);
-            Entities.Add(item);
+
+            var entityItem = Entities.First(x => x.Id == item.Id);
+
+            entityItem.IsActive = true;
+        }
+
+        public void OrderSelection()
+        {
+            Selection.Update(Selection.OrderBy(x => x.Value));
+        }
+
+        private void CreateSelectionItemsCollection(IEnumerable<IdAndValue> items)
+        {
+            var smartSelectItems = new Collection<SmartSelectItem>();
+
+            foreach (var item in items)
+            {
+                var smartSelectItem = new SmartSelectItem()
+                {
+                    Id = item.Id,
+                    IsActive = true,
+                    Value = item.Value
+                };
+
+                smartSelectItems.Add(smartSelectItem);
+            }
+
+            Selection.Update(smartSelectItems);
+        }
+
+        private void CreateEntityItemsCollection(IEnumerable<IdAndValue> items)
+        {
+            var smartSelectItems = new Collection<SmartSelectItem>();
+
+            foreach (var item in items)
+            {
+                var smartSelectItem = new SmartSelectItem()
+                {
+                    Id = item.Id,
+                    IsActive = Selection.FirstOrDefault(x => x.Id == item.Id) == null,
+                    Value = item.Value
+                };
+
+                smartSelectItems.Add(smartSelectItem);
+            }
+
+            Entities.Update(smartSelectItems);
         }
     }
+
 }

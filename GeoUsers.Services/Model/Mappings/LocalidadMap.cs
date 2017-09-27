@@ -9,9 +9,9 @@ namespace GeoUsers.Services.Model.Mappings
         {
             Table("LOCALIDAD");
 
-            Id<int>(x => x.Id, x =>
+            Id(x => x.Id, x =>
             {
-                x.Column("IDLOCALIDAD");
+                x.Column("ID");
                 x.Generator(new IdentityGeneratorDef());
                 x.UnsavedValue(0);
             });

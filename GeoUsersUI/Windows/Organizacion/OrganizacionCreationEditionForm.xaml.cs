@@ -3,6 +3,11 @@ using System.Windows;
 using Microsoft.Practices.Unity;
 using System.Threading.Tasks;
 using GeoUsers.Services.Model.DataTransfer;
+using System.Text.RegularExpressions;
+using System.Windows.Input;
+using System;
+using System.Windows.Controls;
+using GeoUsersUI.Utils;
 
 namespace GeoUsersUI.Windows
 {
@@ -11,40 +16,56 @@ namespace GeoUsersUI.Windows
     /// </summary>
     public partial class OrganizacionCreationEditionForm : Window
     {
-        private BaseOrganizacionViewModel CastedDataContext { get; set; }
+        private OrganizacionViewModel ViewModel { get; set; }
 
-        public OrganizacionCreationEditionForm()
+        public OrganizacionCreationEditionForm(int? organizacionId = null)
         {
             InitializeComponent();
 
-            DataContext = CastedDataContext = App.Container.Resolve<OrganizacionCreationEditionViewModel>();
+            DataContext = ViewModel = App.Container.Resolve<OrganizacionViewModel>();
 
-            var initialized = Initialize();
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
+            var initialized = Initialize(organizacionId);
         }
 
-        public async Task<bool> Initialize()
+        public async Task<bool> Initialize(int? organizacionId = null)
         {
-            await ((BaseOrganizacionViewModel)DataContext).LoadData();
-
-            ComboLocalidad.ItemsSource = CastedDataContext.Localidades;
-            ComboOrganizacion.ItemsSource = CastedDataContext.TipoOrganizaciones;
-            ComboRubro.ItemsSource = CastedDataContext.Rubros;
+            await ViewModel.Initialize(organizacionId);
 
             return true;
         }
 
-        public OrganizacionHeader GetResult()
+        public OrganizacionHeaderData GetResult()
         {
-            CastedDataContext.Result.Localidad = ((IdAndValue)ComboLocalidad.SelectedItem).Value;
-            return CastedDataContext.Result;
+            var localidad = ((IdAndValue)ComboLocalidad.SelectedItem).Value;
+
+            ViewModel.Result.Direccion = $"{ViewModel.Result.Direccion} {localidad}";
+
+            return ViewModel.Result;
         }
 
         private async void Submit(object sender, RoutedEventArgs e)
         {
-            DialogResult = await CastedDataContext.Submit();
+            var hasValidCoordinates = true;
 
-            if (DialogResult.HasValue && DialogResult.Value)
+            if (!string.IsNullOrEmpty(ViewModel.Organizacion.Latitud))
             {
+                hasValidCoordinates = ValidationUtils.ValidateCoordinates(ViewModel.Organizacion.Latitud);
+            }
+            else if (!string.IsNullOrEmpty(ViewModel.Organizacion.Longitud))
+            {
+                hasValidCoordinates = ValidationUtils.ValidateCoordinates(ViewModel.Organizacion.Longitud);
+            }
+
+            if (!hasValidCoordinates) return;
+
+            var result = await ViewModel.Submit();
+
+            if (result)
+            {
+                DialogResult = true;
+
                 Close();
             }
         }
@@ -53,6 +74,25 @@ namespace GeoUsersUI.Windows
         {
             DialogResult = false;
             Close();
+        }
+
+        private void TextBoxCuit_Error(object sender, ValidationErrorEventArgs e)
+        {
+            if (e.Action == ValidationErrorEventAction.Added)
+            {
+                ViewModel.AddError(e.Error);
+            }
+            else
+            {
+                ViewModel.RemoveError(e.Error);
+            }
+        }
+
+        private void CuitValidationTextBox(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+
+            e.Handled = regex.IsMatch(e.Text) || TextBoxCuit.Text.Length > 11;
         }
     }
 }

@@ -6,7 +6,7 @@ namespace GeoUsers.Services.Model.Mappings
 {
     public class BaseClassMapping<TEntity> : ClassMapping<TEntity> where TEntity : class
     {
-        public const string SCHEMA = "GEOUSERS";
+        public const string SCHEMA = "SGU";
 
         public BaseClassMapping() : this(SCHEMA, true) { }
 

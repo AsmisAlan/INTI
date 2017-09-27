@@ -9,9 +9,9 @@ namespace GeoUsers.Services.Model.Mappings
         {
             Table("ORGANIZACION");
 
-            Id<int>(x => x.Id, x =>
+            Id(x => x.Id, x =>
                 {
-                    x.Column("IDORGANIZACION");
+                    x.Column("ID");
                     x.Generator(new IdentityGeneratorDef());
                     x.UnsavedValue(0);
                 });
@@ -25,6 +25,8 @@ namespace GeoUsers.Services.Model.Mappings
             Property(x => x.Cuit, "CUIT");
             Property(x => x.Direccion, "DIRECCION");
             Property(x => x.Email, "EMAIL");
+            Property(x => x.Latitud, "LATITUD");
+            Property(x => x.Longitud, "LONGITUD");
 
             ManyToOne(x => x.Localidad, map =>
             {

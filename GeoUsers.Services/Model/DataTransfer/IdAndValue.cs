@@ -1,26 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GeoUsers.Services.Model.DataTransfer
+﻿namespace GeoUsers.Services.Model.DataTransfer
 {
-    public class IdAndValue : BaseNotifierEntity
+    public class IdAndValue : BaseComparableNotifierEntity
     {
-        private int id { get; set; }
         private string value { get; set; }
-
-        public int Id
-        {
-            get { return id; }
-
-            set
-            {
-                id = value;
-                OnPropertyChanged(nameof(Id));
-            }
-        }
 
         public string Value
         {

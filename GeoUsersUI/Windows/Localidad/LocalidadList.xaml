@@ -1,0 +1,69 @@
+﻿<Window x:Class="GeoUsersUI.Windows.LocalidadList"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GeoUsersUI.Windows"
+        xmlns:UserControls="clr-namespace:GeoUsersUI.UserControls" 
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
+        mc:Ignorable="d"
+        Title="{Binding Path=WindowTitle}" 
+        MinHeight="300"
+        MinWidth="550"
+        Background="{StaticResource BaseWindowBackground}">
+    <Grid>
+        <Grid Name="MainGrid"
+          Style="{StaticResource FormGrid}"
+          Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="7*"/>
+                <RowDefinition Height="35"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <DataGrid ItemsSource="{Binding Path=Localidades}"
+                      Grid.Row="0"
+                      Grid.Column="1"
+                      Name="LocalidadGrid" 
+                      Style="{StaticResource ListDataGrid}"
+                      Visibility="{Binding Path=LoadingTable,
+                                           Converter={StaticResource InvertBooleanToVisibilityConverter}}">
+                <DataGrid.RowStyle>
+                    <Style TargetType="{x:Type DataGridRow}">
+                        <EventSetter Event="MouseDoubleClick"
+                                     Handler="LocalidadGrid_MouseDoubleClick" />
+                    </Style>
+                </DataGrid.RowStyle>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Nombre"
+                                    Width="*"
+                                    Binding="{Binding Path=Nombre}">
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Codigo postal"
+                                    Width="*"
+                                    Binding="{Binding Path=CodigoPostal}">
+                    </DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            <UserControls:EntityListButtonBar
+                    Grid.Row="1"
+                    x:Name="ButtonBar"
+                    OnCreateButtonClick="ButtonBar_OnCreateButtonClick"
+                    OnEditButtonClick="ButtonBar_OnEditButtonClick"
+                    OnDeleteButtonClick="ButtonBar_OnDeleteButtonClick"
+                    OnCloseButtonClick="ButtonBar_OnCloseButtonClick"/>
+            <UserControls:DataGridExportButtonBar 
+                    Grid.Row="1"
+                    Loading="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                     AncestorType={x:Type Window}}, 
+                                      Path=DataContext.IsExporting}"
+                    OnExportButtonClick="DataGridExportButtonBar_OnExportButtonClick"
+                    OnPrintButtonClick="DataGridExportButtonBar_OnPrintButtonClick"/>
+            <fa:FontAwesome x:Name="TableLoading"
+                            Style="{StaticResource LoadingTable}"
+                            Visibility="{Binding Path=LoadingTable,
+                                                 Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        </Grid>
+    </Grid>
+</Window>

@@ -1,7 +1,6 @@
 ﻿using GeoUsersUI.Models.ViewModels.Forms;
 using System.Windows;
 using Microsoft.Practices.Unity;
-using GeoUsersUI.Models.ViewModels;
 
 namespace GeoUsersUI.Windows
 {
@@ -10,27 +9,39 @@ namespace GeoUsersUI.Windows
     /// </summary>
     public partial class LocalidadCreationEditionForm : Window
     {
-        private BaseSubmitViewModel<bool> CastViewModel { get; set; }
+        private LocalidadEditionViewModel ViewModel { get; set; }
 
-        public LocalidadCreationEditionForm()
+        public LocalidadCreationEditionForm(int? localidadId = null)
         {
             InitializeComponent();
 
-            DataContext = App.Container.Resolve<LocalidadCreationViewModel>();
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
-            CastViewModel = ((BaseSubmitViewModel<bool>)DataContext);
+            DataContext = ViewModel = App.Container.Resolve<LocalidadEditionViewModel>();
+
+            Initialize(localidadId);
         }
 
         public bool GetResult()
         {
-            return CastViewModel.Result;
+            return ViewModel.Result;
+        }
+
+        private async void Initialize(int? localidadId)
+        {
+            await ViewModel.Initialize(localidadId);
         }
 
         private async void ButtonSubmit_Click(object sender, RoutedEventArgs e)
         {
-            DialogResult = await CastViewModel.Submit();
+            var result = await ViewModel.Submit();
 
-            Close();
+            if (result)
+            {
+                DialogResult = true;
+
+                Close();
+            }
         }
 
         private void ButtonDismiss_Click(object sender, RoutedEventArgs e)

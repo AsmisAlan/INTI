@@ -1,13 +1,9 @@
-﻿using NHibernate;
+﻿using GeoUsers.Services.SQLExceptions;
+using NHibernate;
 using NHibernate.Cfg;
 using NHibernate.Context;
 using NHibernate.Mapping.ByCode;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GeoUsers.Services
 {
@@ -17,7 +13,11 @@ namespace GeoUsers.Services
         {
             var nhibernateConfiguration = new Configuration().Configure("hibernate.cfg.xml");
 
+            nhibernateConfiguration.SetProperty(Environment.ConnectionString, Properties.Settings.Default.ConnectionString);
+
             nhibernateConfiguration.CurrentSessionContext<ThreadStaticSessionContext>();
+
+            nhibernateConfiguration.SetProperty(Environment.SqlExceptionConverter, typeof(SqlExceptionConverter).AssemblyQualifiedName);
 
             var mapper = new ModelMapper();
 

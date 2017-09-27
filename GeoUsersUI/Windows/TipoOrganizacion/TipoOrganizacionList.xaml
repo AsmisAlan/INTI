@@ -1,0 +1,63 @@
+﻿<Window x:Class="GeoUsersUI.Windows.TipoOrganizacionList"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GeoUsersUI.Windows"
+        xmlns:UserControls="clr-namespace:GeoUsersUI.UserControls"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
+        mc:Ignorable="d"
+        Title="{Binding Path=WindowTitle}" 
+        Height="300" 
+        MinHeight="300"
+        MinWidth="550"
+        Background="{StaticResource BaseWindowBackground}">
+    <Grid Name="MainGrid"
+          Style="{StaticResource FormGrid}"
+          Grid.Column="1">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="6*"/>
+            <RowDefinition Height="35"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <DataGrid ItemsSource="{Binding Path=TipoOrganizaciones}"
+                  Grid.Row="0"
+                  Grid.Column="1"
+                  Name="TipoOrganizacionGrid" 
+                  Style="{StaticResource ListDataGrid}"
+                  Visibility="{Binding Path=LoadingTable,
+                                       Converter={StaticResource InvertBooleanToVisibilityConverter}}">
+            <DataGrid.RowStyle>
+                <Style TargetType="{x:Type DataGridRow}">
+                    <EventSetter Event="MouseDoubleClick"
+                                 Handler="TipoOrganizacionGrid_MouseDoubleClick" />
+                </Style>
+            </DataGrid.RowStyle>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Tipo"
+                                    Width="*"
+                                    Binding="{Binding Path=Tipo}">
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <fa:FontAwesome x:Name="TableLoading"
+                        Style="{StaticResource LoadingTable}"
+                        Visibility="{Binding Path=LoadingTable,
+                                             Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        <UserControls:EntityListButtonBar
+                Grid.Row="1"
+                OnCloseButtonClick="EntityListButtonBar_OnCloseButtonClick"
+                OnCreateButtonClick="EntityListButtonBar_OnCreateButtonClick"
+                OnDeleteButtonClick="EntityListButtonBar_OnDeleteButtonClick"
+                OnEditButtonClick="EntityListButtonBar_OnEditButtonClick" />
+        <UserControls:DataGridExportButtonBar 
+                    Grid.Row="1"
+                    Loading="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                     AncestorType={x:Type Window}}, 
+                                      Path=DataContext.IsExporting}"
+                    OnExportButtonClick="DataGridExportButtonBar_OnExportButtonClick"
+                    OnPrintButtonClick="DataGridExportButtonBar_OnPrintButtonClick"/>
+    </Grid>
+</Window>
