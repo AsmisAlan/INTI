@@ -381,5 +381,10 @@ namespace GeoUsersUI
         {
             ViewModel.LoadingMap = false;
         }
+
+        private async void RefreshButton_Click(object sender, RoutedEventArgs e)
+        {
+            await UpdateUI();
+        }
     }
 }

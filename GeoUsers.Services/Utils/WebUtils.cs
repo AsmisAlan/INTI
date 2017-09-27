@@ -41,7 +41,9 @@ namespace GeoUsers.Services.Utils
 
         public static string GetFileDataUri(Archivo file)
         {
-            if (!File.Exists(file.Ruta)) return null;
+            var fullPath = FileUtils.GetFullFilePath(file.Ruta);
+
+            if (!File.Exists(fullPath)) return null;
 
             var dataUri = FileUtils.GetBase64EncodedFileBytes(file.Ruta);
 

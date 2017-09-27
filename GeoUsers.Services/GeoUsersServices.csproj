@@ -185,11 +185,13 @@
     <Compile Include="Utils\GoogleMaps\GoogleGeoCodeResponse.cs" />
     <Compile Include="Utils\GoogleMaps\GoogleMapsManager.cs" />
     <Compile Include="Utils\Logger.cs" />
+    <Compile Include="Utils\StringExtensions.cs" />
     <Compile Include="Utils\WebUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>

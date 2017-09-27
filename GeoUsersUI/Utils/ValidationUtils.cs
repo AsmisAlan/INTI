@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace GeoUsersUI.Utils
 {
@@ -11,16 +6,16 @@ namespace GeoUsersUI.Utils
     {
         public static bool ValidateCoordinates(string coordinates)
         {
-            var regex = new Regex(@"^\-?[0-9]+(?:\.[0-9]+)?$");
+            double result;
 
-            var matches = regex.IsMatch(coordinates);
+            var isValid = Double.TryParse(coordinates, out result);
 
-            if (!matches)
+            if (!isValid)
             {
-                MessageBoxUtils.Error("Las coordenadas ingresadas son invalidas. \n Deben tener la forma -xx.xx o xx.xx");
+                MessageBoxUtils.Error("Las coordenadas ingresadas son invalidas.\nDeben ingresarse en valor decimal: (-)xx.xx");
             }
 
-            return matches;
+            return isValid;
         }
     }
 }
