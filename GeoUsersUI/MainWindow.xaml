@@ -111,12 +111,36 @@
                     <RowDefinition Height="*"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
-                <Label Content="Filtrar"
-                       HorizontalAlignment="Center"
-                       FontWeight="Bold"
-                       Foreground="White"
-                       Margin="0, 10, 0, 0"
-                       FontSize="20"></Label>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="22"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="40"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <fa:FontAwesome Icon="Filter" 
+                                    VerticalAlignment="Center"
+                                    TextAlignment="Left"
+                                    Foreground="White"
+                                    FontSize="20"/>
+                    <TextBlock Text="Filtrar"
+                               FontWeight="Bold"
+                               Foreground="White"
+                               FontSize="20"
+                               Grid.Column="1"
+                               VerticalAlignment="Center">
+                    </TextBlock>
+                    <Button x:Name="RefreshButton"
+                            Click="RefreshButton_Click"
+                            Style="{StaticResource BaseFilterButton}"
+                            Grid.Column="2"
+                            Height="40"
+                            IsEnabled="{Binding Path=LoadingMap,
+                                                Converter={StaticResource InvertBooleanConverter}}">
+                        <fa:FontAwesome Icon="Refresh" 
+                                        TextAlignment="Center"
+                                        FontSize="20"/>
+                    </Button>
+                </Grid>
                 <ComboBox  Grid.Row="1"
                            ItemsSource="{Binding Path=UsuarioIntiStatuses}"
                            SelectedValuePath="Id"
@@ -172,7 +196,7 @@
                       Visibility="{Binding Path=LoadingTable,
                                            Converter={StaticResource InvertBooleanToVisibilityConverter}}">
                 <DataGrid.RowStyle>
-                    <Style TargetType="{x:Type DataGridRow}">
+                    <Style TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource HideableRow}">
                         <EventSetter Event="MouseDoubleClick"
                                      Handler="DataGrid_MouseDoubleClick" />
                     </Style>

@@ -185,6 +185,7 @@
     <Compile Include="Utils\GoogleMaps\GoogleGeoCodeResponse.cs" />
     <Compile Include="Utils\GoogleMaps\GoogleMapsManager.cs" />
     <Compile Include="Utils\Logger.cs" />
+    <Compile Include="Utils\StringExtensions.cs" />
     <Compile Include="Utils\WebUtils.cs" />
   </ItemGroup>
   <ItemGroup>

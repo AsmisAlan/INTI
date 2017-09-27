@@ -53,7 +53,8 @@ namespace GeoUsersUI.Windows
             {
                 hasValidCoordinates = ValidationUtils.ValidateCoordinates(ViewModel.Organizacion.Latitud);
             }
-            else if (!string.IsNullOrEmpty(ViewModel.Organizacion.Longitud))
+
+            if (hasValidCoordinates && !string.IsNullOrEmpty(ViewModel.Organizacion.Longitud))
             {
                 hasValidCoordinates = ValidationUtils.ValidateCoordinates(ViewModel.Organizacion.Longitud);
             }

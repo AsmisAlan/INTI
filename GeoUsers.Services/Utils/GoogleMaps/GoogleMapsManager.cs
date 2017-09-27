@@ -1,4 +1,5 @@
 ﻿using GeoUsers.Services.Model.DataTransfer;
+using GeoUsers.Services.Utils;
 using System.Collections.Generic;
 
 namespace GeoUsersUI.GoogleMaps
@@ -13,13 +14,13 @@ namespace GeoUsersUI.GoogleMaps
             {
                 var defaultIcon = "https://cdn2.iconfinder.com/data/icons/connectivity/32/navigation-128.png";
 
-                var marker = $"{{\"name\": \"{organizacion.Nombre}\"," +
-                             $" \"contacto\": \"{organizacion.ContactoCargo}\"," +
-                             $" \"email\": \"{organizacion.Email}\"," +
-                             $" \"tel\": \"{organizacion.Telefono}\"," +
+                var marker = $"{{\"name\": \"{organizacion.Nombre.EscapeQuoatationMarks()}\"," +
+                             $" \"contacto\": \"{organizacion.ContactoCargo.EscapeQuoatationMarks()}\"," +
+                             $" \"email\": \"{organizacion.Email.EscapeQuoatationMarks()}\"," +
+                             $" \"tel\": \"{organizacion.Telefono.EscapeQuoatationMarks()}\"," +
                              $" \"lat\": \"{organizacion.Latitud}\"," +
                              $" \"lng\": \"{organizacion.Longitud}\"," +
-                             $" \"direc\": \"{organizacion.Direccion}\"," +
+                             $" \"direc\": \"{organizacion.Direccion.EscapeQuoatationMarks()}\"," +
                              $" \"icon\": \"{(string.IsNullOrEmpty(organizacion.Icono) ? defaultIcon : organizacion.Icono)}\"," +
                              $" \"isInti\": {organizacion.UsuarioInti.ToString().ToLower()} " +
                              $"}}";
@@ -63,22 +64,13 @@ namespace GeoUsersUI.GoogleMaps
                                        "     ' <p>direccion: '+objet.direc +" +
                                         "' </p> </footer>' +" +
                                         "'</div>'}" +
-
-
-
-
-
-
                                 "function initMap(){" +
-
                                  "var locations = [ " +
                                  markers +
-
                                  "];" +
-
                                  "var mapDiv = document.getElementById('map');" +
                                  "var map = new google.maps.Map(mapDiv, {" +
-                                    //"center: { lat: " + centerLatitude + ", lng: " + centerLongitude + "}," +
+                                    //"center: { lat:-32.4833, lng: -58.2283 }," +
                                     "zoom: 13 });" +
 
                                   "var infowindow = new google.maps.InfoWindow();" +
@@ -137,7 +129,6 @@ namespace GeoUsersUI.GoogleMaps
                                        "infowindow.open(map, marker);}" +
                                       "})(marker, i));" +
                                   "}" +
-
                                   "map.fitBounds(bounds);" +
                               "}" +
                               "</script>" +
