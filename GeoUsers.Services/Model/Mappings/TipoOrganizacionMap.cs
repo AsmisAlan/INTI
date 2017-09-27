@@ -10,11 +10,11 @@ namespace GeoUsers.Services.Model.Mappings
     {
         public TipoOrganizacionMap()
         {
-            Table("TIPOORGANIZACION");
+            Table("TIPO_ORGANIZACION");
 
             Id(x => x.Id, x =>
             {
-                x.Column("ID");
+                x.Column("IDTIPOORGANIZACION");
                 x.Generator(new IdentityGeneratorDef());
                 x.UnsavedValue(0);
             });

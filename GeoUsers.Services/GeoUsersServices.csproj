@@ -149,7 +149,7 @@
     <Compile Include="Model\DataTransfer\IdAndValue.cs" />
     <Compile Include="Model\Entities\Usuario.cs" />
     <Compile Include="Model\Enums\UsuarioIntiStatus.cs" />
-    <Compile Include="Model\Interfaces\IBaseIdentifier.cs" />
+    <Compile Include="Model\DataTransfer\Interfaces\IBaseIdentifier.cs" />
     <Compile Include="Model\Mappings\ArchivoMap.cs" />
     <Compile Include="Model\Mappings\BaseClassMapping.cs" />
     <Compile Include="Model\Mappings\LocalidadMap.cs" />
