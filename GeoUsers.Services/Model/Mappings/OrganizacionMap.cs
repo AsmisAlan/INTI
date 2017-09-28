@@ -10,11 +10,11 @@ namespace GeoUsers.Services.Model.Mappings
             Table("ORGANIZACION");
 
             Id(x => x.Id, x =>
-                {
-                    x.Column("IDORGANIZACION");
-                    x.Generator(new IdentityGeneratorDef());
-                    x.UnsavedValue(0);
-                });
+            {
+                x.Column("ID");
+                x.Generator(new IdentityGeneratorDef());
+                x.UnsavedValue(0);
+            });
 
             Property(x => x.Nombre, "NOMBRE");
             Property(x => x.Personal, "PERSONAL");
