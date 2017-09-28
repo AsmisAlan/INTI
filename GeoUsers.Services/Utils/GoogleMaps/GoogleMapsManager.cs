@@ -132,9 +132,8 @@ namespace GeoUsersUI.GoogleMaps
                                   "map.fitBounds(bounds);" +
                               "}" +
                               "</script>" +
-                              "<script src=\"https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js\">" +
-            "<script async defer src = \"https://maps.googleapis.com/maps/api/js?key=AIzaSyC0R2S8BI5otvzqP8E7xY4iHubEee_lz8Y&callback=initMap \" >" +
-                              "</script>" +
+                              "<script src=\"https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js \"></script>" +
+                              "<script src=\"https://maps.googleapis.com/maps/api/js?key=AIzaSyC0R2S8BI5otvzqP8E7xY4iHubEee_lz8Y&callback=initMap \"></script>" +
                               "</body>" +
                               "</html>";
 
