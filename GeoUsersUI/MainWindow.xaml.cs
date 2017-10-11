@@ -44,17 +44,25 @@ namespace GeoUsersUI
 
             ViewModel.LoadingTable = false;
 
-            var url = await GetMapUrl(ViewModel.Organizaciones);
+            var markersFunctions = await GetMapMarkersFunction(ViewModel.Organizaciones);
 
-            UpdateMapUrl(url);
+            loadStaticMap(); //carga el html local 
+
+            executeJS(markersFunctions); //ejecuta una funcion js en la pagina levantada
 
             return true;
         }
 
-        private void UpdateMapUrl(string url)
+        private void loadStaticMap()
         {
-            Browser.LoadHtml(url, "http://www.geousers.com.ar");
+            Browser.Load("file:///C:/Proyectos/Visual%20Studio/INTI/GeoUsers.Services/Utils/GoogleMaps/googleMap/index.html");
         }
+
+        private void executeJS(string jsFunction)
+        {
+            Browser.ExecuteScriptAsync(jsFunction);
+        }
+
 
         private void InitializeMainMenu()
         {
@@ -175,28 +183,30 @@ namespace GeoUsersUI
             };
         }
 
-        private async Task<string> GetMapUrl(IEnumerable<OrganizacionHeaderData> organizaciones)
+
+        private async Task<string> GetMapMarkersFunction(IEnumerable<OrganizacionHeaderData> organizaciones)
+        /*create the string js funtion and add the parameters*/
         {
             return await Task.Run(() =>
             {
                 var mapManager = new GoogleMapsManager();
 
-                return mapManager.GetHtmlString(organizaciones.ToList());
+                return mapManager.createMarkersFunction(organizaciones.ToList());
             });
         }
 
+
         private async Task<bool> UpdateMap()
+        /*update the map markers*/
         {
-            var url = await GetMapUrl(ViewModel.Organizaciones);
-
-            UpdateMapUrl(url);
-
+            var markers = await GetMapMarkersFunction(ViewModel.Organizaciones);
+            executeJS(markers);
             return true;
         }
 
         private async Task<bool> UpdateUI()
         {
-            ViewModel.LoadingMap = true;
+            //ViewModel.LoadingMap = true;
             ViewModel.LoadingTable = true;
 
             await ViewModel.UpdateOrganizacionHeaders();
