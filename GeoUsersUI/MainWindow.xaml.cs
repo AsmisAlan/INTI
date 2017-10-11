@@ -386,5 +386,14 @@ namespace GeoUsersUI
         {
             await UpdateUI();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var organizacion = (OrganizacionHeaderData)DataGrid.SelectedItem;
+
+            var window = new MapWindow(organizacion.Id);
+
+            window.ShowDialog();
+        }
     }
 }

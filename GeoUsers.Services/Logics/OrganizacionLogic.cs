@@ -30,20 +30,7 @@ namespace GeoUsers.Services.Logics
 
         public OrganizacionEditionData GetForEdition(int organizacionId)
         {
-            var organizacion = Session.QueryOver<Organizacion>()
-                                      .Where(x => x.Id == organizacionId)
-                                      .Fetch(x => x.Localidad)
-                                      .Eager
-                                      .Fetch(x => x.TipoOrganizacion)
-                                      .Eager
-                                      .Fetch(x => x.Rubro)
-                                      .Eager
-                                      .Fetch(x => x.Rubro.Sector)
-                                      .Eager
-                                      .Fetch(x => x.Rubro.Sector.Icono)
-                                      .Eager
-                                      .List()
-                                      .FirstOrDefault();
+            var organizacion = GetById(organizacionId);
 
             var data = Mapper.Map<OrganizacionEditionData>(organizacion);
 
@@ -96,6 +83,15 @@ namespace GeoUsers.Services.Logics
                                       .List();
 
             return Mapper.Map<IEnumerable<OrganizacionHeaderData>>(organizaciones);
+        }
+
+        public OrganizacionHeaderData GetOrganiacionHeader(long organizacionId)
+        {
+            var organizacion = GetById(organizacionId);
+
+            var data = Mapper.Map<OrganizacionHeaderData>(organizacion);
+
+            return data;
         }
 
         public IEnumerable<OrganizacionData> GetOrganizacionesByFilter(FilterData filter)
@@ -213,6 +209,26 @@ namespace GeoUsers.Services.Logics
             Session.Delete(organizacion);
 
             return true;
+        }
+
+        private Organizacion GetById(long organizacionId)
+        {
+            var organizacion = Session.QueryOver<Organizacion>()
+                                      .Where(x => x.Id == organizacionId)
+                                      .Fetch(x => x.Localidad)
+                                      .Eager
+                                      .Fetch(x => x.TipoOrganizacion)
+                                      .Eager
+                                      .Fetch(x => x.Rubro)
+                                      .Eager
+                                      .Fetch(x => x.Rubro.Sector)
+                                      .Eager
+                                      .Fetch(x => x.Rubro.Sector.Icono)
+                                      .Eager
+                                      .List()
+                                      .FirstOrDefault();
+
+            return organizacion;
         }
 
         private IEnumerable<Organizacion> GetByFilter(FilterData filter)

@@ -219,6 +219,13 @@
                                         Binding="{Binding Path=Email}">
                     </DataGridTextColumn>
                 </DataGrid.Columns>
+                <DataGrid.ContextMenu>
+                    <ContextMenu>
+                        <Button Content="Localizar en el mapa"
+                                Click="Button_Click">
+                        </Button>
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
             </DataGrid>
             <cefSharp:ChromiumWebBrowser x:Name="Browser"
                                          Grid.Row="2"

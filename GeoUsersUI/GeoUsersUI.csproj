@@ -114,6 +114,7 @@
     <Compile Include="Models\ViewModels\Forms\Rubro\RubroListViewModel.cs" />
     <Compile Include="Models\ViewModels\Forms\Sector\SectorListViewModel.cs" />
     <Compile Include="Models\ViewModels\Forms\TipoOrganizacion\TipoOrganizacionListViewModel.cs" />
+    <Compile Include="Models\ViewModels\MapWindowViewModel.cs" />
     <Compile Include="Models\ViewModels\UserControls\SmartSelect\SmartSelectItem.cs" />
     <Compile Include="UserControls\DataGridExportButtonBar\DataGridExportButtonBar.xaml.cs">
       <DependentUpon>DataGridExportButtonBar.xaml</DependentUpon>
@@ -173,6 +174,9 @@
     </Compile>
     <Compile Include="Windows\LoginForm.xaml.cs">
       <DependentUpon>LoginForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\MapWindow.xaml.cs">
+      <DependentUpon>MapWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\Organizacion\OrganizacionList.xaml.cs">
       <DependentUpon>OrganizacionList.xaml</DependentUpon>
@@ -250,6 +254,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\LoginForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\MapWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
