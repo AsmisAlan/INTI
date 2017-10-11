@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="styles/w3styles.css">
+    <link rel="stylesheet" type="text/css" href="styles/styles.css">
+    <script src="control/mapControl.js"></script>
+    <script src="control/jquery-3.2.1.min.js"></script>
+</head>
+<body>
+    <div id="map"></div>
+
+    <script>
+        function initMap() {
+
+            var locations = [{
+                name: 'INTI',
+                contacto: '--------------',
+                email: '----------------',
+                tel: '',
+                lat: '-32.4825841',
+                lng: '-58.2351553',
+                direc: 'INTI ENTRE RIOS',
+                icon: 'https://cdn2.iconfinder.com/data/icons/connectivity/32/navigation-128.png',
+                isInti: 'true'
+            }];
+            setIntiUsersToMap(locations)
+        }
+    </script>
+    <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0R2S8BI5otvzqP8E7xY4iHubEee_lz8Y&callback=initMap"></script>
+</body>
+</html>

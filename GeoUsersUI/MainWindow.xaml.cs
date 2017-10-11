@@ -44,16 +44,25 @@ namespace GeoUsersUI
 
             ViewModel.LoadingTable = false;
 
-            var url = await GetMapUrl(ViewModel.Organizaciones);
+            var markersString = await GetMapUrl(ViewModel.Organizaciones);
 
-            UpdateMapUrl(url);
+            UpdateMapUrl(markersString);
 
             return true;
         }
 
         private void UpdateMapUrl(string url)
         {
-            Browser.LoadHtml(url, "http://www.geousers.com.ar");
+            Browser.Load("file:///C:/Proyectos/Visual%20Studio/INTI/GeoUsers.Services/Utils/GoogleMaps/googleMap/index.html");
+            var query = $@"setIntiUsersToMap([{url}])";
+            Browser.ExecuteScriptAsync(query);
+        }
+
+        private void updateLocationsMarkers(string markers)
+        {
+            ViewModel.LoadingMap = false;
+            Browser.ExecuteScriptAsync($@"setIntiUsersToMap([{markers}])");
+
         }
 
         private void InitializeMainMenu()
@@ -181,16 +190,26 @@ namespace GeoUsersUI
             {
                 var mapManager = new GoogleMapsManager();
 
-                return mapManager.GetHtmlString(organizaciones.ToList());
+                return mapManager.generateMarkers(organizaciones.ToList());
+            });
+        }
+
+        private async Task<string> GetMapMarkers(IEnumerable<OrganizacionHeaderData> organizaciones)
+        {
+            return await Task.Run(() =>
+            {
+                var mapManager = new GoogleMapsManager();
+
+                var s = mapManager.generateMarkers(organizaciones.ToList());
+                Console.WriteLine(s);
+                return s;
             });
         }
 
         private async Task<bool> UpdateMap()
         {
-            var url = await GetMapUrl(ViewModel.Organizaciones);
-
-            UpdateMapUrl(url);
-
+            var markers = await GetMapMarkers(ViewModel.Organizaciones);
+            updateLocationsMarkers(markers);
             return true;
         }
 
