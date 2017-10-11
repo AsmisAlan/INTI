@@ -44,26 +44,25 @@ namespace GeoUsersUI
 
             ViewModel.LoadingTable = false;
 
-            var markersString = await GetMapUrl(ViewModel.Organizaciones);
+            var markersFunctions = await GetMapMarkersFunction(ViewModel.Organizaciones);
 
-            UpdateMapUrl(markersString);
+            loadStaticMap(); //carga el html local 
+
+            executeJS(markersFunctions); //ejecuta una funcion js en la pagina levantada
 
             return true;
         }
 
-        private void UpdateMapUrl(string url)
+        private void loadStaticMap()
         {
             Browser.Load("file:///C:/Proyectos/Visual%20Studio/INTI/GeoUsers.Services/Utils/GoogleMaps/googleMap/index.html");
-            var query = $@"setIntiUsersToMap([{url}])";
-            Browser.ExecuteScriptAsync(query);
         }
 
-        private void updateLocationsMarkers(string markers)
+        private void executeJS(string jsFunction)
         {
-            ViewModel.LoadingMap = false;
-            Browser.ExecuteScriptAsync($@"setIntiUsersToMap([{markers}])");
-
+            Browser.ExecuteScriptAsync(jsFunction);
         }
+
 
         private void InitializeMainMenu()
         {
@@ -184,38 +183,30 @@ namespace GeoUsersUI
             };
         }
 
-        private async Task<string> GetMapUrl(IEnumerable<OrganizacionHeaderData> organizaciones)
+
+        private async Task<string> GetMapMarkersFunction(IEnumerable<OrganizacionHeaderData> organizaciones)
+        /*create the string js funtion and add the parameters*/
         {
             return await Task.Run(() =>
             {
                 var mapManager = new GoogleMapsManager();
 
-                return mapManager.generateMarkers(organizaciones.ToList());
+                return mapManager.createMarkersFunction(organizaciones.ToList());
             });
         }
 
-        private async Task<string> GetMapMarkers(IEnumerable<OrganizacionHeaderData> organizaciones)
-        {
-            return await Task.Run(() =>
-            {
-                var mapManager = new GoogleMapsManager();
-
-                var s = mapManager.generateMarkers(organizaciones.ToList());
-                Console.WriteLine(s);
-                return s;
-            });
-        }
 
         private async Task<bool> UpdateMap()
+        /*update the map markers*/
         {
-            var markers = await GetMapMarkers(ViewModel.Organizaciones);
-            updateLocationsMarkers(markers);
+            var markers = await GetMapMarkersFunction(ViewModel.Organizaciones);
+            executeJS(markers);
             return true;
         }
 
         private async Task<bool> UpdateUI()
         {
-            ViewModel.LoadingMap = true;
+            //ViewModel.LoadingMap = true;
             ViewModel.LoadingTable = true;
 
             await ViewModel.UpdateOrganizacionHeaders();

@@ -7,7 +7,7 @@ namespace GeoUsersUI.GoogleMaps
     public class GoogleMapsManager
     {
 
-        public string generateMarkers(IEnumerable<OrganizacionHeaderData> organizaciones)
+        private string generateMarkers(IEnumerable<OrganizacionHeaderData> organizaciones)
         {
             string markers = string.Empty;
             foreach (var organizacion in organizaciones)
@@ -37,6 +37,16 @@ namespace GeoUsersUI.GoogleMaps
                 }
             }
             return markers;
+        }
+
+        public string createMarkersFunction(IEnumerable<OrganizacionHeaderData> organizaciones)
+        {
+            return $@"setIntiUsersToMap([{this.generateMarkers(organizaciones)}])";
+        }
+
+        public string centerMapInFunction(string lat, string lon)
+        {
+            return $@"setCenter({lat},{lon})";
         }
     }
 
