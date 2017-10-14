@@ -1,13 +1,15 @@
 ﻿using GeoUsers.Services.Model.DataTransfer;
 using GeoUsers.Services.Utils;
+using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace GeoUsersUI.GoogleMaps
 {
     public class GoogleMapsManager
     {
 
-        private string generateMarkers(IEnumerable<OrganizacionHeaderData> organizaciones)
+        private string GenerateMarkers(IEnumerable<OrganizacionHeaderData> organizaciones)
         {
             string markers = string.Empty;
             foreach (var organizacion in organizaciones)
@@ -39,15 +41,19 @@ namespace GeoUsersUI.GoogleMaps
             return markers;
         }
 
-        public string createMarkersFunction(IEnumerable<OrganizacionHeaderData> organizaciones)
+        public string CreateMarkersFunction(IEnumerable<OrganizacionHeaderData> organizaciones)
         {
-            return $@"setIntiUsersToMap([{this.generateMarkers(organizaciones)}])";
+            return $@"setIntiUsersToMap([{GenerateMarkers(organizaciones)}])";
         }
 
-        public string centerMapInFunction(string lat, string lon)
+        public string CenterMapInFunction(string lat, string lon)
         {
-            return $@"setCenter({lat},{lon})";
+            return $"setCenter({lat},{lon})";
+        }
+
+        public string GetWebManagerPath()
+        {
+            return Path.Combine(Environment.CurrentDirectory, "WebManager/index.html");
         }
     }
-
 }

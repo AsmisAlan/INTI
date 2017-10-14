@@ -211,17 +211,19 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Utils\GoogleMaps\googleMap\control\jquery-3.2.1.min.js" />
-    <Content Include="Utils\GoogleMaps\googleMap\control\mapControl.js" />
-    <Content Include="Utils\GoogleMaps\googleMap\index.html" />
-    <Content Include="Utils\GoogleMaps\googleMap\styles\styles.css" />
-    <Content Include="Utils\GoogleMaps\googleMap\styles\w3styles.css" />
+    <Content Include="Utils\GoogleMaps\WebManager\scripts\mapControl.js" />
+    <Content Include="Utils\GoogleMaps\WebManager\index.html" />
+    <Content Include="Utils\GoogleMaps\WebManager\styles\styles.css" />
+    <Content Include="Utils\GoogleMaps\WebManager\styles\w3styles.css" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Log\" />
-    <Folder Include="Utils\GoogleMaps\googleMap\resources\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

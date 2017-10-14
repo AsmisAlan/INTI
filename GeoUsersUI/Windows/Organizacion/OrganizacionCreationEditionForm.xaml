@@ -202,13 +202,24 @@
                                      Converter={StaticResource InvertBooleanConverter}}"
                   IsChecked="{Binding Path=Organizacion.AutoDetectCoordinates}"
                   Margin="0,0,0,3"/>
+        <Button Grid.Row="5"
+                Grid.Column="3"
+                Name="ButtonLocate"
+                Content="Localizar"
+                Height="30"
+                Width="60"
+                HorizontalAlignment="Left"
+                Foreground="White"
+                Click="ButtonLocate_Click"
+                Background="{StaticResource PrimaryButtonBackground}">
+        </Button>
         <Label Content="* Latitud :"
-               Grid.Row="5"
+               Grid.Row="6"
                Grid.Column="2"
                Visibility="{Binding Organizacion.AutoDetectCoordinates,
                                     Converter={StaticResource InvertBooleanToVisibilityConverter}}"
                Style="{StaticResource FormLabel}"/>
-        <TextBox Grid.Row="5"
+        <TextBox Grid.Row="6"
                  Grid.Column="3"
                  MaxLength="50"
                  x:Name="TextBoxLatitud"
@@ -219,12 +230,12 @@
                                     Converter={StaticResource InvertBooleanToVisibilityConverter}}"
                  Style="{StaticResource FormTextBox}" />
         <Label Content="* Longitud :"
-               Grid.Row="6"
+               Grid.Row="7"
                Grid.Column="2"
                Style="{StaticResource FormLabel}"
                Visibility="{Binding Organizacion.AutoDetectCoordinates,
                                     Converter={StaticResource InvertBooleanToVisibilityConverter}}"/>
-        <TextBox Grid.Row="6"
+        <TextBox Grid.Row="7"
                  Grid.Column="3"
                  MaxLength="50"
                  x:Name="TextBoxLongitud"

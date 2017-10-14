@@ -95,5 +95,30 @@ namespace GeoUsersUI.Windows
 
             e.Handled = regex.IsMatch(e.Text) || TextBoxCuit.Text.Length > 11;
         }
+
+        private void ButtonLocate_Click(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(ViewModel.Organizacion.Latitud) ||
+                string.IsNullOrEmpty(ViewModel.Organizacion.Longitud))
+            {
+                MessageBoxUtils.Error("Debe ingresar las coordenadas de la organizacion para localizarla");
+            }
+
+            var header = new OrganizacionHeaderData()
+            {
+                Direccion = ViewModel.Organizacion.Direccion,
+                Latitud = ViewModel.Organizacion.Latitud,
+                Longitud = ViewModel.Organizacion.Longitud,
+                Email = ViewModel.Organizacion.Email,
+                UsuarioInti = ViewModel.Organizacion.UsuarioInti,
+                Telefono = ViewModel.Organizacion.Telefono,
+                Nombre = ViewModel.Organizacion.Nombre,
+                ContactoCargo = ViewModel.Organizacion.ContactoCargo
+            };
+
+            var window = new MapWindow(header);
+
+            window.ShowDialog();
+        }
     }
 }

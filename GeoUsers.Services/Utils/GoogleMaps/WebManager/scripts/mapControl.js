@@ -1,4 +1,6 @@
 ﻿
+var map;
+
 function getInfoWindows(objet) {
     var color = objet.isInti ? 'w3-green' : 'w3-red';
     return '<div class="w3-card-4" style="width:100%; height:100%;">'
@@ -18,7 +20,6 @@ function getInfoWindows(objet) {
 
 //set the center to a position
 function setCenter(lat, lon) {
-    map = new google.maps.Map(document.getElementById('map'));
     map.setZoom(13);
     map.setCenter(new google.maps.LatLng(lat, lon));
 }
@@ -26,7 +27,7 @@ function setCenter(lat, lon) {
 //reset the inti users
 function setIntiUsersToMap(locations) {
     var mapDiv = document.getElementById('map');
-    var map = new google.maps.Map(mapDiv, { zoom: 13 });
+    map = new google.maps.Map(mapDiv, { zoom: 13 });
     var infowindow = new google.maps.InfoWindow();
     var bounds = new google.maps.LatLngBounds();
     var markers = [];

@@ -221,9 +221,16 @@
                 </DataGrid.Columns>
                 <DataGrid.ContextMenu>
                     <ContextMenu>
-                        <Button Content="Localizar en el mapa"
-                                Click="Button_Click">
-                        </Button>
+                        <MenuItem Header="Localizar" 
+                                  Name="MenuItemLocate"
+                                  Click="MenuItemLocate_Click">
+                            <MenuItem.Icon>
+                                <fa:FontAwesome x:Name="MenuItemLocateIcon"
+                                                Icon="MapMarker"
+                                                Foreground="Black"
+                                                FontSize="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
                     </ContextMenu>
                 </DataGrid.ContextMenu>
             </DataGrid>

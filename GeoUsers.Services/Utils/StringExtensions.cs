@@ -4,7 +4,7 @@
     {
         public static string EscapeQuoatationMarks(this string value)
         {
-            return value.Replace("\"", "\\\"");
+            return value.Replace("\"", "\\\"").Replace("'", "\\\'");
         }
     }
 }

@@ -386,6 +386,11 @@
   <Import Project="..\packages\cef.redist.x86.3.2883.1552\build\cef.redist.x86.targets" Condition="Exists('..\packages\cef.redist.x86.3.2883.1552\build\cef.redist.x86.targets')" />
   <Import Project="..\packages\CefSharp.Common.55.0.0\build\CefSharp.Common.targets" Condition="Exists('..\packages\CefSharp.Common.55.0.0\build\CefSharp.Common.targets')" />
   <Import Project="..\packages\CefSharp.Wpf.55.0.0\build\CefSharp.Wpf.targets" Condition="Exists('..\packages\CefSharp.Wpf.55.0.0\build\CefSharp.Wpf.targets')" />
+  <PropertyGroup>
+    <PreBuildEvent>xcopy /Y /E /I "$(SolutionDir)GeoUsers.Services\Utils\GoogleMaps\WebManager" "$(ProjectDir)bin\x64\Debug\WebManager"
+
+xcopy /Y /E /I "$(SolutionDir)GeoUsers.Services\Utils\GoogleMaps\WebManager" "$(ProjectDir)bin\x64\Release\WebManager"</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

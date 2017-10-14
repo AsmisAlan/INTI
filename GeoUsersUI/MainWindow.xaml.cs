@@ -23,6 +23,8 @@ namespace GeoUsersUI
     {
         public MainViewModel ViewModel { get; set; }
 
+        private readonly GoogleMapsManager MapManager = new GoogleMapsManager();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -42,27 +44,24 @@ namespace GeoUsersUI
 
             await ViewModel.InitializationTask;
 
+            ViewModel.LoadingMap = true;
             ViewModel.LoadingTable = false;
 
-            var markersFunctions = await GetMapMarkersFunction(ViewModel.Organizaciones);
-
-            loadStaticMap(); //carga el html local 
-
-            executeJS(markersFunctions); //ejecuta una funcion js en la pagina levantada
+            LoadStaticMap(); //carga el html local 
 
             return true;
         }
 
-        private void loadStaticMap()
+        private void LoadStaticMap()
         {
-            Browser.Load("file:///C:/Proyectos/Visual%20Studio/INTI/GeoUsers.Services/Utils/GoogleMaps/googleMap/index.html");
+            var path = MapManager.GetWebManagerPath();
+            Browser.Load(path);
         }
 
-        private void executeJS(string jsFunction)
+        private void ExecuteJS(string jsFunction)
         {
             Browser.ExecuteScriptAsync(jsFunction);
         }
-
 
         private void InitializeMainMenu()
         {
@@ -189,24 +188,20 @@ namespace GeoUsersUI
         {
             return await Task.Run(() =>
             {
-                var mapManager = new GoogleMapsManager();
-
-                return mapManager.createMarkersFunction(organizaciones.ToList());
+                return MapManager.CreateMarkersFunction(organizaciones.ToList());
             });
         }
-
 
         private async Task<bool> UpdateMap()
         /*update the map markers*/
         {
             var markers = await GetMapMarkersFunction(ViewModel.Organizaciones);
-            executeJS(markers);
+            ExecuteJS(markers);
             return true;
         }
 
         private async Task<bool> UpdateUI()
         {
-            //ViewModel.LoadingMap = true;
             ViewModel.LoadingTable = true;
 
             await ViewModel.UpdateOrganizacionHeaders();
@@ -387,9 +382,13 @@ namespace GeoUsersUI
             ViewModel.FilterOrganizaciones(((OnSearchTermChangedEventArgs)e).SearchTerm);
         }
 
-        private void Browser_FrameLoadEnd(object sender, FrameLoadEndEventArgs e)
+        private async void Browser_FrameLoadEnd(object sender, FrameLoadEndEventArgs e)
         {
             ViewModel.LoadingMap = false;
+
+            var markersFunctions = await GetMapMarkersFunction(ViewModel.Organizaciones);
+
+            ExecuteJS(markersFunctions); //ejecuta una funcion js en la pagina levantada
         }
 
         private async void RefreshButton_Click(object sender, RoutedEventArgs e)
@@ -397,13 +396,11 @@ namespace GeoUsersUI
             await UpdateUI();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void MenuItemLocate_Click(object sender, RoutedEventArgs e)
         {
             var organizacion = (OrganizacionHeaderData)DataGrid.SelectedItem;
 
-            var window = new MapWindow(organizacion.Id);
-
-            window.ShowDialog();
+            ExecuteJS(MapManager.CenterMapInFunction(organizacion.Latitud, organizacion.Longitud));
         }
     }
 }
